@@ -46,7 +46,7 @@ class Helix {
 	 */
 	public static function initialize() {
 		global $config, $session;
-		self::$classes = array();
+		if (isset(self::$path)) return;
 		self::$path = dirname(dirname(__FILE__));
 		self::load("system/Global");
 		spl_autoload_register("autoload");
