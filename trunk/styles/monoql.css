@@ -1,0 +1,53 @@
+.x-tab-strip span.x-tab-strip-text
+{font-weight:bold;}
+
+button.monoql-button-openfilebutton-icon
+{background-image:url('../images/folder.png')}
+
+button.monoql-button-savefilebutton-icon
+{background-image:url('../images/disk.png')}
+
+button.monoql-button-runquerybutton-icon
+{background-image:url('../images/exclamation.png')}
+
+button.monoql-button-cancelquerybutton-icon
+{background-image:url('../images/cross.png')}
+
+button.monoql-button-addquerytabbutton-icon
+{background-image:url('../images/tab_add.png')}
+
+button.monoql-button-resultstogridbutton-icon
+{background-image:url('../images/table.png')}
+
+button.monoql-button-resultstotextbutton-icon
+{background-image:url('../images/text_columns.png')}
+
+button.monoql-button-resultstofilebutton-icon
+{background-image:url('../images/page_white_put.png')}
+
+.monoql-menu-item-refresh-icon
+{background-image:url('../images/arrow_refresh.png')}
+
+.x-tree-node-el .monoql-tree-connectionnode-icon
+{background-image:url('../images/server_connect.png')}
+
+.x-tree-node-el .monoql-tree-databasenode-icon
+{background-image:url('../images/database.png')}
+
+.x-tree-node-el .monoql-tree-tablenode-icon
+{background-image:url('../images/table.png')}
+
+.x-tree-node-el .monoql-tree-viewnode-icon
+{background-image:url('../images/table.png')}
+
+.x-tree-node-el .monoql-tree-functionnode-icon
+{background-image:url('../images/script_go.png')}
+
+.x-tree-node-el .monoql-tree-sprocnode-icon
+{background-image:url('../images/script_gear.png')}
+
+button.monoql-tree-connectiontreetoolbar-newconnectionbutton-icon
+{background-image:url('../images/server_add.png')}
+
+button.monoql-tree-connectiontreetoolbar-refreshbutton-icon
+{background-image:url('../images/arrow_refresh.png')}
