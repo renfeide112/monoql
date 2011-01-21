@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule ^(config|errors|logs|system) errors/403.php
