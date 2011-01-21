@@ -1,5 +1,5 @@
 <?php
-require("config/server.php");
+require("config/server" . (is_file("config/server.php") ? "" : ".default") . ".php");
 require("system/Helix.php");
 ?>
 <!DOCTYPE html>
