@@ -17,9 +17,27 @@ monoql.bar.connectiontreetoolbar = function() {
 					this.setDisabled(!selModel.getSelectedNode());
 				}
 			});
+			this.newconnectionbutton.on('toggle', this.onNewConnectionButtonToggle, this);
+			this.on('render', this.onConnectionTreeToolBarRender, this);
 			this.items = [this.newconnectionbutton, '->', this.refreshbutton];
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
+		},
+		onConnectionTreeToolBarRender:function(toolbar) {
+			Ext.getCmp('viewport').newconnectionform.on('hide', this.onUiNewConnectionFormHide, this);
+		},
+		onUiNewConnectionFormHide:function(form) {
+			this.newconnectionbutton.toggle(false);
+		},
+		onNewConnectionButtonToggle:function(button, pressed) {
+			if (pressed) {
+				if (!ui.newconnectionform.rendered) {
+					ui.newconnectionform.render(Ext.getBody());
+				}
+				ui.newconnectionform.show().el.anchorTo(button.el, 'tl-bl');
+			} else {
+				ui.newconnectionform.hide();
+			}
 		}
 	});
 	Ext.reg(cls, Class);

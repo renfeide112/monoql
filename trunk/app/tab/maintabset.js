@@ -5,27 +5,10 @@ monoql.tab.maintabset = function() {
 	var Class = Ext.extend(monoql.tab.tabset, {
 		headerStyle:'border-top-width:0px;',
 		initComponent: function() {
-			this.addquerytabform = new monoql.form.addquerytabform({
-				hidden:true
-			});
-			Ext.getCmp('viewport').toolbar.addquerytabbutton.on('toggle', this.onUiToolBarAddQueryTabButtonToggle, this);
-			this.addquerytabform.on('show', this.onAddQueryTabFormShow, this);
 			this.items = [];
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
-		},
-		onAddQueryTabFormShow:function(form) {
-			
-		},
-		onUiToolBarAddQueryTabButtonToggle:function(button, pressed) {
-			if (pressed) {
-				if (!this.addquerytabform.rendered) {
-					this.addquerytabform.render(Ext.getBody());
-				}
-				this.addquerytabform.show().el.anchorTo(ui.toolbar.addquerytabbutton.el, 'tl-bl');
-			} else {
-				this.addquerytabform.hide();
-			}
+			this.addQueryTab(true);
 		},
 		addQueryTab:function(connection) {
 			if (connection) {
