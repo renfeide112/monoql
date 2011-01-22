@@ -20,6 +20,7 @@ monoql.tab.querytab = function() {
 			},{
 				region:'center',
 				border:false,
+				bodyStyle:'border-top-width:1px;',
 				items:[this.resulttabset]
 			}];
 			this.queryform.getForm().on('actioncomplete', this.onQueryFormActionComplete, this);
@@ -32,7 +33,7 @@ monoql.tab.querytab = function() {
 			}
 		},
 		onQueryFormSubmitComplete:function(form, action) {
-			alert(action.result.dummy);
+			alert(action.result.query);
 		}
 	});
 	Ext.reg(cls, Class);

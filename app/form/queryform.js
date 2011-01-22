@@ -38,7 +38,7 @@ monoql.form.queryform = function() {
 			var query = this.querytextarea.getSelectedText() || this.querytextarea.getValue();
 			this.queryfield.setValue(query);
 			this.getForm().submit({
-				url:'query/execute.php'
+				url:'api/query/execute.php'
 			});
 		}
 	});
