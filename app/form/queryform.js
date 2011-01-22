@@ -2,6 +2,7 @@ Ext.ns('monoql.form');
 monoql.form.queryform = function() {
 	var cls = 'monoql-form-queryform';
 	var Class = Ext.extend(monoql.form.form, {
+		defaults:{},
 		bodyStyle:{
 			'border-top-width':'0px',
 			'border-left-width':'0px',
@@ -9,15 +10,18 @@ monoql.form.queryform = function() {
 		},
 		initComponent: function() {
 			this.querytextarea = new Ext.form.TextArea({
+				name:'queries',
 				hideLabel:true,
 				anchor:'0 0',
-				enableKeyEvents:true,
 				style:{
 					'border-width':'0px'
 				}
 			});
+			this.queryfield = new Ext.form.Hidden({
+				name:'query'
+			});
 			this.querytextarea.on('render', this.onQueryTextAreaRender, this);
-			this.items = [this.querytextarea];
+			this.items = [this.querytextarea, this.queryfield];
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
 		},
@@ -32,6 +36,10 @@ monoql.form.queryform = function() {
 		},
 		onQueryFormCtrlEnter:function(key, e) {
 			var query = this.querytextarea.getSelectedText() || this.querytextarea.getValue();
+			this.queryfield.setValue(query);
+			this.getForm().submit({
+				url:'query/execute.php'
+			});
 		}
 	});
 	Ext.reg(cls, Class);

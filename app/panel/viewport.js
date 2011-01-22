@@ -5,9 +5,6 @@ monoql.panel.viewport = function() {
 		layout:'border',
 		border:false,
 		initComponent: function() {
-			this.newconnectionform = new monoql.form.newconnectionform({
-				hidden:true
-			});
 			this.toolbar = new monoql.bar.maintoolbar({
 				region:'north'
 			});
@@ -17,6 +14,12 @@ monoql.panel.viewport = function() {
 			this.tree = new monoql.tree.connectiontree({
 				region:'west',
 				split:true
+			});
+			this.newconnectionform = new monoql.form.newconnectionform({
+				hidden:true
+			});
+			this.addquerytabform = new monoql.form.addquerytabform({
+				hidden:true
 			});
 			this.items = [this.toolbar, this.tree, this.tabs];
 			Class.superclass.initComponent.call(this);

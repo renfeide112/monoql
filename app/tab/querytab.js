@@ -22,8 +22,17 @@ monoql.tab.querytab = function() {
 				border:false,
 				items:[this.resulttabset]
 			}];
+			this.queryform.getForm().on('actioncomplete', this.onQueryFormActionComplete, this);
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
+		},
+		onQueryFormActionComplete:function(form, action) {
+			if (action.type=="submit") {
+				this.onQueryFormSubmitComplete(form, action);
+			}
+		},
+		onQueryFormSubmitComplete:function(form, action) {
+			alert(action.result.dummy);
 		}
 	});
 	Ext.reg(cls, Class);
