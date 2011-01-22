@@ -23,7 +23,7 @@ monoql.data.connectionstore = function() {
 	var Class = Ext.extend(Ext.data.Store, {
 		constructor:function(config) {
 			config = Ext.apply({
-				autoLoad:true,
+				autoLoad:false,
 				url:monoql.url('/_services/connection/getconnections'),
 				baseParams:{
 					format:'json'

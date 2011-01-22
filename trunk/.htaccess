@@ -1,2 +1,3 @@
+Options -Indexes
 RewriteEngine On
-RewriteRule ^(config|errors|logs|system) errors/403.php
+RewriteRule ^(config|errors|logs|system) errors/403.php [F]
