@@ -33,7 +33,7 @@ monoql.tab.querytab = function() {
 			}
 		},
 		onQueryFormSubmitComplete:function(form, action) {
-			alert(action.result.query);
+			alert(Ext.pluck(action.result.rows, "username"));
 		}
 	});
 	Ext.reg(cls, Class);

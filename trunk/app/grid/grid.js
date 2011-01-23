@@ -1,7 +1,7 @@
 Ext.ns('monoql.grid');
 monoql.grid.grid = function() {
 	var cls = 'monoql-grid-grid';
-	var Class = Ext.extend(Ext.grid.GridPanel, {
+	var Class = Ext.extend(Ext.grid.EditorGridPanel, {
 		initComponent: function() {
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
