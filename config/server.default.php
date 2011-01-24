@@ -11,10 +11,7 @@ $config = array();
 $config["root"] = dirname(dirname(__FILE__));
 
 // Path to the site root on the URL for this server - Must begin, but not end with slash [/]
-$config["webroot"] = "/";
-
-// Enable the use of session data in the database [false]
-$config["enable_session"] = false;
+$config["webroot"] = "/monoql";
 
 // Enable debug log messages within the Helix System [true]
 $config["enable_log"] = true;
@@ -22,32 +19,8 @@ $config["enable_log"] = true;
 // Prefix for log files [null]
 $config["log_prefix"] = null;
 
-// Enable debug log messages within the Helix System [true]
-$config["default_database_type"] = "mysql";
-
-// Log every change to the database in a separate database [false]
-$config["enable_database_log"] = false;
-
-// MySQL host for database connections [localhost]
-$config["mysql_host"] = "localhost";
-
-// MySQL default database to use on connection []
-$config["mysql_database"] = "somedatabase";
-
-// MySQL username for the given host []
-$config["mysql_user"] = "someuser";
-
-// MySQL password for the given user and host []
-$config["mysql_password"] = ""; 
-
-// MySQL port for connection to host [3306]
-$config["mysql_port"] = 3306;
-
-// MSSQL host for database connections [localhost]
-$config["mssql_host"] = "localhost";
-
-// MSSQL default database to use on connection []
-$config["mssql_database"] = "";
+// Default path to SQLite Database [{$config["root"]}/data/monoql.db]
+$config["monoql_db_path"] = "{$config["root"]}/data/monoql.db";
 
 //-----------------------------------------------------------------------------
 

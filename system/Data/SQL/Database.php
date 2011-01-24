@@ -15,11 +15,11 @@ class Database extends Object {
 	protected $password;
 	protected $database;
 	protected $port;
+	protected $cache = array();
+	
 	private static $instances = array();
 	
-	private function __construct() {
-		
-	}
+	private function __construct() {}
 	
 	/**
 	 * Get a new or used instance of one of the database object types 

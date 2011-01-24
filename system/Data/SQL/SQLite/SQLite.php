@@ -1,7 +1,9 @@
 <?php
 class SQLite extends Database {
-	public function __construct($host=null,$database=null,$username=null,$password=null,$port=null){
-		$this->host = alt($host, $this->host); //this is the path to the file
+	
+	public function __construct($host=null, $username=null, $password=null, $database=null, $port=null){
+		global $config;
+		$this->host = alt($host, $this->host, $config["monoql_db_path"]); //this is the path to the file
 	}
 	
 	public function getAffectedRows() {}
@@ -11,9 +13,11 @@ class SQLite extends Database {
 	public function getTotalRows() {}
 		
 	public function getRecord($associative=true) {
-		$tmp = $this->connection;
-		$this->record = $this->connection->fetchAll();
-		return $this->record;
+		if (isset($this->result)) {
+			$this->record = $this->result->fetch($associative ? PDO::FETCH_ASSOC : PDO::FETCH_BOTH);
+			return $this->record;
+		}
+		return null;
 	}
 		
 	public function getClientInfo() {}
@@ -78,22 +82,16 @@ class SQLite extends Database {
 	
 	public function connect($host=null, $username=null, $password=null, $database=null, $port=null) {
 		$error = null;
-		if (isset($this->connection))
-		{
+		if (isset($this->connection)) {
 			$error = null;
+			return $this->connection;
 		} else {
-			try
-			{
-				$this->connection = new PDO("sqlite:".$this->host);
-				//$this->connection = new SQLiteDatabase($this->host);
-				//$this->connection = sqlite_open($this->host);				
+			try {
+				$this->connection = new PDO("sqlite:" . alt($host, $this->host));	
 				return $this->connection;
-			}
-			catch (Exception $e)
-			{
+			} catch (Exception $e) {
 				$error = $e->getMessage();
 			}
-			//$error = $this->getConnectErrno();
 		}
 		return $error;
 	}
@@ -101,29 +99,23 @@ class SQLite extends Database {
 	public function close() {}
 	
 	public function query($query) {
-		if(strlen($query)>0)
-		{
+		if (strlen($query)>0) {
 			$queries = is_array($query) ? $query : array($query);
 		}
-		if (empty($queries))
-		{
+		if (empty($queries)) {
 			return 0;
 		}
-		if (!$this->connect())
-		{
+		if (!$this->connect()) {
 			return false;
 		}
-		
 
-		foreach ($queries as $q)
-		{
-			if (strlen(trim($q)) > 0)
-			{
+		foreach ($queries as $q) {
+			if (strlen(trim($q)) > 0) {
 				$this->result = $this->connection->query($q);
 			}
 		}
-		if (!$this->result)
-		{
+		
+		if (!$this->result) {
 			debug("SQLite error on for: $q");
 		}
 		return $this->result;
@@ -135,11 +127,15 @@ class SQLite extends Database {
 	
 	public function queryValue($value, $emptyStringAsNull=true) {}
 	
-	public function escape($string) {}
+	public function escape($string) {
+		return $this->connection->quote($string);
+	}
 	
 	public function encapsulate($string) {}
 	
-	public function createDatabase($database, $overwrite=false, array $options=null) {}
+	public function createDatabase($database, $overwrite=false, array $options=null) {
+		
+	}
 	
 	public function dropDatabase($database) {}
 	
@@ -152,5 +148,6 @@ class SQLite extends Database {
 	public function emptyDatabase($enforceConstraints=true) {}
 	
 	public function truncateDatabase($enforceConstraints=true) {}
+
 }
 ?>
