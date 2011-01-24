@@ -18,13 +18,13 @@ function autoload($class) {
 }
 
 function logMessage($file, $message=null, $showTime=true) {
-	global $config;
+	global $config, $root;
 	if ($config["enable_log"]) {
 		$logFile = $config["log_prefix"] . $file;
-		$path = "logs/{$logFile}";
+		$path = "{$root}/logs/{$logFile}";
 		$text = ($showTime ? "[" . date("d-M-Y H:i:s") . "] " : "") . "[" . Request::$id . "] " . $message;
 		if (is_file($path) && date("Ymd")>date("Ymd", filemtime($path))) {
-			file_put_contents("logs/archive/" . str_replace(".log", date(".Ymd", filemtime($path)) . ".log", $logFile), file_get_contents($path));
+			file_put_contents("{$root}/logs/archive/" . str_replace(".log", date(".Ymd", filemtime($path)) . ".log", $logFile), file_get_contents($path));
 			file_put_contents($path, $text);
 		} else {
 			file_put_contents($path, $text, FILE_APPEND);

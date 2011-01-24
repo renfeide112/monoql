@@ -1,4 +1,9 @@
 <?php
+// Require the MonoQL configuration files
+$root = dirname(dirname(__FILE__));
+if (!is_file("{$root}/config/server.php")) copy("{$root}/config/server.default.php", "{$root}/config/server.php");
+require_once("{$root}/config/server.php");
+
 /**
  * An class representing the Helix Class Library
  * 

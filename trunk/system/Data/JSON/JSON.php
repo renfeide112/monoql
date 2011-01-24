@@ -10,7 +10,7 @@ class JSON extends Object {
 	}
 	
 	public static function send($data) {
-		self::setMIMEType();
+//		self::setMIMEType();
 		echo self::encode($data);
 		OutputBuffer::flush();
 	}
