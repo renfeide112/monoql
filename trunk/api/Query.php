@@ -26,7 +26,6 @@ class Query extends Object {
 		);
 		
 		JSON::send($response);
-		return true;
 	}
 	
 }
