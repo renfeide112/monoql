@@ -127,6 +127,10 @@ class Request extends Object {
 	 */
 	private function __construct() {}
 	
+	public static function val($property) {
+		return val(self::$data, $property);
+	}
+	
 	/**
 	 * Initialize all of the properties with data for this request
 	 */

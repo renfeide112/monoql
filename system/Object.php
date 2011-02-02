@@ -25,6 +25,16 @@ class Object {
 		return in_array($property, $this->getProperties());
 	}
 	
+	public function p($property) {
+		if (property_exists($this, $property)) {
+			return $this->property;
+		} else if (property_exists($this, "data") && is_array($this->data)) {
+			return val($this->data, $property);
+		} else {
+			return null;
+		}
+	}
+	
 	public function __get($property) {
 		if (method_exists($this, "get{$property}")) {
 			return $this->{"get{$property}"}();

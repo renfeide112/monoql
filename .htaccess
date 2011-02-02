@@ -1,3 +1,4 @@
 Options -Indexes
 RewriteEngine On
-RewriteRule ^(config|data|errors|logs|system) errors/403.php [F]
+RewriteRule ^api/([a-z0-9_]+)/([a-z0-9_]+) api.php?action=$1&method=$2 [NC,QSA,L]
+RewriteRule ^(api|config|data|errors|logs|system)/ errors/403.php [F,L]
