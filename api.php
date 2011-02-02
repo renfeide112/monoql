@@ -17,7 +17,4 @@ if (isset($action)) {
 } else {
 	Helix::setError(500, "API requires an action");
 }
-
-// Send result to client if script is still executing
-echo $result;
 ?>
