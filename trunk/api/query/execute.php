@@ -1,7 +1,7 @@
 <?php
 require("../../system/Helix.php");
 
-$conn = json_decode(req("connection"));
+$conn = JSON::decode(req("connection"));
 $db = DatabaseFactory::createDatabase($conn->type, $conn->host, $conn->username, $conn->password, $conn->database, $conn->port);
 $rows = array();
 
