@@ -1,9 +1,4 @@
 <?php
-// Require the MonoQL configuration files
-$root = dirname(dirname(__FILE__));
-if (!is_file("{$root}/config/server.php")) copy("{$root}/config/server.default.php", "{$root}/config/server.php");
-require_once("{$root}/config/server.php");
-
 /**
  * An class representing the Helix Class Library
  * 
@@ -52,17 +47,18 @@ class Helix {
 	public static function initialize() {
 		global $config, $session;
 		if (isset(self::$path)) return;
-		self::$path = dirname(dirname(__FILE__));
+		self::$path = dirname(__FILE__);
 		self::load("system/Global");
 		spl_autoload_register("autoload");
 		set_error_handler("helixErrorHandler");
 		self::defineConstants();
 		self::mapSystemClasses();
+		self::mapSystemClasses(dirname(self::$path) . "/api");
 		self::logRequest();
 	}
 	
 	public static function mapSystemClasses($folder=null) {
-		$folder = is_null($folder) ? dirname(__FILE__) : $folder;
+		$folder = is_null($folder) ? self::$path : $folder;
 		foreach (glob("{$folder}/*") as $path) {
 			if (is_file($path) && preg_match('/^[A-Z].*\.php$/', basename($path))) {
 				self::$classes[basename($path, ".php")] = $path;
