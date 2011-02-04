@@ -1,8 +1,8 @@
 <?php
 class JSON extends Object {
 	
-	public static function decode($string, $assoc=false, $depth=null) {
-		return json_decode($string, $assoc, $depth);
+	public static function decode($string, $assoc=false) {
+		return json_decode($string, $assoc);
 	}
 	
 	public static function encode($data) {
@@ -14,7 +14,7 @@ class JSON extends Object {
 	}
 	
 	public static function send($data) {
-		//self::setMIMEType();
+		self::setMIMEType();
 		echo self::encode($data);
 		OutputBuffer::flush();
 	}
