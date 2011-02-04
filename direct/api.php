@@ -47,6 +47,7 @@ if (array_key_exists("config", Request::$data)) {
 }
 
 function buildDescriptor() {
+	global $config;
 	$descriptor = array(
 		"url"=>"direct/api.php",
 		"type"=>"remoting",
@@ -55,6 +56,7 @@ function buildDescriptor() {
 	);
 	foreach (Helix::$classes as $class=>$path) {
 		try {
+			if (!preg_match('/^' . preg_quote($config["root"] . "/api/", "/") . '/', $path)) continue;
 			$reflector = new ReflectionClass($class);
 			$descriptor["actions"][$class] = array();
 			foreach ($reflector->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
