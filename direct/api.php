@@ -13,7 +13,7 @@ if (array_key_exists("config", Request::$data)) {
 	}
 	$lines = implode(RN, array(
 		"Ext.ns('monoql.direct');",
-		"Ext.Direct.addProvider({$jsonDescriptor})"
+		"Ext.Direct.addProvider({$jsonDescriptor});"
 	));
 	echo $lines;
 } else {
