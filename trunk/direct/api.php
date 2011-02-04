@@ -32,11 +32,10 @@ if (array_key_exists("config", Request::$data)) {
 		if (isset($method)) {
 			$class = new ReflectionClass($action);
 			$method = $class->getMethod($method);
-			if ($method->isStatic()) {
-				$response["result"] = $method->invoke();
-			} else {
-				$response["result"] = $method->invoke($class->newInstance());
-			}
+			$object = $method->isStatic() ? null : $class->newInstance();
+			$data = val($request, "data");
+			$args = is_array($data) ? $data : array();
+			$response["result"] = $method->invokeArgs($object, $args);
 		} else {
 			Helix::setError(500, "API requires a method");
 		}
