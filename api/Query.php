@@ -3,7 +3,7 @@ class Query extends Object {
 	
 	private $data = array();
 	
-	public function __construct(array $data) {
+	public function __construct(array $data=null) {
 		$this->data = $data;
 	}
 	
@@ -19,13 +19,13 @@ class Query extends Object {
 			}
 		}
 		
-		$response = array(
+		$result = array(
 			"success"=>true,
 			"query"=>$this->p("query"),
 			"rows"=>$rows
 		);
 		
-		JSON::send($response);
+		return $result;
 	}
 	
 }
