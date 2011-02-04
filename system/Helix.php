@@ -48,7 +48,7 @@ class Helix {
 		global $config, $session;
 		if (isset(self::$path)) return;
 		self::$path = dirname(__FILE__);
-		self::load("system/Global");
+		require_once("Global.php");
 		spl_autoload_register("autoload");
 		set_error_handler("helixErrorHandler");
 		self::defineConstants();
