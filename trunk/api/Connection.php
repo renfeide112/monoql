@@ -1,9 +1,9 @@
 <?php
 class Connection extends Object {
 	
-	private $data = array();
+	private $data;
 	
-	public function __construct(array $data) {
+	public function __construct(array $data=array()) {
 		$this->data = $data;
 	}
 	
