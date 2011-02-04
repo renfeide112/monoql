@@ -11,5 +11,5 @@ Ext.onReady(function(){
 	ui = new monoql.panel.viewport({
 		id:'viewport'
 	});
-	ui.store = new monoql.data.connectionstore();
+	ui.connectionstore = new monoql.data.connectionstore();
 });
