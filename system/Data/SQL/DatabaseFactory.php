@@ -26,6 +26,9 @@ abstract class DatabaseFactory extends Object {
 			case "mysql":
 				$instance = new MySQL($host, $username, $password, $database, $port);
 				break;
+			case "pgsql":
+				$instance = new PostGreSQL($host, $username, $password, $database, $port);
+				break;
 		}
 		
 		return $instance;
