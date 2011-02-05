@@ -7,13 +7,12 @@ class Query extends Object {
 		$this->data = $data;
 	}
 	
-	public function execute() {
-		$conn = JSON::decode($this->p("connection"));
-		$db = DatabaseFactory::createDatabase($conn->type, $conn->host, $conn->username, $conn->password, $conn->database, $conn->port);
+	public static function execute($query, $conn) {
+		$db = DatabaseFactory::createDatabase($conn);
 		$rows = array();
 		
 		if ($db) {
-			$result = $db->query($this->p("query"));
+			$db->query($query);
 			while ($db->getRecord()) {
 				$rows[] = $db->record;
 			}
@@ -21,7 +20,7 @@ class Query extends Object {
 		
 		$result = array(
 			"success"=>true,
-			"query"=>$this->p("query"),
+			"query"=>$query,
 			"rows"=>$rows
 		);
 		
