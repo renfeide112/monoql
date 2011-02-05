@@ -19,15 +19,25 @@ monoql.data.connectionstore = function() {
 			Reader.superclass.constructor.call(this, meta, Record);
 		}
 	});
+	
+	var Proxy = Ext.extend(Ext.data.DirectProxy, {
+		constructor:function(config) {
+			var config = Ext.apply(config, {
+				api:{
+					load:monoql.direct.Connection.get,
+					create:monoql.direct.Connection.create,
+					save:monoql.direct.Connection.save,
+					destroy:monoql.direct.Connection.delete
+				}
+			});
+			Proxy.superclass.constructor.call(this, config);
+		}
+	});
 
 	var Class = Ext.extend(Ext.data.Store, {
 		constructor:function(config) {
 			config = Ext.apply({
-				autoLoad:false,
-				url:monoql.url('/_services/connection/getconnections'),
-				baseParams:{
-					format:'json'
-				},
+				proxy:new Proxy(),
 				reader:new Reader()
 			}, config);
 			Class.superclass.constructor.call(this, config);
