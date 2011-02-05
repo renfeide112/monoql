@@ -1,61 +1,35 @@
 <?php
 // Include Helix configuration and library
-if (!is_file("../config/server.php")) copy("../config/server.default.php", "../config/server.php");
 require_once("../config/server.php");
 require_once("../system/Helix.php");
 
-if (array_key_exists("config", Request::$data)) {
+// Build descriptor of remoteable methods
+$descriptor = buildDescriptor();
+$jsonDescriptor = JSON::encode($descriptor);
+
+// Output descriptor as either executable javascript code or json configuration
+if (array_key_exists("json", Request::$data)) {
+	JSON::send($jsonDescriptor);
+} else {
 	Response::setHeader("Content-Type", "text/javascript");
-	$descriptor = buildDescriptor();
-	$jsonDescriptor = JSON::encode($descriptor);
-	if (req("format")==="json") {
-		JSON::send($jsonDescriptor);
-	}
-	$lines = implode(RN, array(
+	echo implode(RN, array(
 		"Ext.ns('monoql.direct');",
 		"Ext.Direct.addProvider({$jsonDescriptor});"
 	));
-	echo $lines;
-} else {
-	// Transform the raw post data from serialized JSON to associative array
-	$rawPostData = file_get_contents("php://input");
-	$request = JSON::decode($rawPostData, true);
-	
-	// Copy all of the request metadata into the response, but not the request data
-	$response = $request;
-	unset($response["data"]); 
-	
-	// Route action and method to appropriate class and method
-	$action = val($request, "action");
-	$method = val($request, "method");
-	if (isset($action)) {
-		if (isset($method)) {
-			$class = new ReflectionClass($action);
-			$method = $class->getMethod($method);
-			$object = $method->isStatic() ? null : $class->newInstance();
-			$data = val($request, "data");
-			$args = is_array($data) ? $data : array();
-			$response["result"] = $method->invokeArgs($object, $args);
-		} else {
-			Helix::setError(500, "API requires a method");
-		}
-	} else {
-		Helix::setError(500, "API requires an action");
-	}
-	
-	JSON::send($response);
 }
 
+// Build remoteable descriptor for server side classes
 function buildDescriptor() {
 	global $config;
 	$descriptor = array(
-		"url"=>"direct/api.php",
+		"url"=>"direct/router.php",
 		"type"=>"remoting",
 		"namespace"=>"monoql.direct",
 		"actions"=>array()
 	);
 	foreach (Helix::$classes as $class=>$path) {
 		try {
+			// Only remote classes in the api/ folder 
 			if (!preg_match('/^' . preg_quote($config["root"] . "/api/", "/") . '/', $path)) continue;
 			$reflector = new ReflectionClass($class);
 			$descriptor["actions"][$class] = array();
