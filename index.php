@@ -1,5 +1,6 @@
-<?php require("system/Helix.php"); ?>
-<!DOCTYPE html>
+<?php if (!is_file("config/server.php")) copy("config/server.default.php", "config/server.php"); ?>
+<?php require_once("config/server.php"); ?>
+<?php require_once("system/Helix.php"); ?>
 <html>
 	<head>
 		<title>MonoQL - Data United</title>
@@ -9,7 +10,7 @@
 		<meta name="author" content="Johnathan Hebert, Damian O'Brien" />
 		<script src="ext/adapter/ext/ext-base-debug.js"></script>
 		<script src="ext/ext-all-debug.js"></script>
-		<script src="direct/api.php?config"></script>
+		<script src="direct/api.php"></script>
 		<script src="app/bundle.php"></script>
 		<link rel="stylesheet" href="ext/resources/css/ext-all.css" />
 		<link rel="stylesheet" href="styles/monoql.css" />
