@@ -7,13 +7,13 @@ class Connection extends Object {
 		$this->data = $data;
 	}
 	
-	public function get() {
+	public static function get(array $filters=array()) {
 		$db = Database::getInstance("sqlite");
 		
-		if (isset($this->$data["id"])) {
-			$where = "WHERE id='" . $this->$data["id"] . "'";
-		} else if (isset($this->$data["name"])) {
-			$where = "WHERE name='" . $this->$data["name"] . "'";
+		if (isset($filters["id"])) {
+			$where = "WHERE id='" . $db->escape($filters["id"]) . "'";
+		} else if (isset($filters["name"])) {
+			$where = "WHERE name='" . $db->escape($filters["name"]) . "'";
 		} else {
 			$where = "";
 		}
@@ -27,15 +27,15 @@ class Connection extends Object {
 			$rows[] = $db->record;
 		}
 		
-		$response = array(
+		$result = array(
 			"success"=>true,
-			"rows"=>$rows
+			"connections"=>$rows
 		);
 		
-		JSON::send($response);		
+		return $result;
 	}
 	
-	public function add() {
+	public static function create(array $connection) {
 		$db = Database::getInstance("sqlite");
 		
 		$db->query("
@@ -74,5 +74,10 @@ class Connection extends Object {
 		JSON::send($response);
 	}
 	
+	public static function save(array $connection) {
+	}
+	
+	public static function delete(array $connection) {
+	}
 }
 ?>
