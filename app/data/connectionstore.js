@@ -31,9 +31,9 @@ monoql.data.connectionstore = function() {
 		constructor:function(config) {
 			var config = Ext.apply({
 				api:{
-					load:monoql.direct.Connection.get,
+					read:monoql.direct.Connection.get,
 					create:monoql.direct.Connection.create,
-					save:monoql.direct.Connection.save,
+					update:monoql.direct.Connection.save,
 					destroy:monoql.direct.Connection.delete
 				}
 			}, config);
