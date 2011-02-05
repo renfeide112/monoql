@@ -20,16 +20,23 @@ monoql.data.connectionstore = function() {
 		}
 	});
 	
+	var Writer = Ext.extend(Ext.data.JsonWriter, {
+		constructor:function(meta, recordType) {
+			meta = Ext.apply({}, meta);
+			Writer.superclass.constructor.call(this, meta, Record);
+		}
+	});
+	
 	var Proxy = Ext.extend(Ext.data.DirectProxy, {
 		constructor:function(config) {
-			var config = Ext.apply(config, {
+			var config = Ext.apply({
 				api:{
 					load:monoql.direct.Connection.get,
 					create:monoql.direct.Connection.create,
 					save:monoql.direct.Connection.save,
 					destroy:monoql.direct.Connection.delete
 				}
-			});
+			}, config);
 			Proxy.superclass.constructor.call(this, config);
 		}
 	});
@@ -38,7 +45,8 @@ monoql.data.connectionstore = function() {
 		constructor:function(config) {
 			config = Ext.apply({
 				proxy:new Proxy(),
-				reader:new Reader()
+				reader:new Reader(),
+				writer:new Writer()
 			}, config);
 			Class.superclass.constructor.call(this, config);
 		}
