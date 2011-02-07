@@ -71,7 +71,7 @@ class Connection extends Object {
 			"success"=>true
 		);
 		
-		JSON::send($response);
+		
 	}
 	
 	public static function save(array $connection) {
