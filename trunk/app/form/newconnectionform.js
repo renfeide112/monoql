@@ -5,7 +5,11 @@ monoql.form.newconnectionform = function() {
 	var SaveButton = Ext.extend(monoql.button.button, {
 		text:'Save',
 		initComponent:function() {
+			this.on('click', this.onSaveButtonClick, this);
 			SaveButton.superclass.initComponent.call(this);
+		},
+		onSaveButtonClick:function(button, e) {
+			ui.connectionstore.add([new ui.connectionstore.recordType(this.form.getForm().getFieldValues())]);
 		}
 	});
 	
@@ -14,7 +18,9 @@ monoql.form.newconnectionform = function() {
 		labelAlign:'left',
 		width:300,
 		initComponent: function() {
-			this.savebutton = new SaveButton();
+			this.savebutton = new SaveButton({
+				form:this
+			});
 			this.items = [{
 				fieldLabel:'Name',
 				name:'name'
@@ -30,7 +36,12 @@ monoql.form.newconnectionform = function() {
 				name:'password'
 			},{
 				fieldLabel:'Default Database',
-				name:'name'
+				name:'database',
+				emptyText:'[Optional]'
+			},{
+				fieldLabel:'Port',
+				name:'port',
+				emptyText:'[Optional]'
 			}];
 			this.buttons = [this.savebutton];
 			this.on('show', this.onNewConnectionFormShow, this);
