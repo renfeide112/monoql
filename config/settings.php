@@ -1,5 +1,5 @@
 <?php
-if (!is_file("settings.server.php")) copy("settings.server.default.php", "settings.server.php");
-require_once("settings.server.php");
-require_once("settings.site.php");
+if (!is_file("config/server.php")) copy("config/server.default.php", "config/server.php");
+require_once("config/server.php");
+require_once("config/site.php");
 ?>
