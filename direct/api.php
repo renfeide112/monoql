@@ -1,6 +1,6 @@
 <?php
 // Include Helix configuration and library
-require_once("../config/server.php");
+require_once("../config/settings.php");
 require_once("../system/Helix.php");
 
 // Build descriptor of remoteable methods

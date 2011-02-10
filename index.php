@@ -1,5 +1,4 @@
-<?php if (!is_file("config/server.php")) copy("config/server.default.php", "config/server.php"); ?>
-<?php require_once("config/server.php"); ?>
+<?php require_once("config/settings.php"); ?>
 <?php require_once("system/Helix.php"); ?>
 <html>
 	<head>
