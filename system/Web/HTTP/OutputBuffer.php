@@ -8,7 +8,7 @@ class OutputBuffer extends Object {
 	public static function initialize() {
 		global $config;
 		
-		if ($config["output_buffering"]) {
+		if (val($config, "output_buffering")) {
 			self::start();
 		}
 	}

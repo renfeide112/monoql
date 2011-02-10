@@ -35,7 +35,7 @@ class Connection extends Object {
 		return $result;
 	}
 	
-	public static function create(array $connection) {
+	public static function create(array $connections) {
 		$db = Database::getInstance("sqlite");
 		
 		$db->query("
@@ -53,20 +53,23 @@ class Connection extends Object {
 			);
 		");
 		
-		$now = date("Y-m-d H:i:s");
-		$name = $db->escape(alt($this->p("name"), "New Connection [" . date("Y-m-d H:i:s") . "]"));
-		$type = $db->escape($this->p("type"));
-		$host = $db->escape($this->p("host"));
-		$username = $db->escape($this->p("username"));
-		$password = sha1($db->escape($this->p("password")));
-		$port = $db->escape(alt($this->p("port"), 0));
-		
-		$db->query("
-			INSERT INTO connection
-			(name, type, host, username, password, port, mdate, cdate, deleted) VALUES
-			('{$name}', '{$type}', '{$host}', '{$username}', '{$password}', {$port}, '{$now}', '{$now}', 0);
-		");
-		
+		// $connections should have a "records" key that is an array of connection records
+		foreach ($connections["records"] as $conn) {
+			debug("Creating connection: " . print_r($conn, true));
+			$now = date("Y-m-d H:i:s");
+			$name = $db->escape(alt(val($conn,"name"), "New Connection [" . date("Y-m-d H:i:s") . "]"));
+			$type = $db->escape(val($conn,"type"));
+			$host = $db->escape(val($conn,"host"));
+			$username = $db->escape(val($conn,"username"));
+			$password = sha1($db->escape(val($conn,"password")));
+			$port = $db->escape(alt(val($conn,"port"), 0));
+			
+			$db->query("
+				INSERT INTO connection
+				(name, type, host, username, password, port, mdate, cdate, deleted) VALUES
+				('{$name}', '{$type}', '{$host}', '{$username}', '{$password}', {$port}, '{$now}', '{$now}', 0);
+			");
+		}
 		$response = array(
 			"success"=>true
 		);
