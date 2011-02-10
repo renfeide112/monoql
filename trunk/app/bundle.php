@@ -1,5 +1,3 @@
-<?php require_once("config/server.php"); ?>
-<?php require_once("system/Helix.php"); ?>
 <?php
 header("Content-Type: text/javascript");
 include("bar/bundle.php");
