@@ -14,7 +14,7 @@ monoql.data.connectionstore = function() {
 	var Reader = Ext.extend(Ext.data.JsonReader, {
 		constructor:function(meta, recordType) {
 			meta = Ext.apply({
-				root:'connections'
+				root:'records'
 			}, meta);
 			Reader.superclass.constructor.call(this, meta, Record);
 		}
@@ -23,7 +23,8 @@ monoql.data.connectionstore = function() {
 	var Writer = Ext.extend(Ext.data.JsonWriter, {
 		constructor:function(meta, recordType) {
 			meta = Ext.apply({
-				encode:false
+				encode:false,
+				listful:true
 			}, meta);
 			Writer.superclass.constructor.call(this, meta, Record);
 		}
