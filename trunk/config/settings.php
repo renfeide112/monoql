@@ -1,5 +1,6 @@
 <?php
-if (!is_file("config/server.php")) copy("config/server.default.php", "config/server.php");
-require_once("config/server.php");
-require_once("config/site.php");
+$dir = dirname(__FILE__);
+if (!is_file("{$dir}/server.php")) copy("{$dir}/server.default.php", "{$dir}/server.php");
+require_once("{$dir}/server.php");
+require_once("{$dir}/site.php");
 ?>
