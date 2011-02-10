@@ -72,7 +72,7 @@ class Helix {
 		global $config, $session;
 		if (!preg_match('/^\/_shared/i', Request::$url->path)) {
 			$sessionHash = is_object($session) ? "[{$session->hash}]" : "[]";
-			$username = "[" . (isTrue($config["enable_session"]) && $session->getUserId()>0 ? $session->user->username : "Anonymous") . "]";
+			$username = "[" . (isTrue(val($config, "enable_session")) && $session->getUserId()>0 ? $session->user->username : "Anonymous") . "]";
 			$method = Request::$method;
 			$url = Request::$url->getFullURL();
 			$ip = "[" . Request::$remoteAddress . "]";
