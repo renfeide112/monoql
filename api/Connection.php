@@ -22,14 +22,14 @@ class Connection extends Object {
 		SELECT * FROM connection {$where};
 		");
 		
-		$rows = array();
+		$records = array();
 		while ($db->getRecord()) {
-			$rows[] = $db->record;
+			$records[] = $db->record;
 		}
 		
 		$result = array(
 			"success"=>true,
-			"connections"=>$rows
+			"records"=>$records
 		);
 		
 		return $result;

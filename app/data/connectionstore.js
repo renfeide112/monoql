@@ -46,6 +46,7 @@ monoql.data.connectionstore = function() {
 
 	var Class = Ext.extend(Ext.data.Store, {
 		constructor:function(config) {
+			autoLoad:true,
 			config = Ext.apply({
 				proxy:new Proxy(),
 				reader:new Reader(),
