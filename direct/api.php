@@ -35,7 +35,11 @@ function buildDescriptor() {
 			$descriptor["actions"][$class] = array();
 			foreach ($reflector->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
 				if ($method->getDeclaringClass()->name===$class && $method->isUserDefined() && $method->name[0]!=="_") {
-					$descriptor["actions"][$class][] = array("name"=>$method->name, "len"=>$method->getNumberofParameters());
+					$descriptor["actions"][$class][] = array(
+						"name"=>$method->name,
+						"len"=>$method->getNumberofParameters(),
+						"formHandler"=>!!preg_match('/^form/', $method->name)
+					);
 				}
 			}
 		} catch (Exception $e) {}

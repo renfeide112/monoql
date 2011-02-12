@@ -1,10 +1,10 @@
 <?php
 class Query extends Object {
 	
-	private $data;
+	private $query;
 	
-	public function __construct(array $data=array()) {
-		$this->data = $data;
+	public function __construct($query=null) {
+		$this->query = $query;
 	}
 	
 	public static function execute($query, $conn) {

@@ -7,9 +7,33 @@ monoql.form.newconnectionform = function() {
 		initComponent:function() {
 			this.on('click', this.onSaveButtonClick, this);
 			SaveButton.superclass.initComponent.call(this);
+			this.addClass(cls + "-savebutton");
 		},
 		onSaveButtonClick:function(button, e) {
-			ui.connectionstore.add([new ui.connectionstore.recordType(this.form.getForm().getFieldValues())]);
+			button.form.getForm().submit();
+		}
+	});
+	
+	var DatabaseTypeComboBox = Ext.extend(monoql.form.combobox, {
+		triggerAction:'all',
+		displayField:'text',
+		valueField:'type',
+		forceSelection:true,
+		allowBlank:false,
+		mode:'local',
+		fieldLabel:'Type',
+		hiddenName:'type',
+		editable:false,
+		initComponent:function() {
+			this.store = new Ext.data.JsonStore({
+				fields:['type', 'text'],
+				root:'records',
+				data:{"records":[
+					{"type":"mysql", "text":"MySQL"}
+				]}
+			});
+			DatabaseTypeComboBox.superclass.initComponent.call(this);
+			this.addClass(cls + "-databasetypecombobox");
 		}
 	});
 	
@@ -17,14 +41,21 @@ monoql.form.newconnectionform = function() {
 		title:'Add a new connection',
 		labelAlign:'left',
 		width:300,
+		api:{
+			load:monoql.direct.Connection.get,
+			submit:monoql.direct.Connection.formCreate
+		},
+		paramsAsHash:true,
 		initComponent: function() {
 			this.savebutton = new SaveButton({
 				form:this
 			});
+			this.databaseTypeComboBox = new DatabaseTypeComboBox(); 
 			this.items = [{
 				fieldLabel:'Name',
 				name:'name'
-			},{
+			},
+			this.databaseTypeComboBox,{
 				fieldLabel:'Host',
 				name:'host'
 			},{
@@ -36,7 +67,7 @@ monoql.form.newconnectionform = function() {
 				name:'password'
 			},{
 				fieldLabel:'Default Database',
-				name:'database',
+				name:'defaultDatabase',
 				emptyText:'[Optional]'
 			},{
 				fieldLabel:'Port',

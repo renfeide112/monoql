@@ -19,6 +19,9 @@ $config["enable_log"] = true;
 // Prefix for log files [null]
 $config["log_prefix"] = null;
 
+// Default database type for new connections
+$config["default_database_type"] = "mysql";
+
 // Default path to SQLite Database [{$config["root"]}/data/monoql.db]
 $config["monoql_db_path"] = "{$config["root"]}/data/monoql.db";
 
