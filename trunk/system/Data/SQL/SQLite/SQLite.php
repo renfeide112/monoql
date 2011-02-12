@@ -46,7 +46,9 @@ class SQLite extends Database {
 	
 	public function getInfo() {}
 	
-	public function getInsertedID() {}
+	public function getInsertedID() {
+		return isset($this->connection) ? $this->connection->lastInsertId() : null;
+	}
 	
 	public function getSQLState() {}
 	
@@ -87,7 +89,7 @@ class SQLite extends Database {
 			return $this->connection;
 		} else {
 			try {
-				$this->connection = new PDO("sqlite:" . alt($host, $this->host));	
+				$this->connection = new PDO("sqlite:" . alt($host, $this->host));
 				return $this->connection;
 			} catch (Exception $e) {
 				$error = $e->getMessage();
@@ -102,12 +104,8 @@ class SQLite extends Database {
 		if (strlen($query)>0) {
 			$queries = is_array($query) ? $query : array($query);
 		}
-		if (empty($queries)) {
-			return 0;
-		}
-		if (!$this->connect()) {
-			return false;
-		}
+		if (empty($queries)) {return 0;}
+		if (!$this->connect()) {return false;}
 
 		foreach ($queries as $q) {
 			if (strlen(trim($q)) > 0) {
@@ -128,6 +126,7 @@ class SQLite extends Database {
 	public function queryValue($value, $emptyStringAsNull=true) {}
 	
 	public function escape($string) {
+		if (!$this->connect()) {return false;}
 		return $this->connection->quote($string);
 	}
 	
