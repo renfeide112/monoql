@@ -10,7 +10,7 @@ monoql.form.newconnectionform = function() {
 			this.addClass(cls + "-savebutton");
 		},
 		onSaveButtonClick:function(button, e) {
-			button.form.getForm().submit();
+			button.form.getForm().doAction('directsubmit');
 		}
 	});
 	
@@ -41,11 +41,16 @@ monoql.form.newconnectionform = function() {
 		title:'Add a new connection',
 		labelAlign:'left',
 		width:300,
-		api:{
-			load:monoql.direct.Connection.get,
-			submit:monoql.direct.Connection.formCreate
+		constructor: function(config) {
+			var config = Ext.apply({
+				api:{
+					load:monoql.direct.Connection.get,
+					submit:monoql.direct.Connection.formCreate
+				},
+				paramsAsHash:true
+			}, config || {});
+			Class.superclass.constructor.call(this, config);
 		},
-		paramsAsHash:true,
 		initComponent: function() {
 			this.savebutton = new SaveButton({
 				form:this
