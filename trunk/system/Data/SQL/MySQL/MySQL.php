@@ -1,5 +1,5 @@
 <?php
-class MySQL extends AbstractDatabase {
+class MySQL extends AbstractDatabase implements IDatabase {
 	
 	public function __construct($host=null, $username=null, $password=null, $database=null, $port=null) {
 		global $config;
