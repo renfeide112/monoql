@@ -153,10 +153,7 @@ class Helix {
 	 * @param int $statusCode The HTTP status code of the error
 	 */
 	public static function setError($statusCode, $message=null) {
-		global $config;
-		include_once("{$config["root"]}/layouts/error/error.cb.php");
-		self::$response = new ErrorResponse($statusCode, $message);
-		return self::$response;
+		// Need to implement for monoql-style folder structure
 	}
 	
 	public static function defineConstants() {
