@@ -4,16 +4,23 @@ require_once("../config/settings.php");
 require_once("../system/Helix.php");
 
 // Transform the raw post data from serialized JSON to associative array
-$rawPostData = file_get_contents("php://input");
-$request = JSON::decode($rawPostData, true);
+$request = JSON::decode(Request::$input, true);
 
 // Copy all of the request metadata into the response, but not the request data
-$response = $request;
-unset($response["data"]); 
+$action = alt(val($request, "action"), req("extAction"));
+$method = alt(val($request, "method"), req("extMethod"));
+$tid = intval(alt(val($request, "tid"), req("extTID")));
+$type = alt(val($request, "type"), req("extType"));
+$upload = alt(isTrue(req("extUpload")), false);
+$response = array(
+	"action"=>$action,
+	"method"=>$method,
+	"tid"=>$tid,
+	"type"=>$type,
+	"result"=>null
+);
 
 // Route action and method to appropriate class and method
-$action = val($request, "action");
-$method = val($request, "method");
 if (isset($action)) {
 	if (isset($method)) {
 		$class = new ReflectionClass($action);
