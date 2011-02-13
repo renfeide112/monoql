@@ -1,6 +1,8 @@
 <?php
 abstract class DatabaseFactory extends Object {
 	
+	private static $instances = array();
+	
 	/**
 	 * Get a new or used instance of one of the database object types 
 	 * 
@@ -21,8 +23,10 @@ abstract class DatabaseFactory extends Object {
 			$password = val($config, "password");
 			$database = val($config, "database");
 			$port = val($config, "port");
+		} else {
+			$type = alt($type, $config["default_database_type"]);
 		}
-		$type = alt($type, $config["default_database_type"]);
+		if (isset(self::$instances[$type])) {return self::$instances[$type];}
 		switch ($type) {
 			case "mssql":
 				$instance = new MSSQL($host, $username, $password, $database, $port);
@@ -40,7 +44,7 @@ abstract class DatabaseFactory extends Object {
 				$instance = new PostGreSQL($host, $username, $password, $database, $port);
 				break;
 		}
-		
+		self::$instances[$type] = $instance;
 		return $instance;
 	}
 	
