@@ -5,13 +5,14 @@ require_once("../system/Helix.php");
 
 // Transform the raw post data from serialized JSON to associative array
 $request = isset(Request::$data["extAction"]) ? Request::$data : JSON::decode(Request::$input, true);
+debug(print_r($request, true));
 
 // Copy all of the request metadata into the response, but not the request data
-$action = alt(val($request, "action"), req("extAction"));
-$method = alt(val($request, "method"), req("extMethod"));
-$tid = intval(alt(val($request, "tid"), req("extTID")));
-$type = alt(val($request, "type"), req("extType"));
-$data = isset($request["extAction"]) ? $request : $request["data"];
+$action = alt(req("extAction"), val($request, "action"));
+$method = alt(req("extMethod"), val($request, "method"));
+$tid = intval(alt(req("extTID"), val($request, "tid")));
+$type = alt(req("extType"), val($request, "type"));
+$data = isset($request["extAction"]) ? array($request) : $request["data"];
 $isFileUpload = alt(isTrue(req("extUpload")), false);
 $response = array(
 	"action"=>$action,
