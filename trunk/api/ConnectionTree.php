@@ -8,7 +8,8 @@ class ConnectionTree extends Object {
 		$children = array();
 		foreach (val(Connection::get(), "records") as $conn) {
 			$children[] = array_merge($conn, array(
-				"text"=>$conn["name"]
+				"text"=>$conn["name"],
+				"nodeType"=>"monoql-tree-connectionnode"
 			));
 		}
 		return $children;

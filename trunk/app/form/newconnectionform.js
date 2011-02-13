@@ -23,7 +23,7 @@ monoql.form.newconnectionform = function() {
 		mode:'local',
 		fieldLabel:'Type',
 		hiddenName:'type',
-		editable:false,
+		editable:true,
 		initComponent:function() {
 			this.store = new Ext.data.JsonStore({
 				fields:['type', 'text'],
