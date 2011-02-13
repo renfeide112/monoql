@@ -21,43 +21,6 @@ class Database extends Object {
 	
 	private function __construct() {}
 	
-	/**
-	 * Get a new or used instance of one of the database object types 
-	 * 
-	 * @param string $type The type of database connection [mysql|mssql|oracle|sqlite]
-	 * @param string $host The host name of the database server (give full path for SQLite database)
-	 * @param string $username The username for the connection
-	 * @param string $password The password for the username
-	 * @param string $database The default database for the connection
-	 * @param int $port The port number to connect to the server
-	 */
-	public static function getInstance($type=null, $host=null, $username=null, $password=null, $database=null, $port=null) {
-		global $config;
-		
-		$type = alt($type, $config["default_database_type"]);
-		if (isset(self::$instances[$type])) {
-			$instance = self::$instances[$type];
-		} else {
-			switch ($type) {
-				case "mssql":
-					$instance = new MSSQL($host, $username, $password, $database, $port);
-					break;
-				case "oracle":
-					$instance = new Oracle($host, $username, $password, $database, $port);
-					break;
-				case "sqlite":
-					$instance = new SQLite($host, $username, $password, $database, $port);
-					break;
-				case "mysql":
-					$instance = new MySQL($host, $username, $password, $database, $port);
-					break;
-			}
-			self::$instances[$type] = $instance;
-		}
-		
-		return $instance;
-	}
-	
 	public function getAffectedRows() {
 	
 	}

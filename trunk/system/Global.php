@@ -42,6 +42,11 @@ function helixErrorHandler($errno, $error, $file=null, $line=null) {
 	return false;
 }
 
+function helixExceptionHandler(Exception $e) {
+	debug($e->getMessage());
+	debug($e->getTraceAsString());
+}
+
 /**
  * Define this function for PHP version < 5.3
  */

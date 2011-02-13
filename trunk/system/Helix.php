@@ -51,6 +51,7 @@ class Helix {
 		require_once("Global.php");
 		spl_autoload_register("autoload");
 		set_error_handler("helixErrorHandler");
+		set_exception_handler("helixExceptionHandler");
 		self::defineConstants();
 		self::mapSystemClasses();
 		self::mapSystemClasses(dirname(self::$path) . "/api");
