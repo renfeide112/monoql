@@ -2,7 +2,7 @@ Ext.ns('monoql.bar');
 monoql.bar.connectiontreetoolbar = function() {
 	var cls = 'monoql-bar-connectiontreetoolbar';
 	var Class = Ext.extend(monoql.bar.toolbar, {
-		style:'border-left-width:0px;',
+		style:'border-left-width:0px;border-top-width:0px;',
 		initComponent: function() {
 			this.newconnectionbutton = new monoql.button.button({
 				text:'New Connection',

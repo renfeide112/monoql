@@ -1,5 +1,5 @@
 <?php
-class MySQL extends Database {
+class MySQL extends AbstractDatabase {
 	
 	public function __construct($host=null, $username=null, $password=null, $database=null, $port=null) {
 		global $config;
@@ -197,7 +197,7 @@ class MySQL extends Database {
 	public function rollback() {
 	}
 	
-	public function queryValue($value, $emptyStringAsNull=true) {
+	public function quote($value, $emptyStringAsNull=true) {
 		return is_null($value) || ($emptyStringAsNull && strlen($value)===0) ? "NULL" : "'{$this->escape($value)}'"; 
 	}
 	

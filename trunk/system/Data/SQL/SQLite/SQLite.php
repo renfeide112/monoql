@@ -1,5 +1,5 @@
 <?php
-class SQLite extends Database {
+class SQLite extends AbstractDatabase {
 	
 	public function __construct($host=null, $username=null, $password=null, $database=null, $port=null){
 		global $config;
@@ -101,12 +101,10 @@ class SQLite extends Database {
 	public function close() {}
 	
 	public function query($query) {
-		if (strlen($query)>0) {
-			$queries = is_array($query) ? $query : array($query);
-		}
-		if (empty($queries)) {return 0;}
+		if (empty($query)) {return false;}
 		if (!$this->connect()) {return false;}
-
+		
+		$queries = is_array($query) ? $query : array($query);
 		foreach ($queries as $q) {
 			if (strlen(trim($q)) > 0) {
 				$this->result = $this->connection->query($q);
@@ -123,18 +121,18 @@ class SQLite extends Database {
 	
 	public function rollback() {}
 	
-	public function queryValue($value, $emptyStringAsNull=true) {}
-	
-	public function escape($string) {
+	public function quote($string) {
 		if (!$this->connect()) {return false;}
 		return $this->connection->quote($string);
 	}
 	
+	public function escape($string) {
+		return substr($this->quote($string), 1, -1);
+	}
+	
 	public function encapsulate($string) {}
 	
-	public function createDatabase($database, $overwrite=false, array $options=null) {
-		
-	}
+	public function createDatabase($database, $overwrite=false, array $options=null) {}
 	
 	public function dropDatabase($database) {}
 	

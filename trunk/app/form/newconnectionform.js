@@ -72,12 +72,10 @@ monoql.form.newconnectionform = function() {
 				name:'password'
 			},{
 				fieldLabel:'Default Database',
-				name:'defaultDatabase',
-				emptyText:'[Optional]'
+				name:'defaultDatabase'
 			},{
 				fieldLabel:'Port',
-				name:'port',
-				emptyText:'[Optional]'
+				name:'port'
 			}];
 			this.buttons = [this.savebutton];
 			this.on('show', this.onNewConnectionFormShow, this);
