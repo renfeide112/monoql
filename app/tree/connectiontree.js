@@ -3,7 +3,7 @@ monoql.tree.connectiontree = function() {
 	var cls = 'monoql-tree-connectiontree';
 	var Class = Ext.extend(monoql.tree.tree, {
 		width:250,
-		title:'Data Connections',
+		//title:'Data Connections',
 		headerStyle:'border-top-width:0px;border-left-width:0px;',
 		bodyStyle:'border-left-width:0px;',
 		animate:false,
@@ -12,7 +12,7 @@ monoql.tree.connectiontree = function() {
 			id:'root-connectiongroup',
 			text:'Connections'
 		},
-		rootVisible:true,
+		rootVisible:false,
 		initComponent: function() {
 			this.tbar = new monoql.bar.connectiontreetoolbar();
 			this.loader = new monoql.tree.connectiontreeloader();
