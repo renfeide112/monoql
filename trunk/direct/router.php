@@ -5,7 +5,6 @@ require_once("../system/Helix.php");
 
 // Transform the raw post data from serialized JSON to associative array
 $request = isset(Request::$data["extAction"]) ? Request::$data : JSON::decode(Request::$input, true);
-debug(print_r($request, true));
 
 // Copy all of the request metadata into the response, but not the request data
 $action = alt(req("extAction"), val($request, "action"));
