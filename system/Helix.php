@@ -153,6 +153,7 @@ class Helix {
 	 * @param int $statusCode The HTTP status code of the error
 	 */
 	public static function setError($statusCode, $message=null) {
+		debug("Helix ERROR: [{$statusCode}] {$message}");
 		// Need to implement for monoql-style folder structure
 	}
 	
