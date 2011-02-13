@@ -8,9 +8,9 @@ class Connection extends Object {
 		$db = new SQLite($config["monoql_db_path"]);
 		
 		if (isset($filters["id"])) {
-			$where = "WHERE id='" . $db->escape($filters["id"]) . "'";
+			$where = "WHERE id=" . $db->escape($filters["id"]);
 		} else if (isset($filters["name"])) {
-			$where = "WHERE name='" . $db->escape($filters["name"]) . "'";
+			$where = "WHERE name=" . $db->escape($filters["name"]);
 		} else {
 			$where = "";
 		}

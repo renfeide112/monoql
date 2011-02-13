@@ -32,6 +32,7 @@ if (isset($action)) {
 			$args = is_array($data) ? $data : array();
 			$response["result"] = $method->invokeArgs($object, $args);
 		} catch (Exception $e) {
+			helixExceptionHandler($e);
 			$response["type"] = "exception";
 			$response["message"] = $e->getMessage();
 			$response["where"] = $e->getTraceAsString();
