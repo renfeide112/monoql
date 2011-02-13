@@ -30,10 +30,18 @@ class Connection extends Object {
 		return $result;
 	}
 	
-	public static function formCreate(array $connections) {
+	public static function getById($id) {
+		return self::get(array("id"=>$id));
+	}
+	
+	// This method must be called by form posts from the client
+	// and will always handle at most 1 new record
+	public static function formCreate($connection) {
+		$connections = array("records"=>array($connection));
 		return self::create($connections);
 	}
 	
+	// This will create 1 or more connections
 	public static function create(array $connections) {
 		global $config;
 		$db = new SQLite($config["monoql_db_path"]);
