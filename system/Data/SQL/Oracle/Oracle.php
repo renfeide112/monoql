@@ -1,5 +1,5 @@
 <?php
-class Oracle extends AbstractDatabase {
+class Oracle extends AbstractDatabase implements IDatabase {
 	
 	public function getAffectedRows() {}
 	

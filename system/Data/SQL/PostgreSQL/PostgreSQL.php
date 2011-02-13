@@ -1,5 +1,5 @@
 <?php
-class PostgreSQL extends AbstractDatabase {
+class PostgreSQL extends AbstractDatabase implements IDatabase {
 	
 	public function getAffectedRows() {}
 	

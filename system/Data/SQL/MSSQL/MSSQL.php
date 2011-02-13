@@ -1,5 +1,5 @@
 <?php
-class MSSQL extends AbstractDatabase {
+class MSSQL extends AbstractDatabase implements IDatabase {
 	
 	public function getAffectedRows() {}
 	
