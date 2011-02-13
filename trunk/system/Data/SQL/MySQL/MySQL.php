@@ -197,8 +197,8 @@ class MySQL extends AbstractDatabase implements IDatabase {
 	public function rollback() {
 	}
 	
-	public function quote($value, $emptyStringAsNull=true) {
-		return is_null($value) || ($emptyStringAsNull && strlen($value)===0) ? "NULL" : "'{$this->escape($value)}'"; 
+	public function quote($string) {
+		return "'{$this->escape($value)}'"; 
 	}
 	
 	public function escape($string) {
