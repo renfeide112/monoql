@@ -198,7 +198,7 @@ class MySQL extends AbstractDatabase implements IDatabase {
 	}
 	
 	public function quote($string) {
-		return "'{$this->escape($value)}'"; 
+		return "'{$this->escape($string)}'"; 
 	}
 	
 	public function escape($string) {
