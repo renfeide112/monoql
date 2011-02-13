@@ -25,11 +25,17 @@ $response = array(
 // Route action and method to appropriate class and method
 if (isset($action)) {
 	if (isset($method)) {
-		$class = new ReflectionClass($action);
-		$method = $class->getMethod($method);
-		$object = $method->isStatic() ? null : $class->newInstance();
-		$args = is_array($data) ? $data : array();
-		$response["result"] = $method->invokeArgs($object, $args);
+		try {
+			$class = new ReflectionClass($action);
+			$method = $class->getMethod($method);
+			$object = $method->isStatic() ? null : $class->newInstance();
+			$args = is_array($data) ? $data : array();
+			$response["result"] = $method->invokeArgs($object, $args);
+		} catch (Exception $e) {
+			$response["type"] = "exception";
+			$response["message"] = $e->getMessage();
+			$response["where"] = $e->getTraceAsString();
+		}
 	} else {
 		Helix::setError(500, "API requires a method");
 	}
