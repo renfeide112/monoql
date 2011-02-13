@@ -79,7 +79,7 @@ interface IDatabase {
 	
 	public function rollback();
 	
-	public function queryValue($string);
+	public function quote($string);
 	
 	public function escape($string);
 	
