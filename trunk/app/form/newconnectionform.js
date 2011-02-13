@@ -10,7 +10,7 @@ monoql.form.newconnectionform = function() {
 			this.addClass(cls + "-savebutton");
 		},
 		onSaveButtonClick:function(button, e) {
-			button.form.getForm().doAction('directsubmit');
+			button.form.getForm().submit();
 		}
 	});
 	
