@@ -1,5 +1,4 @@
 <?php
-header("Content-Type: text/javascript");
 include("textbox.js");
 include("combobox.js");
 include("connectioncombobox.js");

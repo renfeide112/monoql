@@ -14,7 +14,7 @@ class SQLite extends AbstractDatabase implements IDatabase {
 		
 	public function getRecord($associative=true) {
 		if (isset($this->result)) {
-			$this->record = $this->result->fetch($associative ? PDO::FETCH_ASSOC : PDO::FETCH_BOTH);
+			$this->record = $this->result->fetchArray($associative ? SQLITE3_ASSOC : SQLITE3_BOTH);
 			return $this->record;
 		}
 		return null;
@@ -83,19 +83,13 @@ class SQLite extends AbstractDatabase implements IDatabase {
 	public function changeCharset($charset) {}
 	
 	public function connect($host=null, $username=null, $password=null, $database=null, $port=null) {
-		$error = null;
 		if (isset($this->connection)) {
-			$error = null;
 			return $this->connection;
 		} else {
-			try {
-				$this->connection = new PDO("sqlite:" . alt($host, $this->host));
-				return $this->connection;
-			} catch (Exception $e) {
-				$error = $e->getMessage();
-			}
+			$this->connection = new SQLite3(alt($host, $this->host));
+			return $this->connection;
 		}
-		return $error;
+		return false;
 	}
 	
 	public function close() {}
@@ -122,12 +116,12 @@ class SQLite extends AbstractDatabase implements IDatabase {
 	public function rollback() {}
 	
 	public function quote($string) {
-		if (!$this->connect()) {return false;}
-		return $this->connection->quote($string);
+		return "'" . $this->escape($string) . "'";
 	}
 	
 	public function escape($string) {
-		return substr($this->quote($string), 1, -1);
+		if (!$this->connect()) {return false;}
+		return $this->connection->escapeString($string);
 	}
 	
 	public function encapsulate($string) {}

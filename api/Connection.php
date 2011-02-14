@@ -53,22 +53,24 @@ class Connection extends Object {
 			$now = date("Y-m-d H:i:s");
 			if (!$db->connect()) {break;}
 			try {
+				$p = array(
+					"name"=>$db->quote(alt(val($conn,"name"), "New Connection [{$now}]")),
+					"type"=>$db->quote(val($conn,"type")),
+					"host"=>$db->quote(val($conn,"host")),
+					"username"=>$db->quote(val($conn,"username")),
+					"password"=>$db->quote(val($conn,"password")),
+					"port"=>$db->quote(intval(alt(val($conn,"port"), 0))),
+					"defaultDatabase"=>$db->quote(val($conn,"defaultDatabase")),
+					"mdate"=>$db->quote($now),
+					"cdate"=>$db->quote($now),
+					"deleted"=>$db->quote(0)
+				);
 				$statement = $db->connection->prepare("
 					INSERT INTO connection
 					(name, type, host, username, password, port, default_database, mdate, cdate, deleted) VALUES
-					(:name, :type, :host, :username, :password, :port, :defaultDatabase, :mdate, :cdate, 0);
+					({$p["name"]}, {$p["type"]}, {$p["host"]}, {$p["username"]}, {$p["password"]}, {$p["port"]}, {$p["defaultDatabase"]}, {$p["mdate"]}, {$p["cdate"]}, {$p["deleted"]});
 				");
-				$success = $statement->execute(array(
-					"name"=>alt(val($conn,"name"), "New Connection [{$now}]"),
-					"type"=>val($conn,"type"),
-					"host"=>val($conn,"host"),
-					"username"=>val($conn,"username"),
-					"password"=>val($conn,"password"),
-					"port"=>intval(alt(val($conn,"port"), 0)),
-					"defaultDatabase"=>val($conn,"defaultDatabase"),
-					"mdate"=>$now,
-					"cdate"=>$now
-				));
+				$result = $statement->execute();
 			} catch (Exception $e) {
 				debug($e->getMessage());
 				debug($e->getTraceAsString());
@@ -77,7 +79,7 @@ class Connection extends Object {
 		}
 		
 		$result = array(
-			"success"=>$success,
+			"success"=>!!$result,
 			"records"=>$records
 		);
 		

@@ -43,8 +43,7 @@ function helixErrorHandler($errno, $error, $file=null, $line=null) {
 }
 
 function helixExceptionHandler(Exception $e) {
-	debug($e->getMessage());
-	debug($e->getTraceAsString());
+	debug($e->getMessage() . NL . $e->getTraceAsString());
 }
 
 /**
