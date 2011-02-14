@@ -12,4 +12,5 @@ Ext.onReady(function(){
 		id:'viewport'
 	});
 	ui.connectionstore = new monoql.data.connectionstore();
+	ui.tree.initListeners();
 });

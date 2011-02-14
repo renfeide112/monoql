@@ -13,6 +13,7 @@ monoql.tree.connectiontree = function() {
 			text:'Connections'
 		},
 		rootVisible:false,
+		useArrows:true,
 		initComponent: function() {
 			this.tbar = new monoql.bar.connectiontreetoolbar();
 			this.loader = new monoql.tree.connectiontreeloader();
@@ -26,6 +27,12 @@ monoql.tree.connectiontree = function() {
 			if (selectedNode && selectedNode.reload) {
 				selectedNode.reload();
 			}
+		},
+		initListeners:function() {
+			ui.connectionstore.on('write', this.onConnectionStoreSave, this);
+		},
+		onConnectionStoreSave:function(store, batch, data) {
+			this.getRootNode().reload();
 		}
 	});
 	Ext.reg(cls, Class);
