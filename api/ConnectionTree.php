@@ -7,7 +7,7 @@ class ConnectionTree extends Object {
 		$nodeType = substr(strrchr($node, "-"), 1);
 		switch ($nodeType) {
 			case "connectiongroup":
-				$children = self::getConnectionNodeChildren($node);
+				$children = self::getConnectionGroupChildNodes($node);
 				break;
 			default:
 				$children = array();
