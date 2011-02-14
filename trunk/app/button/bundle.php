@@ -1,5 +1,4 @@
 <?php
-header("Content-Type: text/javascript");
 include("button.js");
 include("openfilebutton.js");
 include("savefilebutton.js");

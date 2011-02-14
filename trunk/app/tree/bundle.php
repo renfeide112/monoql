@@ -1,5 +1,4 @@
 <?php
-header("Content-Type: text/javascript");
 include("node.js");
 include("groupnode.js");
 include("backupgroupnode.js");

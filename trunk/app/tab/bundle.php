@@ -1,5 +1,4 @@
 <?php
-header("Content-Type: text/javascript");
 include("tab.js");
 include("querytab.js");
 include("hometab.js");
