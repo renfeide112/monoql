@@ -28,11 +28,25 @@ monoql.tree.connectiontree = function() {
 				selectedNode.reload();
 			}
 		},
-		initListeners:function() {
-			ui.connectionstore.on('write', this.onConnectionStoreSave, this);
+		addNodeFromStore:function(record) {
+			this.getLoader().createNode(Ext.apply(record.data, {
+				text:record.data.name,
+				nodeType:'monoql-tree-connectionnode'
+			}));
 		},
-		onConnectionStoreSave:function(store, batch, data) {
-			this.getRootNode().reload();
+		initListeners:function() {
+			ui.connectionstore.on('add', this.onConnectionStoreAdd, this);
+			ui.connectionstore.on('remove', this.onConnectionStoreRemove, this);
+			ui.connectionstore.on('update', this.onConnectionStoreUpdate, this);
+		},
+		onConnectionStoreAdd:function(store, records, index) {
+			Ext.each(records, function(item, index, items) {
+				this.addNodeFromStore(item);
+			}, this);
+		},
+		onConnectionStoreRemove:function(store, record, index) {
+		},
+		onConnectionStoreUpdate:function(store, record, operation) {
 		}
 	});
 	Ext.reg(cls, Class);
