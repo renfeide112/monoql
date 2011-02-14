@@ -5,12 +5,8 @@ monoql.form.newconnectionform = function() {
 	var SaveButton = Ext.extend(monoql.button.button, {
 		text:'Save',
 		initComponent:function() {
-			this.on('click', this.onSaveButtonClick, this);
 			SaveButton.superclass.initComponent.call(this);
 			this.addClass(cls + "-savebutton");
-		},
-		onSaveButtonClick:function(button, e) {
-			button.form.getForm().submit();
 		}
 	});
 	
@@ -45,7 +41,7 @@ monoql.form.newconnectionform = function() {
 		constructor: function(config) {
 			var config = Ext.apply({
 				api:{
-					load:monoql.direct.Connection.get,
+					load:monoql.direct.Connection.formLoad,
 					submit:monoql.direct.Connection.formCreate
 				},
 				paramsAsHash:true
@@ -79,6 +75,7 @@ monoql.form.newconnectionform = function() {
 				name:'port'
 			}];
 			this.buttons = [this.savebutton];
+			this.savebutton.on('click', this.onSaveButtonClick, this);
 			this.on('show', this.onNewConnectionFormShow, this);
 			this.on('hide', this.onNewConnectionFormHide, this);
 			Class.superclass.initComponent.call(this);
@@ -89,6 +86,13 @@ monoql.form.newconnectionform = function() {
 		},
 		onNewConnectionFormHide:function(form) {
 			this.getForm().reset();
+		},
+		onSaveButtonClick:function(button, e) {
+			this.savebutton.setDisabled(true);
+			var conn = new ui.connectionstore.recordType(this.getForm().getFieldValues());
+			ui.connectionstore.add(conn);
+			this.hide();
+			this.savebutton.setDisabled(false);
 		}
 	});
 	Ext.reg(cls, Class);
