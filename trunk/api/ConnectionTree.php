@@ -15,7 +15,7 @@ class ConnectionTree extends Object {
 		return $children;
 	}
 	
-	public static function getConnectionNodeChildren($node) {
+	public static function getConnectionGroupChildNodes($node) {
 		$children = array();
 		foreach (val(Connection::get(), "records") as $conn) {
 			$children[] = array_merge($conn, array(
