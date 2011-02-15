@@ -28,11 +28,12 @@ monoql.tree.connectiontree = function() {
 				selectedNode.reload();
 			}
 		},
-		addNodeFromStore:function(record) {
-			this.getLoader().createNode(Ext.apply(record.data, {
+		addNodeFromStore:function(parentNode, record) {
+			var node = this.getLoader().createNode(Ext.apply(record.data, {
 				text:record.data.name,
 				nodeType:'monoql-tree-connectionnode'
 			}));
+			parentNode.appendChild(node);
 		},
 		initListeners:function() {
 			ui.connectionstore.on('add', this.onConnectionStoreAdd, this);
@@ -41,7 +42,7 @@ monoql.tree.connectiontree = function() {
 		},
 		onConnectionStoreAdd:function(store, records, index) {
 			Ext.each(records, function(item, index, items) {
-				this.addNodeFromStore(item);
+				this.addNodeFromStore(this.root, item);
 			}, this);
 		},
 		onConnectionStoreRemove:function(store, record, index) {
