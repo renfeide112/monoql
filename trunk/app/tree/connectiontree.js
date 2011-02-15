@@ -19,6 +19,7 @@ monoql.tree.connectiontree = function() {
 			this.loader = new monoql.tree.connectiontreeloader();
 			this.tbar.refreshbutton.addListener('click', this.onToolbarRefreshButtonClick, this);
 			Class.superclass.initComponent.call(this);
+			this.sorter = new Ext.tree.TreeSorter(this);
 			this.getSelectionModel().on('selectionchange', this.getTopToolbar().refreshbutton.onConnectionTreeSelectionChange, this.getTopToolbar().refreshbutton);
 			this.addClass(cls);
 		},
