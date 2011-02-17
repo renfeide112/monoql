@@ -45,7 +45,7 @@ monoql.data.connectionstore = function() {
 			this.on('add', this.onConnectionStoreAdd, this);
 		},
 		onConnectionStoreAdd:function(store, records, index) {
-			store.sort([{field:'name', dir:'ASC'}]);
+			store.sort('name', 'ASC');
 		}
 	});
 	return Class;

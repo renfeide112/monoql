@@ -12,10 +12,10 @@ monoql.tab.maintabset = function() {
 		addQueryTab:function(connection) {
 			if (connection) {
 				var tab = new monoql.tab.querytab({
-					index:++queryTabCount,
-					connection:connection
+					index:++queryTabCount
 				});
 				this.activate(this.add(tab));
+				tab.setConnection(connection);
 				return tab;
 			}
 		},
