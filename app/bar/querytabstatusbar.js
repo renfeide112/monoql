@@ -4,7 +4,7 @@ monoql.bar.querytabstatusbar = function() {
 	var Class = Ext.extend(monoql.bar.toolbar, {
 		initComponent: function() {
 			this.connectionstatusdisplayfield = new Ext.form.DisplayField({
-				value:'Connection Status...'
+				value:''
 			});
 			this.hoststatusdisplayfield = new Ext.form.DisplayField({
 				value:'Host Info...'
@@ -28,8 +28,17 @@ monoql.bar.querytabstatusbar = function() {
 				'-', this.timerdisplayfield,
 				'-', this.rowcountdisplayfield
 			];
+			this.querytab.on('render', this.onQueryTabRender, this);
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
+		},
+		onQueryTabRender:function(tab) {
+			this.updateConnectionStatus();
+		},
+		updateConnectionStatus:function(data) {
+			var conn = this.querytab.connection,
+			    text = conn.get('name') + ' [' + conn.get('type') + ']';
+			this.connectionstatusdisplayfield.setValue(text);
 		}
 	});
 	Ext.reg(cls, Class);
