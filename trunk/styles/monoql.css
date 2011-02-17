@@ -54,3 +54,7 @@ button.monoql-bar-connectiontreetoolbar-refreshbutton-icon
 
 .monoql-tab-querytab .x-layout-split
 {background-color:#DFE8F6;}
+
+.monoql-tab-tabset .x-tab-panel-body,
+.monoql-tab-tab .x-panel-body
+{background-color:#D0DEF0;}
