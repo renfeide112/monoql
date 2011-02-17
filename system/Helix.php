@@ -77,7 +77,7 @@ class Helix {
 			$method = Request::$method;
 			$url = Request::$url->getFullURL();
 			$ip = "[" . Request::$remoteAddress . "]";
-			$postData = Request::$method==="POST" ? " [POST:" . paramify(Request::$post, null, "&", "/password/i") . "]" : " [NO POST]";
+			$postData = Request::$method==="POST" ? " [POST:" . (count(Request::$post)>0 ? paramify(Request::$post, null, "&", "/password/i") : Request::$input) . "]" : " [NO POST]";
 			$fileData = count(Request::$files)>0 ? " [FILES:" . paramify(Request::$files, "name") . "]" : " [NO FILES]";
 			$cookies = count(Request::$cookies)>0 ? " [COOKIES:" . paramify(Request::$cookies) . "]" : " [NO COOKIES]";
 			$userAgent = " [USER-AGENT:{$_SERVER["HTTP_USER_AGENT"]}]";

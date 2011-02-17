@@ -8,12 +8,10 @@ monoql.form.connectioncombobox = function() {
 		displayField:'name',
 		valueField:'id',
 		hiddenName:'activeConnection',
+		mode:'local',
+		triggerAction:'all',
 		initComponent: function() {
-			this.store = new Ext.data.Store({
-				reader:new Ext.data.JsonReader({
-					fields:['id', 'name']
-				})
-			});
+			this.store = ui.connectionstore;
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
 		}

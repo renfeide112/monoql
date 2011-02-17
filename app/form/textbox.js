@@ -31,21 +31,21 @@ Ext.apply(Ext.form.TextField.prototype, {
 			var after = domElement.createTextRange();
 			after.setEndPoint("StartToEnd", selection);
 			return {
-				selectionStart: before.text.length,
-				selectionEnd: before.text.length + selection.text.length,
-				beforeText: before.text,
-				text: selection.text,
-				afterText: after.text
+				selectionStart:before.text.length,
+				selectionEnd:before.text.length + selection.text.length,
+				beforeText:before.text,
+				text:selection.text,
+				afterText:after.text
 			};
 		} else {
-			if (domElement.selectionEnd && domElement.selectionStart) {
+			if (Ext.isNumber(domElement.selectionEnd) && Ext.isNumber(domElement.selectionStart)) {
 				if (domElement.selectionEnd > domElement.selectionStart){ 
 					return {
-						selectionStart  : domElement.selectionStart,
-						selectionEnd : domElement.selectionEnd,
-						beforeText   : domElement.value.substr(0, domElement.selectionStart),
-						text    : domElement.value.substr(domElement.selectionStart, domElement.selectionEnd - domElement.selectionStart),
-						afterText   : domElement.value.substr(domElement.selectionEnd)
+						selectionStart:domElement.selectionStart,
+						selectionEnd:domElement.selectionEnd,
+						beforeText:domElement.value.substr(0, domElement.selectionStart),
+						text:domElement.value.substr(domElement.selectionStart, domElement.selectionEnd - domElement.selectionStart),
+						afterText:domElement.value.substr(domElement.selectionEnd)
 					};
 				} 
 			}

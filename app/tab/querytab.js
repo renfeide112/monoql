@@ -8,24 +8,30 @@ monoql.tab.querytab = function() {
 		closable:true,
 		initComponent: function() {
 			this.title = 'Query' + (Ext.isNumber(this.index) ? ' ' + this.index : '');
-			this.queryform = new monoql.form.queryform();
-			this.resulttabset = new monoql.tab.resulttabset();
-			this.items = [{
-				region:'north',
-				layout:'fit',
-				split:true,
-				height:100,
-				border:false,
-				items:[this.queryform]
-			},{
+			this.bbar = new monoql.bar.querytabstatusbar();
+			this.queryform = new monoql.form.queryform({
 				region:'center',
+				connection:this.connection,
+				height:200
+			});
+			this.resulttabset = new monoql.tab.resulttabset({
+				region:'south',
+				split:true,
+				height:0,
+				collapseMode:'mini',
+				animCollapse:false,
+				collapsed:true,
 				border:false,
-				bodyStyle:'border-top-width:1px;',
-				items:[this.resulttabset]
-			}];
+				bodyStyle:'border-top-width:1px;'
+			});
+			this.resulttabset.on('expand', this.onResultTabSetExpand, this);
+			this.items = [this.queryform, this.resulttabset];
 			this.queryform.getForm().on('actioncomplete', this.onQueryFormActionComplete, this);
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
+		},
+		onResultTabSetExpand:function(panel) {
+			panel.setHeight(this.getHeight()-Ext.value(this.queryform.height, 0));
 		},
 		onQueryFormActionComplete:function(form, action) {
 			if (action.type=="submit") {

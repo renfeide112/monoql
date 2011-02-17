@@ -13,7 +13,13 @@ monoql.tab.maintabset = function() {
 		addQueryTab:function(connection) {
 			if (connection) {
 				var tab = new monoql.tab.querytab({
-					index:++queryTabCount
+					index:++queryTabCount,
+					connection:new monoql.data.connectionrecord({
+						host:'localhost',
+						type:'mysql',
+						username:'test',
+						password:'test'
+					})
 				});
 				this.activate(this.add(tab));
 				return tab;

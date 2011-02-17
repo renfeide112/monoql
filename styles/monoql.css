@@ -46,8 +46,11 @@ button.monoql-button-resultstofilebutton-icon
 .x-tree-node-el .monoql-tree-sprocnode-icon
 {background-image:url('../images/script_gear.png')}
 
-button.monoql-tree-connectiontreetoolbar-newconnectionbutton-icon
+button.monoql-bar-connectiontreetoolbar-newconnectionbutton-icon
 {background-image:url('../images/server_add.png')}
 
-button.monoql-tree-connectiontreetoolbar-refreshbutton-icon
+button.monoql-bar-connectiontreetoolbar-refreshbutton-icon
 {background-image:url('../images/arrow_refresh.png')}
+
+.monoql-tab-querytab .x-layout-split
+{background-color:#DFE8F6;}
