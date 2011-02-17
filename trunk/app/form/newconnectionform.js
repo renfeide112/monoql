@@ -89,7 +89,7 @@ monoql.form.newconnectionform = function() {
 		},
 		onSaveButtonClick:function(button, e) {
 			this.savebutton.setDisabled(true);
-			var conn = new ui.connectionstore.recordType(this.getForm().getFieldValues());
+			var conn = new monoql.data.connectionrecord(this.getForm().getFieldValues());
 			ui.connectionstore.add(conn);
 			this.hide();
 			this.savebutton.setDisabled(false);

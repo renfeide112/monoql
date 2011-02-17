@@ -1,26 +1,11 @@
 Ext.ns('monoql.data');
-monoql.data.connectionstore = function() {
-	var Record = Ext.data.Record.create([
-		{name:'id', type:'int'},
-		{name:'name', type:'string'},
-		{name:'type', type:'string'},
-		{name:'host', type:'string'},
-		{name:'username', type:'string'},
-		{name:'password', type:'string'},
-		{name:'port', type:'int'},
-		{name:'defaultDatabase', type:'string', mapping:'default_database'},
-		{name:'mdate', type:'date'},
-		{name:'cdate', type:'date'},
-		{name:'deleted', type:'bool'},
-		{name:'databases', type:'string'}
-	]);
-	
+monoql.data.connectionstore = function() {	
 	var Reader = Ext.extend(Ext.data.JsonReader, {
 		constructor:function(meta, recordType) {
 			meta = Ext.apply({
 				root:'records'
 			}, meta);
-			Reader.superclass.constructor.call(this, meta, Record);
+			Reader.superclass.constructor.call(this, meta, recordType);
 		}
 	});
 	
@@ -30,7 +15,7 @@ monoql.data.connectionstore = function() {
 				encode:false,
 				listful:true
 			}, meta);
-			Writer.superclass.constructor.call(this, meta, Record);
+			Writer.superclass.constructor.call(this, meta, recordType);
 		}
 	});
 	
@@ -50,11 +35,10 @@ monoql.data.connectionstore = function() {
 
 	var Class = Ext.extend(Ext.data.Store, {
 		constructor:function(config) {
-			autoLoad:true,
 			config = Ext.apply({
 				proxy:new Proxy(),
-				reader:new Reader(),
-				writer:new Writer()
+				reader:new Reader({}, monoql.data.connectionrecord),
+				writer:new Writer({}, monoql.data.connectionrecord)
 			}, config);
 			Class.superclass.constructor.call(this, config);
 		}

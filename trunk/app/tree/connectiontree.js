@@ -10,10 +10,18 @@ monoql.tree.connectiontree = function() {
 		root:{
 			nodeType:'monoql-tree-connectiongroupnode',
 			id:'root-connectiongroup',
-			text:'Connections'
+			text:'Connections',
+			expanded:false
 		},
 		rootVisible:false,
 		useArrows:true,
+		animCollapse:false,
+		constructor:function(config) {
+			var config = Ext.apply({
+				collapseMode:'mini'
+			}, config);
+			Class.superclass.constructor.call(this, config);
+		},
 		initComponent: function() {
 			this.tbar = new monoql.bar.connectiontreetoolbar();
 			this.loader = new monoql.tree.connectiontreeloader();

@@ -8,9 +8,10 @@ Ext.onReady(function(){
 		}
 	});
 	Ext.BLANK_IMAGE_URL = 'ext/resources/images/default/s.gif';
-	ui = new monoql.panel.viewport({
-		id:'viewport'
-	});
 	ui.connectionstore = new monoql.data.connectionstore();
+	ui.connectionstore.load();
+	Ext.apply(ui, new monoql.panel.viewport({
+		id:'viewport'
+	}));
 	ui.tree.initListeners();
 });

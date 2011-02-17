@@ -1,4 +1,4 @@
 <?php
-include("connection.js");
+include("connectionrecord.js");
 include("connectionstore.js");
 ?>

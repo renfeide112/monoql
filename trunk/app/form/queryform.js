@@ -14,7 +14,8 @@ monoql.form.queryform = function() {
 				hideLabel:true,
 				anchor:'0 0',
 				style:{
-					'border-width':'0px'
+					'border-width':'0px',
+					'padding':'0px'
 				}
 			});
 			this.queryfield = new Ext.form.Hidden({
@@ -36,10 +37,7 @@ monoql.form.queryform = function() {
 		},
 		onQueryFormCtrlEnter:function(key, e) {
 			var query = this.querytextarea.getSelectedText() || this.querytextarea.getValue();
-			this.queryfield.setValue(query);
-			this.getForm().submit({
-				url:'api/query/execute.php'
-			});
+			monoql.direct.Query.execute(query, this.connection.data);
 		}
 	});
 	Ext.reg(cls, Class);
