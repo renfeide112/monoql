@@ -5,7 +5,7 @@ class Connection extends Object {
 	
 	public static function get(array $filters=array()) {
 		global $config;
-		$db = new SQLite($config["monoql_db_path"]);
+		$db = DatabaseFactory::createDatabase("sqlite", $config["monoql_db_path"]);
 		
 		if (isset($filters["id"])) {
 			$where = "WHERE id=" . $db->escape($filters["id"]);
@@ -44,7 +44,7 @@ class Connection extends Object {
 	// This will create 1 or more connections
 	public static function create(array $connections) {
 		global $config;
-		$db = new SQLite($config["monoql_db_path"]);
+		$db = DatabaseFactory::createDatabase("sqlite", $config["monoql_db_path"]);
 		$success = null;
 		$records = array();
 		
@@ -75,7 +75,10 @@ class Connection extends Object {
 				debug($e->getMessage());
 				debug($e->getTraceAsString());
 			}	
-			$records = val(Connection::get(), "records");
+			$insertedRecords = val(self::get(array("id"=>$db->getInsertedId())), "records");
+			if (is_array($insertedRecords)) {
+				$records = array_merge($insertedRecords, $records);
+			}
 		}
 		
 		$result = array(

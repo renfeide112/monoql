@@ -36,11 +36,16 @@ monoql.data.connectionstore = function() {
 	var Class = Ext.extend(Ext.data.Store, {
 		constructor:function(config) {
 			config = Ext.apply({
+				sortInfo:{field:'name', dir:'ASC'},
 				proxy:new Proxy(),
 				reader:new Reader({}, monoql.data.connectionrecord),
 				writer:new Writer({}, monoql.data.connectionrecord)
 			}, config);
 			Class.superclass.constructor.call(this, config);
+			this.on('add', this.onConnectionStoreAdd, this);
+		},
+		onConnectionStoreAdd:function(store, records, index) {
+			store.sort([{field:'name', dir:'ASC'}]);
 		}
 	});
 	return Class;
