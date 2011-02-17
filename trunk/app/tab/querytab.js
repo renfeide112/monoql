@@ -8,7 +8,9 @@ monoql.tab.querytab = function() {
 		closable:true,
 		initComponent: function() {
 			this.title = 'Query' + (Ext.isNumber(this.index) ? ' ' + this.index : '');
-			this.bbar = new monoql.bar.querytabstatusbar();
+			this.bbar = new monoql.bar.querytabstatusbar({
+				querytab:this
+			});
 			this.queryform = new monoql.form.queryform({
 				region:'center',
 				connection:this.connection,
