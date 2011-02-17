@@ -14,4 +14,5 @@ Ext.onReady(function(){
 		id:'viewport'
 	}));
 	ui.tree.initListeners();
+	ui.tabs.initListeners();
 });
