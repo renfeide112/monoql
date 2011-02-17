@@ -6,6 +6,10 @@ monoql.tab.querytab = function() {
 		layout:'border',
 		border:false,
 		closable:true,
+		constructor:function(config) {
+			this.addEvents('connectionchange');
+			Class.superclass.constructor.call(this, config);
+		},
 		initComponent: function() {
 			this.title = 'Query' + (Ext.isNumber(this.index) ? ' ' + this.index : '');
 			this.bbar = new monoql.bar.querytabstatusbar({
@@ -27,8 +31,9 @@ monoql.tab.querytab = function() {
 				bodyStyle:'border-top-width:1px;'
 			});
 			this.resulttabset.on('expand', this.onResultTabSetExpand, this);
-			this.items = [this.queryform, this.resulttabset];
+			ui.toolbar.connectioncombobox.on('select', this.onToolBarConnectionComboBoxSelect, this);
 			this.queryform.getForm().on('actioncomplete', this.onQueryFormActionComplete, this);
+			this.items = [this.queryform, this.resulttabset];
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
 		},
@@ -42,6 +47,22 @@ monoql.tab.querytab = function() {
 		},
 		onQueryFormSubmitComplete:function(form, action) {
 			alert(Ext.pluck(action.result.rows, "username"));
+		},
+		isActive:function() {
+			return this.ownerCt && this.ownerCt.getActiveTab()==this;
+		},
+		setConnection:function(connection) {
+			var oldConn = this.connection,
+				newConn = Ext.isNumber(parseInt(connection)) ? ui.connectionstore.getById(connection) : connection;
+			if (!oldConn || newConn.get('id')!=oldConn.get('id')) {
+				this.fireEvent('connectionchange', this, oldConn, newConn);
+			}
+			this.connection = newConn;
+		},
+		onToolBarConnectionComboBoxSelect:function(combo, record, index) {
+			if (this.isActive()) {
+				this.setConnection(combo.getValue());
+			}
 		}
 	});
 	Ext.reg(cls, Class);

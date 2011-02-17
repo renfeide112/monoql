@@ -28,16 +28,15 @@ monoql.bar.querytabstatusbar = function() {
 				'-', this.timerdisplayfield,
 				'-', this.rowcountdisplayfield
 			];
-			this.querytab.on('render', this.onQueryTabRender, this);
+			this.querytab.on('connectionchange', this.onQueryTabConnectionChange, this);
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
 		},
-		onQueryTabRender:function(tab) {
-			this.updateConnectionStatus();
+		onQueryTabConnectionChange:function(tab, oldConn, newConn) {
+			this.updateConnectionStatus(newConn);
 		},
-		updateConnectionStatus:function(data) {
-			var conn = this.querytab.connection,
-			    text = conn.get('name') + ' [' + conn.get('type') + ']';
+		updateConnectionStatus:function(newConn) {
+			var text = newConn.get('name') + ' [' + newConn.get('type') + ']';
 			this.connectionstatusdisplayfield.setValue(text);
 		}
 	});
