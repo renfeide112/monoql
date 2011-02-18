@@ -16,29 +16,21 @@ monoql.tab.querytab = function() {
 				querytab:this
 			});
 			this.queryform = new monoql.form.queryform({
-				region:'center',
+				region:'north',
 				tab:this,
 				height:200
 			});
 			this.resulttabset = new monoql.tab.resulttabset({
-				region:'south',
+				region:'center',
 				split:true,
-				height:0,
-				collapseMode:'mini',
-				animCollapse:false,
-				collapsed:true,
 				border:false,
 				bodyStyle:'border-top-width:1px;'
 			});
-			this.resulttabset.on('expand', this.onResultTabSetExpand, this);
 			ui.toolbar.connectioncombobox.on('select', this.onToolBarConnectionComboBoxSelect, this);
 			this.queryform.getForm().on('actioncomplete', this.onQueryFormActionComplete, this);
 			this.items = [this.queryform, this.resulttabset];
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
-		},
-		onResultTabSetExpand:function(panel) {
-			panel.setHeight(this.getHeight()-Ext.value(this.queryform.height, 0));
 		},
 		onQueryFormActionComplete:function(form, action) {
 			if (action.type=="submit") {
