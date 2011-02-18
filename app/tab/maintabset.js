@@ -25,7 +25,7 @@ monoql.tab.maintabset = function() {
 		onAddQueryTabFormOpenTabButtonClick:function(button, e) {
 			var combo = ui.addquerytabform.connectioncombobox,
 				value = combo.getValue(),
-				valid = Ext.isNumber(value) && value>0
+				valid = Ext.isNumber(parseInt(value)) && value>0
 			if (valid) {
 				ui.addquerytabform.hide();
 				ui.addquerytabform.opentabbutton.setDisabled(true);
