@@ -5,4 +5,5 @@ include("toolbar.js");
 include("connectiontreetoolbar.js");
 include("querytabstatusbar.js");
 include("maintoolbar.js");
+include("resultgridpagingtoolbar.js");
 ?>

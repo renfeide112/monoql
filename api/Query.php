@@ -9,9 +9,10 @@ class Query extends Object {
 	
 	public static function execute($query, $connectionId) {
 		$conn = val(val(Connection::get(array("id"=>$connectionId)), "records"), 0);
-		debug(print_r($conn, true));
 		$db = DatabaseFactory::createDatabase($conn);
 		$rows = array();
+		$messages = array();
+		$metaData = array();
 		
 		if ($db) {
 			$db->query($query);
@@ -20,13 +21,25 @@ class Query extends Object {
 			}
 		}
 		
+		$metaData = self::buildMetaData($rows);
+		
 		$result = array(
 			"success"=>true,
 			"query"=>$query,
-			"rows"=>$rows
+			"rows"=>$rows,
+			"messages"=>$messages,
+			"metaData"=>$metaData
 		);
 		
 		return $result;
+	}
+	
+	// This must be an configuration array for the client-side
+	// result grid reader.  It should contain a "fields" key to
+	// configure the grid record fields, and thus the column model
+	public static function buildMetaData(array $rows=array()) {
+		$meta = array();
+		return $meta;
 	}
 	
 }
