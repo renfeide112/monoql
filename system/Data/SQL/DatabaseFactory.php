@@ -23,8 +23,6 @@ abstract class DatabaseFactory extends Object {
 			$password = val($config, "password");
 			$database = val($config, "database");
 			$port = val($config, "port");
-		} else {
-			$type = alt($type, $config["default_database_type"]);
 		}
 		if (isset(self::$instances[$type])) {return self::$instances[$type];}
 		switch ($type) {
