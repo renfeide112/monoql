@@ -10,8 +10,12 @@ monoql.grid.resultgridcolumnmodel = function() {
 			this.grid.store.on('metachange', this.onGridStoreMetaChange, this);
 		},
 		onGridStoreMetaChange:function(store, meta) {
-			// call this.setConfig() and the grid/gridview will update automatically;
-			alert('TODO: Configure resultgridcolumnmodel to reconfigure on grid store metachange');
+			var columns = [];
+			Ext.each(meta.fields, function(item, index, items) {
+				columns.push({header:item.name, dataIndex:item.name});
+			});
+			// Only takes an array, not config object... ext bug?
+			this.setConfig(columns);
 		}
 	});
 	return Class;

@@ -37,10 +37,10 @@ monoql.form.queryform = function() {
 		},
 		onQueryFormCtrlEnter:function(key, e) {
 			var query = this.querytextarea.getSelectedText() || this.querytextarea.getValue();
-			monoql.direct.Query.execute(query, this.tab.connection.get('id'), this.onQueryResult);
+			monoql.direct.Query.execute(query, this.tab.connection.get('id'), this.onQueryResult.createDelegate(this));
 		},
 		onQueryResult:function(result, response) {
-			alert(Ext.encode(result.metaData.fields));
+			this.tab.resulttabset.resulttab.grid.store.reader.readRecords(result);
 		}
 	});
 	Ext.reg(cls, Class);
