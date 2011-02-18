@@ -6,6 +6,10 @@ monoql.tab.resulttab = function() {
 		layout:'fit',
 		border:false,
 		initComponent: function() {
+			this.grid = new monoql.grid.resultgrid({
+				tab:this
+			});
+			this.items = [this.grid]
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
 		}
