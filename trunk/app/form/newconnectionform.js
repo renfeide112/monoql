@@ -4,6 +4,7 @@ monoql.form.newconnectionform = function() {
 	
 	var SaveButton = Ext.extend(monoql.button.button, {
 		text:'Save',
+		formBind:true,
 		initComponent:function() {
 			SaveButton.superclass.initComponent.call(this);
 			this.addClass(cls + "-savebutton");
@@ -38,6 +39,7 @@ monoql.form.newconnectionform = function() {
 		title:'Add a new connection',
 		labelAlign:'left',
 		width:300,
+		monitorValid:true,
 		constructor: function(config) {
 			var config = Ext.apply({
 				api:{
@@ -54,15 +56,16 @@ monoql.form.newconnectionform = function() {
 			});
 			this.databaseTypeComboBox = new DatabaseTypeComboBox(); 
 			this.items = [{
-				fieldLabel:'Name',
+				xtype:'hidden',
 				name:'name'
-			},
-			this.databaseTypeComboBox,{
+			},this.databaseTypeComboBox,{
 				fieldLabel:'Host',
-				name:'host'
+				name:'host',
+				allowBlank:false
 			},{
 				fieldLabel:'Username',
-				name:'username'
+				name:'username',
+				allowBlank:false
 			},{
 				fieldLabel:'Password',
 				inputType:'password',
@@ -82,14 +85,16 @@ monoql.form.newconnectionform = function() {
 			this.addClass(cls);
 		},
 		onNewConnectionFormShow:function(form) {
-			this.getForm().findField('name').focus();
+			this.getForm().findField('host').focus();
 		},
 		onNewConnectionFormHide:function(form) {
 			this.getForm().reset();
 		},
 		onSaveButtonClick:function(button, e) {
 			this.savebutton.setDisabled(true);
-			var conn = new monoql.data.connectionrecord(this.getForm().getFieldValues());
+			var values = this.getForm().getFieldValues();
+			values.name = (values.host || 'Unknown') + ' [' + (values.username || 'username') + ']';
+			var conn = new monoql.data.connectionrecord(values);
 			ui.connectionstore.add(conn);
 			this.hide();
 			this.savebutton.setDisabled(false);

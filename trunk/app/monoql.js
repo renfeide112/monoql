@@ -15,4 +15,5 @@ Ext.onReady(function(){
 	}));
 	ui.tree.initListeners();
 	ui.tabs.initListeners();
+	ui.toolbar.initListeners();
 });

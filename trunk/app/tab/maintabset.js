@@ -14,8 +14,8 @@ monoql.tab.maintabset = function() {
 				var tab = new monoql.tab.querytab({
 					index:++queryTabCount
 				});
-				this.activate(this.add(tab));
 				tab.setConnection(connection);
+				this.activate(this.add(tab));
 				return tab;
 			}
 		},

@@ -17,7 +17,7 @@ monoql.tab.querytab = function() {
 			});
 			this.queryform = new monoql.form.queryform({
 				region:'center',
-				connection:this.connection,
+				tab:this,
 				height:200
 			});
 			this.resulttabset = new monoql.tab.resulttabset({
@@ -54,10 +54,13 @@ monoql.tab.querytab = function() {
 		setConnection:function(connection) {
 			var oldConn = this.connection,
 				newConn = Ext.isNumber(parseInt(connection)) ? ui.connectionstore.getById(connection) : connection;
-			if (!oldConn || newConn.get('id')!=oldConn.get('id')) {
-				this.fireEvent('connectionchange', this, oldConn, newConn);
+			if (newConn) {
+				if (!oldConn || newConn.get('id')!=oldConn.get('id')) {
+					this.fireEvent('connectionchange', this, oldConn, newConn);
+				}
+				this.connection = newConn;
 			}
-			this.connection = newConn;
+			return this.connection;
 		},
 		onToolBarConnectionComboBoxSelect:function(combo, record, index) {
 			if (this.isActive()) {
