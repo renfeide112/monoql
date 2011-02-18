@@ -37,7 +37,7 @@ monoql.form.queryform = function() {
 		},
 		onQueryFormCtrlEnter:function(key, e) {
 			var query = this.querytextarea.getSelectedText() || this.querytextarea.getValue();
-			monoql.direct.Query.execute(query, this.tab.connection.data);
+			monoql.direct.Query.execute(query, this.tab.connection.get('id'));
 		}
 	});
 	Ext.reg(cls, Class);

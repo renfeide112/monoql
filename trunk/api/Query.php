@@ -7,7 +7,9 @@ class Query extends Object {
 		$this->query = $query;
 	}
 	
-	public static function execute($query, $conn) {
+	public static function execute($query, $connectionId) {
+		$conn = val(val(Connection::get(array("id"=>$connectionId)), "records"), 0);
+		debug(print_r($conn, true));
 		$db = DatabaseFactory::createDatabase($conn);
 		$rows = array();
 		
