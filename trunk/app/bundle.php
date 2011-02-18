@@ -1,5 +1,6 @@
 <?php
 header("Content-Type: text/javascript");
+include("override/bundle.php");
 include("bar/bundle.php");
 include("button/bundle.php");
 include("data/bundle.php");

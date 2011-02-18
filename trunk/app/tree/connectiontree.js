@@ -38,10 +38,11 @@ monoql.tree.connectiontree = function() {
 			}
 		},
 		addNodeFromStore:function(parentNode, record) {
-			var node = this.getLoader().createNode(Ext.apply(record.data, {
-				text:record.data.name,
-				nodeType:'monoql-tree-connectionnode'
-			}));
+			var data = Ext.apply({}, record.data),
+				node = this.getLoader().createNode(Ext.apply(data, {
+					text:record.data.name,
+					nodeType:'monoql-tree-connectionnode'
+				}));
 			parentNode.appendChild(node);
 		},
 		initListeners:function() {

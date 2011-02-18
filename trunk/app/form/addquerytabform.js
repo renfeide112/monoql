@@ -27,7 +27,7 @@ monoql.form.addquerytabform = function() {
 		},
 		onConnectionComboBoxSelect:function(combo, record, index) {
 			var value = combo.getValue(),
-				valid = Ext.isNumber(value) && value>0
+				valid = Ext.isNumber(parseInt(value)) && value>0
 			this.opentabbutton.setDisabled(!valid);
 		}
 	});
