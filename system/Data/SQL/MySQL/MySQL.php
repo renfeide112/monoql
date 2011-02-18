@@ -160,18 +160,15 @@ class MySQL extends AbstractDatabase implements IDatabase {
 	}
 	
 	public function connect($host=null, $username=null, $password=null, $database=null, $port=null) {
-		if (isset($this->connection)) {
-			$error = null;
-		} else {
+		if (!isset($this->connection)) {
 			$host = alt($host, $this->host);
 			$username = alt($username, $this->username);
 			$password = alt($password, $this->password);
 			$database = alt($database, $this->database);
 			$port = alt($port, $this->port);
 			$this->connection = new mysqli($host, $username, $password, $database, $port);
-			$error = $this->getConnectErrno();
 		}
-		return $error;
+		return $this->connection;
 	}
 	
 	public function close() {
@@ -179,15 +176,10 @@ class MySQL extends AbstractDatabase implements IDatabase {
 	}
 	
 	public function query($query) {
-		$errno = $this->connect();
-		if (isset($errno) && $errno>0) {
-			debug("MySQL Connection Error: {$errno}: Query not executed: " . NL . $query);
-		} else {
-			$this->result = $this->connection->query($query);
-			if ($this->result===false) {
-				trigger_error("MySQL Error: {$this->connection->error}" . NL . $query, E_USER_ERROR);
-			}
-			// debug(NL . "********************************************" . NL . $query . NL . "MySQL Error: " . $this->connection->error . NL . "********************************************");
+		if (!$this->connect()) {return false;}
+		$this->result = $this->connection->query($query);
+		if ($this->result===false) {
+			trigger_error("MySQL Error: {$this->connection->error}" . NL . $query, E_USER_ERROR);
 		}
 	}
 	

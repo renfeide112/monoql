@@ -17,8 +17,12 @@ monoql.bar.maintoolbar = function() {
 			this.resultstogridbutton = new monoql.button.resultstogridbutton();
 			this.resultstotextbutton = new monoql.button.resultstotextbutton();
 			this.resultstofilebutton = new monoql.button.resultstofilebutton();
-			this.connectioncombobox = new monoql.form.connectioncombobox();
-			this.databasecombobox = new monoql.form.databasecombobox();
+			this.connectioncombobox = new monoql.form.connectioncombobox({
+				disabled:true
+			});
+			this.databasecombobox = new monoql.form.databasecombobox({
+				disabled:true
+			});
 			this.items = [{
 				text:'File',
 				menu:this.filemenu
@@ -53,7 +57,24 @@ monoql.bar.maintoolbar = function() {
 			];
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
+		},
+		initListeners:function() {
+			ui.tabs.on('tabchange', this.onMainTabSetTabChange, this);
+		},
+		onMainTabSetTabChange:function(tabset, tab) {
+			(!tabset.getActiveTab() ? this.onNoActiveTab : this.onActiveTab).call(this, tab);
+		},
+		onNoActiveTab:function() {
+			this.connectioncombobox.reset();
+			this.connectioncombobox.setDisabled(true);
+		},
+		onActiveTab:function(tab) {
+			if (tab.connection) {
+				this.connectioncombobox.setValue(tab.connection.get('id'));
+				this.connectioncombobox.setDisabled(false);
+			}
 		}
+		
 	});
 	Ext.reg(cls, Class);
 	return Class;

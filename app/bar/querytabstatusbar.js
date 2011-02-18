@@ -35,8 +35,8 @@ monoql.bar.querytabstatusbar = function() {
 		onQueryTabConnectionChange:function(tab, oldConn, newConn) {
 			this.updateConnectionStatus(newConn);
 		},
-		updateConnectionStatus:function(newConn) {
-			var text = newConn.get('name') + ' [' + newConn.get('type') + ']';
+		updateConnectionStatus:function(conn) {
+			var text = conn.get('name');
 			this.connectionstatusdisplayfield.setValue(text);
 		}
 	});
