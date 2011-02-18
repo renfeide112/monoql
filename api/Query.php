@@ -38,7 +38,12 @@ class Query extends Object {
 	// result grid reader.  It should contain a "fields" key to
 	// configure the grid record fields, and thus the column model
 	public static function buildMetaData(array $rows=array()) {
-		$meta = array();
+		$meta = array("fields"=>array());
+		if (count($rows)>0) {
+			foreach ($rows[0] as $field=>$value) {
+				$meta["fields"][] = array("name"=>$field);
+			}
+		}
 		return $meta;
 	}
 	
