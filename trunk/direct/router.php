@@ -5,17 +5,16 @@ require_once("../system/Helix.php");
 
 // Transform the raw post data from serialized JSON to associative array
 $request = isset(Request::$data["extAction"]) ? Request::$data : JSON::decode(Request::$input, true);
-$transactions = is_array($request) ? (array_key_exists("tid", $request) ? array($request) : $request) : array();
-debug(print_r($transactions, true));
+$requests = is_array($request) ? (array_key_exists("tid", $request) ? array($request) : $request) : array();
 $responses = array();
-foreach ($transactions as $t) {
+foreach ($requests as $r) {
 	// Copy all of the request metadata into the response, but not the request data
-	$action = alt(val($t, "extAction"), val($t, "action"));
-	$method = alt(val($t, "extMethod"), val($t, "method"));
-	$tid = intval(alt(val($t, "extTID"), val($t, "tid")));
-	$type = alt(val($t, "extType"), val($t, "type"));
-	$data = isset($t["extAction"]) ? array($t) : $t["data"];
-	$isFileUpload = alt(isTrue(val($t, "extUpload")), false);
+	$action = alt(val($r, "extAction"), val($r, "action"));
+	$method = alt(val($r, "extMethod"), val($r, "method"));
+	$tid = intval(alt(val($r, "extTID"), val($r, "tid")));
+	$type = alt(val($r, "extType"), val($r, "type"));
+	$data = isset($r["extAction"]) ? array($t) : $r["data"];
+	$isFileUpload = alt(isTrue(val($r, "extUpload")), false);
 	$response = array(
 		"action"=>$action,
 		"method"=>$method,
@@ -47,8 +46,7 @@ foreach ($transactions as $t) {
 	}
 	$responses[] = $response;
 }
-//$responses = count($responses)===1 ? $responses[0] : $responses;
-debug(print_r($responses, true));
+$responses = count($responses)===1 ? $responses[0] : $responses;
 
 if ($isFileUpload) {
 	echo "<html><body><textarea>" . JSON::encode($responses) . "</textarea></body></html>";

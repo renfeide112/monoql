@@ -12,8 +12,12 @@ monoql.form.connectioncombobox = function() {
 		triggerAction:'all',
 		initComponent: function() {
 			this.store = ui.connectionstore;
+			this.on('expand', this.onConnectionComboBoxExpand, this);
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
+		},
+		onConnectionComboBoxExpand:function(combo) {
+			combo.getStore().sort(combo.displayField, 'ASC');
 		}
 	});
 	Ext.reg(cls, Class);

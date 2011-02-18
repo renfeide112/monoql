@@ -42,10 +42,6 @@ monoql.data.connectionstore = function() {
 				writer:new Writer({}, monoql.data.connectionrecord)
 			}, config);
 			Class.superclass.constructor.call(this, config);
-			this.on('add', this.onConnectionStoreAdd, this);
-		},
-		onConnectionStoreAdd:function(store, records, index) {
-			store.sort('name', 'ASC');
 		}
 	});
 	return Class;
