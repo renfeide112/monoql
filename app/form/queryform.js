@@ -40,7 +40,7 @@ monoql.form.queryform = function() {
 			monoql.direct.Query.execute(query, this.tab.connection.get('id'), this.onQueryResult);
 		},
 		onQueryResult:function(result, response) {
-			alert(result.fields);
+			alert(Ext.encode(result.fields));
 		}
 	});
 	Ext.reg(cls, Class);
