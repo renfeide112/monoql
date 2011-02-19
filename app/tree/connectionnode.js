@@ -15,6 +15,11 @@ monoql.tree.connectionnode = function() {
 			this.attributes.cls = [this.attributes.cls, cls].join(" ");
 		},
 		onMenuModifyClick:function(item, e) {
+			ui.connectionform.load({
+				params:{
+					id:this.id
+				}
+			});
 			var pos = Ext.get(this.ui.getEl()).getXY();
 			ui.connectionform.setPosition(pos).show();
 			this.menu.hide();

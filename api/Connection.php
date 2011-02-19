@@ -31,7 +31,13 @@ class Connection extends Object {
 	}
 	
 	public static function getById($id) {
-		return self::get(array("id"=>$id));
+		$records = val(self::get(array("id"=>$id)), "records");
+		$data = count($records)===1 ? $records[0] : null;
+		$result = array(
+			"success"=>isset($data),
+			"data"=>$data
+		);
+		return $result;
 	}
 	
 	// This method must be called by form posts from the client
