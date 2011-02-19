@@ -4,8 +4,8 @@ monoql.tab.maintabset = function() {
 	var queryTabCount = 0;
 	var Class = Ext.extend(monoql.tab.tabset, {
 		headerStyle:'border-top-width:0px;',
+		tabWidth:150,
 		initComponent: function() {
-			this.items = [];
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
 		},
