@@ -23,9 +23,16 @@ monoql.tree.connectiontree = function() {
 			Class.superclass.constructor.call(this, config);
 		},
 		initComponent: function() {
+			this.store = ui.connectionstore;
 			this.tbar = new monoql.bar.connectiontreetoolbar();
 			this.loader = new monoql.tree.connectiontreeloader();
-			this.tbar.refreshbutton.addListener('click', this.onToolbarRefreshButtonClick, this);
+			this.tbar.refreshbutton.on('click', this.onToolbarRefreshButtonClick, this);
+			this.store.on({
+				scope:this,
+				add:this.onStoreAdd,
+				remove:this.onStoreRemove,
+				update:this.onStoreUpdate
+			});
 			Class.superclass.initComponent.call(this);
 			this.sorter = new Ext.tree.TreeSorter(this);
 			this.getSelectionModel().on('selectionchange', this.getTopToolbar().refreshbutton.onConnectionTreeSelectionChange, this.getTopToolbar().refreshbutton);
@@ -37,27 +44,23 @@ monoql.tree.connectiontree = function() {
 				selectedNode.reload();
 			}
 		},
-		addNodeFromStore:function(parentNode, record) {
-			var data = Ext.apply({}, record.data),
-				node = this.getLoader().createNode(Ext.apply(data, {
+		addConnectionNodeFromStore:function(parentNode, record) {
+			var node = this.getLoader().createNode({
+					id:record.id,
 					text:record.data.name,
 					nodeType:'monoql-tree-connectionnode'
-				}));
+				});
 			parentNode.appendChild(node);
 		},
-		initListeners:function() {
-			ui.connectionstore.on('add', this.onConnectionStoreAdd, this);
-			ui.connectionstore.on('remove', this.onConnectionStoreRemove, this);
-			ui.connectionstore.on('update', this.onConnectionStoreUpdate, this);
-		},
-		onConnectionStoreAdd:function(store, records, index) {
+		onStoreAdd:function(store, records, index) {
 			Ext.each(records, function(item, index, items) {
-				this.addNodeFromStore(this.root, item);
+				this.addConnectionNodeFromStore(this.root, item);
 			}, this);
 		},
-		onConnectionStoreRemove:function(store, record, index) {
+		onStoreRemove:function(store, record, index) {
+			this.getNodeById(record.id).remove(true);
 		},
-		onConnectionStoreUpdate:function(store, record, operation) {
+		onStoreUpdate:function(store, record, operation) {
 		}
 	});
 	Ext.reg(cls, Class);

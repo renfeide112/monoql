@@ -14,11 +14,14 @@ monoql.tree.connectionnode = function() {
 			Class.superclass.constructor.call(this, attributes);
 			this.attributes.cls = [this.attributes.cls, cls].join(" ");
 		},
-		onMenuModifyClick:function(item, event) {
-			
+		onMenuModifyClick:function(item, e) {
+			var pos = Ext.get(this.ui.getEl()).getXY();
+			ui.connectionform.setPosition(pos).show();
+			this.menu.hide();
 		},
-		onMenuRemoveClick:function(item, event) {
-			
+		onMenuRemoveClick:function(item, e) {
+			var record = ui.connectionstore.getById(this.id);
+			ui.connectionstore.remove(record);
 		}
 	});
 	Ext.tree.TreePanel.nodeTypes[cls] = Class;

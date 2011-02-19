@@ -24,19 +24,19 @@ monoql.bar.connectiontreetoolbar = function() {
 			this.addClass(cls);
 		},
 		onConnectionTreeToolBarRender:function(toolbar) {
-			Ext.getCmp('viewport').newconnectionform.on('hide', this.onUiNewConnectionFormHide, this);
+			Ext.getCmp('viewport').connectionform.on('hide', this.onUiConnectionFormHide, this);
 		},
-		onUiNewConnectionFormHide:function(form) {
+		onUiConnectionFormHide:function(form) {
 			this.newconnectionbutton.toggle(false);
 		},
 		onNewConnectionButtonToggle:function(button, pressed) {
 			if (pressed) {
-				if (!ui.newconnectionform.rendered) {
-					ui.newconnectionform.render(Ext.getBody());
+				if (!ui.connectionform.rendered) {
+					ui.connectionform.render(Ext.getBody());
 				}
-				ui.newconnectionform.show().el.anchorTo(button.el, 'tl-bl');
+				ui.connectionform.show().el.anchorTo(button.el, 'tl-bl');
 			} else {
-				ui.newconnectionform.hide();
+				ui.connectionform.hide();
 			}
 		}
 	});
