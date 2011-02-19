@@ -18,21 +18,6 @@ monoql.tab.maintabset = function() {
 				this.activate(this.add(tab));
 				return tab;
 			}
-		},
-		initListeners:function() {
-			ui.addquerytabform.opentabbutton.on('click', this.onAddQueryTabFormOpenTabButtonClick, this);
-		},
-		onAddQueryTabFormOpenTabButtonClick:function(button, e) {
-			var combo = ui.addquerytabform.connectioncombobox,
-				value = combo.getValue(),
-				valid = Ext.isNumber(parseInt(value)) && value>0
-			if (valid) {
-				ui.addquerytabform.hide();
-				ui.addquerytabform.opentabbutton.setDisabled(true);
-				combo.setValue();
-				var connection = ui.connectionstore.getById(value);
-				this.addQueryTab(connection);
-			}
 		}
 	});
 	Ext.reg(cls, Class);

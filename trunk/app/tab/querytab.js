@@ -11,7 +11,7 @@ monoql.tab.querytab = function() {
 			Class.superclass.constructor.call(this, config);
 		},
 		initComponent: function() {
-			this.title = 'Query' + (Ext.isNumber(this.index) ? ' ' + this.index : '');
+			this.updateTitle();
 			this.bbar = new monoql.bar.querytabstatusbar({
 				querytab:this
 			});
@@ -29,9 +29,19 @@ monoql.tab.querytab = function() {
 			});
 			ui.toolbar.connectioncombobox.on('select', this.onToolBarConnectionComboBoxSelect, this);
 			this.queryform.getForm().on('actioncomplete', this.onQueryFormActionComplete, this);
+			this.on('connectionchange', this.onConnectionChange, this);
 			this.items = [this.queryform, this.resulttabset];
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
+		},
+		onConnectionChange:function(tab, oldConn, newConn) {
+			this.updateTitle();
+		},
+		updateTitle:function() {
+			var title = 'Query' + (Ext.isNumber(this.index) ? ' ' + this.index : '');
+			title = title + (this.connection ? ' [' + this.connection.get('host') + ']' : '');
+			this.setTitle(title);
+			return title;
 		},
 		onQueryFormActionComplete:function(form, action) {
 			if (action.type=="submit") {
@@ -45,14 +55,9 @@ monoql.tab.querytab = function() {
 			return this.ownerCt && this.ownerCt.getActiveTab()==this;
 		},
 		setConnection:function(connection) {
-			var oldConn = this.connection,
-				newConn = Ext.isNumber(parseInt(connection)) ? ui.connectionstore.getById(connection) : connection;
-			if (newConn) {
-				if (!oldConn || newConn.get('id')!=oldConn.get('id')) {
-					this.fireEvent('connectionchange', this, oldConn, newConn);
-				}
-				this.connection = newConn;
-			}
+			var old = this.connection;
+			this.connection = Ext.isObject(connection) ? connection : ui.connectionstore.getById(connection);
+			this.fireEvent('connectionchange', this, old, this.connection);
 			return this.connection;
 		},
 		onToolBarConnectionComboBoxSelect:function(combo, record, index) {

@@ -36,7 +36,6 @@ monoql.data.connectionstore = function() {
 	var Class = Ext.extend(Ext.data.Store, {
 		constructor:function(config) {
 			config = Ext.apply({
-				sortInfo:{field:'name', dir:'ASC'},
 				proxy:new Proxy(),
 				reader:new Reader({}, monoql.data.connectionrecord),
 				writer:new Writer({}, monoql.data.connectionrecord)
