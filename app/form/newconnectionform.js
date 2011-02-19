@@ -1,6 +1,6 @@
 Ext.ns('monoql.form');
-monoql.form.newconnectionform = function() {
-	var cls = 'monoql-form-newconnectionform';
+monoql.form.connectionform = function() {
+	var cls = 'monoql-form-connectionform';
 	
 	var SaveButton = Ext.extend(monoql.button.button, {
 		text:'Save',
@@ -40,6 +40,8 @@ monoql.form.newconnectionform = function() {
 		labelAlign:'left',
 		width:300,
 		monitorValid:true,
+		hidden:true,
+		renderTo:Ext.getBody(),
 		constructor: function(config) {
 			var config = Ext.apply({
 				api:{
@@ -79,15 +81,15 @@ monoql.form.newconnectionform = function() {
 			}];
 			this.buttons = [this.savebutton];
 			this.savebutton.on('click', this.onSaveButtonClick, this);
-			this.on('show', this.onNewConnectionFormShow, this);
-			this.on('hide', this.onNewConnectionFormHide, this);
+			this.on('show', this.onConnectionFormShow, this);
+			this.on('hide', this.onConnectionFormHide, this);
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
 		},
-		onNewConnectionFormShow:function(form) {
+		onConnectionFormShow:function(form) {
 			this.getForm().findField('host').focus();
 		},
-		onNewConnectionFormHide:function(form) {
+		onConnectionFormHide:function(form) {
 			this.getForm().reset();
 		},
 		onSaveButtonClick:function(button, e) {
