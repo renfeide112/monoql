@@ -34,7 +34,6 @@ monoql.tree.connectiontree = function() {
 				update:this.onStoreUpdate
 			});
 			Class.superclass.initComponent.call(this);
-			this.sorter = new Ext.tree.TreeSorter(this);
 			this.getSelectionModel().on('selectionchange', this.getTopToolbar().refreshbutton.onConnectionTreeSelectionChange, this.getTopToolbar().refreshbutton);
 			this.addClass(cls);
 		},
