@@ -11,9 +11,13 @@ monoql.menu.connectionnodemenu = function() {
 				text:'Remove',
 				iconCls:'monoql-menu-item-removeconnection-icon'
 			});
+			this.query = new monoql.menu.item({
+				text:'New Query',
+				iconCls:'monoql-menu-item-query-icon'
+			});
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
-			this.add([this.modify, this.remove, this.refresh]);
+			this.add([this.query, this.modify, this.remove, this.refresh]);
 		}
 	});
 	Ext.reg(cls, Class);
