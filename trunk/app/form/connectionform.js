@@ -45,10 +45,10 @@ monoql.form.connectionform = function() {
 		constructor: function(config) {
 			var config = Ext.apply({
 				api:{
-					load:monoql.direct.Connection.formLoad,
+					load:monoql.direct.Connection.getById,
 					submit:monoql.direct.Connection.formCreate
 				},
-				paramsAsHash:true
+				paramOrder:['id']
 			}, config || {});
 			Class.superclass.constructor.call(this, config);
 		},
