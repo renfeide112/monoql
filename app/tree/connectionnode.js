@@ -9,10 +9,15 @@ monoql.tree.connectionnode = function() {
 			this.menu = new monoql.menu.connectionnodemenu({
 				node:this
 			});
+			this.menu.query.on('click', this.onMenuQueryClick, this);
 			this.menu.modify.on('click', this.onMenuModifyClick, this);
 			this.menu.remove.on('click', this.onMenuRemoveClick, this);
 			Class.superclass.constructor.call(this, attributes);
 			this.attributes.cls = [this.attributes.cls, cls].join(" ");
+		},
+		onMenuQueryClick:function(item, e) {
+			this.menu.hide();
+			ui.tabs.addQueryTab(ui.connectionstore.getById(this.id));
 		},
 		onMenuModifyClick:function(item, e) {
 			ui.connectionform.getForm().setValues(ui.connectionstore.getById(this.id).data);
