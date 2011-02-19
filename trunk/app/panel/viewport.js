@@ -15,7 +15,7 @@ monoql.panel.viewport = function() {
 				region:'west',
 				split:true
 			});
-			this.newconnectionform = new monoql.form.newconnectionform({
+			this.connectionform = new monoql.form.connectionform({
 				hidden:true
 			});
 			this.addquerytabform = new monoql.form.addquerytabform({

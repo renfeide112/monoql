@@ -13,7 +13,6 @@ Ext.onReady(function(){
 	Ext.apply(ui, new monoql.panel.viewport({
 		id:'viewport'
 	}));
-	ui.tree.initListeners();
 	ui.tabs.initListeners();
 	ui.toolbar.initListeners();
 });

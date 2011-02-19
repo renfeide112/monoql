@@ -12,6 +12,8 @@ monoql.form.addquerytabform = function() {
 	var Class = Ext.extend(monoql.form.floatingform, {
 		title:'Add a new query tab',
 		width:200,
+		hidden:true,
+		renderTo:Ext.getBody(),
 		initComponent: function() {
 			this.opentabbutton = new OpenTabButton({
 				disabled:true
