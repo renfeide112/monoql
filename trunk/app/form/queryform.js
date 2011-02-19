@@ -15,7 +15,11 @@ monoql.form.queryform = function() {
 				anchor:'0 0',
 				style:{
 					'border-width':'0px',
-					'padding':'0px'
+					'padding':'',
+					'padding-left':'2px',
+					'font-size':'12px',
+					'line-height':'15px',
+					'font-family':'Verdana'
 				}
 			});
 			this.queryfield = new Ext.form.Hidden({
