@@ -7,5 +7,5 @@ include("form.js");
 include("floatingform.js");
 include("queryform.js");
 include("addquerytabform.js");
-include("newconnectionform.js");
+include("connectionform.js");
 ?>
