@@ -2,6 +2,7 @@ Ext.ns('monoql.grid');
 monoql.grid.resultgrid = function() {
 	var cls = 'monoql-grid-resultgrid';
 	var Class = Ext.extend(monoql.grid.grid, {
+		border:false,
 		initComponent: function() {
 			this.store = new monoql.data.resultgridstore({grid:this});
 			Ext.apply(this, {

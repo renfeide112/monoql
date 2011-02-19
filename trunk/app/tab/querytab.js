@@ -18,7 +18,8 @@ monoql.tab.querytab = function() {
 			this.queryform = new monoql.form.queryform({
 				region:'north',
 				tab:this,
-				height:200
+				height:200,
+				split:true
 			});
 			this.resulttabset = new monoql.tab.resulttabset({
 				region:'center',
