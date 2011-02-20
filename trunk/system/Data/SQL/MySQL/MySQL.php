@@ -131,8 +131,7 @@ class MySQL extends AbstractDatabase implements IDatabase {
 	public function getTables($search=null, $database=null) {
 		$tables = array();
 		$database = isset($database) ? $database : $this->database;
-		$this->changeDatabase($database);
-		$query = "SHOW FULL TABLES WHERE Table_type='BASE TABLE'" . (isset($search) ? " AND Tables_in_{$database} LIKE '%{$search}%'" : "");
+		$query = "SHOW FULL TABLES FROM {$database} WHERE Table_type='BASE TABLE'" . (isset($search) ? " AND Tables_in_{$database} LIKE '%{$search}%'" : "");
 		$this->query($query);
 		while ($this->getRecord(false)) {
 			$tables[] = $this->record[0];
