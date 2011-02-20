@@ -6,8 +6,10 @@ monoql.tab.querytab = function() {
 		layout:'border',
 		border:false,
 		closable:true,
+		connection:null,
+		database:null,
 		constructor:function(config) {
-			this.addEvents('connectionchange');
+			this.addEvents('connectionchange', 'databasechange');
 			Class.superclass.constructor.call(this, config);
 		},
 		initComponent: function() {
@@ -36,6 +38,7 @@ monoql.tab.querytab = function() {
 		},
 		onConnectionChange:function(tab, oldConn, newConn) {
 			this.updateTitle();
+			this.setDatabase();
 		},
 		updateTitle:function() {
 			var title = 'Query' + (Ext.isNumber(this.index) ? ' ' + this.index : '');
@@ -59,6 +62,12 @@ monoql.tab.querytab = function() {
 			this.connection = Ext.isObject(connection) ? connection : ui.connectionstore.getById(connection);
 			this.fireEvent('connectionchange', this, old, this.connection);
 			return this.connection;
+		},
+		setDatabase:function(database) {
+			var old = this.database;
+			this.database = database;
+			this.fireEvent('databasechange', this, old, this.database);
+			return this.database;
 		},
 		onToolBarConnectionComboBoxSelect:function(combo, record, index) {
 			if (this.isActive()) {

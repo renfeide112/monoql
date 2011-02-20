@@ -13,13 +13,13 @@ monoql.bar.querytabstatusbar = function() {
 				value:'User Info...'
 			});
 			this.databasestatusdisplayfield = new Ext.form.DisplayField({
-				value:'Database Info...'
+				value:''
 			});
 			this.timerdisplayfield = new Ext.form.DisplayField({
-				value:'Timer...'
+				value:'00:00:00'
 			});
 			this.rowcountdisplayfield = new Ext.form.DisplayField({
-				value:'Rows...'
+				value:'0 Rows'
 			});
 			this.items = [this.connectionstatusdisplayfield, '->',
 				'-', this.hoststatusdisplayfield,
@@ -29,15 +29,32 @@ monoql.bar.querytabstatusbar = function() {
 				'-', this.rowcountdisplayfield
 			];
 			this.querytab.on('connectionchange', this.onQueryTabConnectionChange, this);
+			this.querytab.on('databasechange', this.onQueryTabDatabaseChange, this);
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
 		},
 		onQueryTabConnectionChange:function(tab, oldConn, newConn) {
 			this.updateConnectionStatus(newConn);
+			this.updateUserStatus(newConn);
+			this.updateHostStatus(newConn);
+		},
+		onQueryTabDatabaseChange:function(tab, oldDb, newDb) {
+			this.updateDatabaseStatus(newDb);
 		},
 		updateConnectionStatus:function(conn) {
 			var text = conn.get('name');
 			this.connectionstatusdisplayfield.setValue(text);
+		},
+		updateUserStatus:function(conn) {
+			var text = conn.get('username');
+			this.userstatusdisplayfield.setValue(text);
+		},
+		updateHostStatus:function(conn) {
+			var text = conn.get('host');
+			this.hoststatusdisplayfield.setValue(text);
+		},
+		updateDatabaseStatus:function(database) {
+			this.databasestatusdisplayfield.setValue(database || 'No Database');
 		}
 	});
 	Ext.reg(cls, Class);

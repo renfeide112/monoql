@@ -31,14 +31,14 @@ class ConnectionTree extends Object {
 	
 	public static function getConnectionChildNodes($args) {
 		$children = array();
-		$conn = val(Connection::getById($args["connectionId"]), "data");
+		$conn = Connection::getById($args["connectionId"]);
 		$db = DatabaseFactory::createDatabase($conn);
 		$databases = $db->getDatabases();
 		foreach ($databases as $database) {
 			$children[] = array(
 				"text"=>$database,
 				"nodeType"=>"monoql-tree-databasenode",
-				"connectionId"=>$conn["id"]
+				"database"=>$database
 			);
 		}
 		return $children;

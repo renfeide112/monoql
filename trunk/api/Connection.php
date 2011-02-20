@@ -19,7 +19,8 @@ class Connection extends Object {
 		
 		$records = array();
 		while ($db->getRecord()) {
-			$records[] = $db->record;
+			$record = $db->record;
+			$records[] = $record;
 		}
 		
 		$result = array(
@@ -33,11 +34,7 @@ class Connection extends Object {
 	public static function getById($id) {
 		$records = val(self::get(array("id"=>$id)), "records");
 		$data = count($records)===1 ? $records[0] : null;
-		$result = array(
-			"success"=>isset($data),
-			"data"=>$data
-		);
-		return $result;
+		return $data;
 	}
 	
 	// This method must be called by form posts from the client

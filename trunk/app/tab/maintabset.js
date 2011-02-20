@@ -9,12 +9,15 @@ monoql.tab.maintabset = function() {
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
 		},
-		addQueryTab:function(connection) {
+		addQueryTab:function(connection, database) {
 			if (connection) {
 				var tab = new monoql.tab.querytab({
 					index:++queryTabCount
 				});
 				tab.setConnection(connection);
+				if (database) {
+					tab.setDatabase(database);
+				}
 				this.activate(this.add(tab));
 				return tab;
 			}

@@ -20,6 +20,17 @@ monoql.tree.node = function() {
 			if (node.menu && node.menu.items) {
 				node.menu.showAt(event.getXY());
 			}
+		},
+		getConnection:function() {
+			var node = this;
+			while (node) {
+				if (node.connection) {
+					return node.connection;
+				} else {
+					node = node.parentNode;
+				}
+			}
+			return null;
 		}
 	});
 	Ext.tree.TreePanel.nodeTypes[cls] = Class;

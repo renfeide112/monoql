@@ -12,7 +12,7 @@ monoql.data.connectionrecord = function() {
 		{name:'mdate', type:'date'},
 		{name:'cdate', type:'date'},
 		{name:'deleted', type:'bool'},
-		{name:'databases', type:'string'}
+		{name:'databases'}
 	]);
 	return Class;
 }();
