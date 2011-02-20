@@ -13,6 +13,7 @@ monoql.tree.connectionnode = function() {
 			this.menu.modify.on('click', this.onMenuModifyClick, this);
 			this.menu.remove.on('click', this.onMenuRemoveClick, this);
 			Class.superclass.constructor.call(this, attributes);
+			this.on('beforeload', this.onConnectionNodeBeforeLoad, this);
 			this.attributes.cls = [this.attributes.cls, cls].join(" ");
 		},
 		onMenuQueryClick:function(item, e) {
@@ -28,6 +29,9 @@ monoql.tree.connectionnode = function() {
 		onMenuRemoveClick:function(item, e) {
 			this.menu.hide();
 			ui.connectionstore.remove(this.connection);
+		},
+		onConnectionNodeBeforeLoad:function(node) {
+			// Connection ID is always sent by tree loader for all nodes
 		}
 	});
 	Ext.tree.TreePanel.nodeTypes[cls] = Class;

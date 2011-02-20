@@ -6,6 +6,7 @@ monoql.tree.connectiontree = function() {
 		headerStyle:'border-top-width:0px;border-left-width:0px;',
 		bodyStyle:'border-left-width:0px;',
 		animate:false,
+		autoScroll:true,
 		root:{
 			nodeType:'monoql-tree-connectiongroupnode',
 			id:'root-connectiongroup',
