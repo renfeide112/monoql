@@ -10,7 +10,12 @@ monoql.tree.connectiontreeloader = function() {
 			this.addListener('beforeload', this.onLoaderBeforeLoad, this);
 		},
 		onLoaderBeforeLoad:function(loader, node, callback) {
-			Ext.copyTo(loader.baseParams, node.attributes, 'nodeType, text, connectionId');
+			var conn = node.getConnection();
+			Ext.apply(loader.baseParams, {
+				nodeType:node.attributes.nodeType,
+				text:node.text,
+				connectionId:conn && conn.id
+			});
 		}
 	});
 	return Class;
