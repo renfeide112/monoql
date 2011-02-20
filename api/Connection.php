@@ -156,7 +156,35 @@ class Connection extends Object {
 		return $result;
 	}
 	
-	public static function delete(array $connection) {
+	public static function delete(array $connections) {
+		global $config;
+		$db = DatabaseFactory::createDatabase("sqlite", $config["monoql_db_path"]);
+		$success = null;
+		$records = array();
+		
+		// $connections should have a "records" key that is an array of connection records
+		foreach ($connections["records"] as $connId) {
+			if (!$db->connect()) {break;}
+			try {
+				$p = array(
+					"id"=>$db->quote($connId),
+				);
+				$statement = $db->connection->prepare("
+					DELETE FROM connection WHERE id={$p["id"]};
+				");
+				$result = $statement->execute();
+			} catch (Exception $e) {
+				debug($e->getMessage());
+				debug($e->getTraceAsString());
+			}
+		}
+		
+		$result = array(
+			"success"=>!!$result,
+			"records"=>$records
+		);
+		
+		return $result;
 	}
 }
 ?>
