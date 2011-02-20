@@ -17,17 +17,17 @@ monoql.tree.connectionnode = function() {
 		},
 		onMenuQueryClick:function(item, e) {
 			this.menu.hide();
-			ui.tabs.addQueryTab(ui.connectionstore.getById(this.id));
+			ui.tabs.addQueryTab(this.connection);
 		},
 		onMenuModifyClick:function(item, e) {
-			ui.connectionform.getForm().setValues(ui.connectionstore.getById(this.id).data);
+			this.menu.hide();
+			ui.connectionform.getForm().setValues(this.connection.data);
 			var pos = Ext.get(this.ui.getEl()).getXY();
 			ui.connectionform.setPosition(pos).show();
-			this.menu.hide();
 		},
 		onMenuRemoveClick:function(item, e) {
-			var record = ui.connectionstore.getById(this.id);
-			ui.connectionstore.remove(record);
+			this.menu.hide();
+			ui.connectionstore.remove(this.connection);
 		}
 	});
 	Ext.tree.TreePanel.nodeTypes[cls] = Class;
