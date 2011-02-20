@@ -9,6 +9,7 @@ monoql.tree.node = function() {
 				this.menu.refresh.on('click', this.onMenuRefreshClick, this);
 			}
 			this.on('contextmenu', this.onNodeContextMenu, this);
+			this.on('collapse', this.onNodeCollapse, this);
 		},
 		onMenuRefreshClick:function(item, event) {
 			if (Ext.isFunction(this.reload)) {
@@ -42,6 +43,19 @@ monoql.tree.node = function() {
 				}
 			}
 			return null;
+		},
+		onNodeCollapse:function(node) {
+			(function() {
+				while (this.firstChild) {
+					this.removeChild(this.firstChild).destroy();
+				}
+				this.childrenRendered = false;
+				this.loaded = false;
+				if (this.isHiddenRoot()) {
+					this.expanded = false;
+				}
+				this.ui.updateExpandIcon();
+			}).createDelegate(this).defer(100);
 		}
 	});
 	Ext.tree.TreePanel.nodeTypes[cls] = Class;
