@@ -102,6 +102,13 @@ class MySQL extends AbstractDatabase implements IDatabase {
 	}
 	
 	public function getDatabases() {
+		$databases = array();
+		$query = "SHOW DATABASES";
+		$this->query($query);
+		while ($this->getRecord()) {
+			$databases[] = $this->record["Database"];
+		}
+		return $databases;
 	}
 	
 	public function getFunctions($database=null) {
