@@ -95,7 +95,7 @@ monoql.form.connectionform = function() {
 		onSaveButtonClick:function(button, e) {
 			this.savebutton.setDisabled(true);
 			var values = this.getForm().getFieldValues();
-			values.name = (values.host || 'Unknown') + ' [' + (values.username || 'username') + ']';
+			values.name = (values.username || 'username') + '@' + (values.host || 'Unknown') + ' [' + (values.type || 'Unknown') + ']';
 			var conn = new monoql.data.connectionrecord(values);
 			ui.connectionstore.add(conn);
 			this.hide();

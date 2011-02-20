@@ -31,6 +31,17 @@ monoql.tree.node = function() {
 				}
 			}
 			return null;
+		},
+		getDatabase:function() {
+			var node = this;
+			while (node) {
+				if (node.attributes.database) {
+					return node.attributes.database;
+				} else {
+					node = node.parentNode;
+				}
+			}
+			return null;
 		}
 	});
 	Ext.tree.TreePanel.nodeTypes[cls] = Class;
