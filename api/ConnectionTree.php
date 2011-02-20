@@ -15,13 +15,15 @@ class ConnectionTree extends Object {
 		return $children;
 	}
 	
+	// Each child node must pass a "connectionId" attribute
 	public static function getConnectionGroupChildNodes($node) {
 		$children = array();
 		foreach (val(Connection::get(), "records") as $conn) {
-			$children[] = array_merge($conn, array(
+			$children[] = array(
 				"text"=>$conn["name"],
-				"nodeType"=>"monoql-tree-connectionnode"
-			));
+				"nodeType"=>"monoql-tree-connectionnode",
+				"connectionId"=>$conn["id"]
+			);
 		}
 		return $children;
 	}
