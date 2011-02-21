@@ -15,10 +15,16 @@ class MySQLQueryParser extends AbstractQueryParser implements IQueryParser {
 	public function isCreate() {}
 
 	public function addLimit($limit) {
+		if ($this->isSelect()) {
+			$this->query = $this->query . " LIMIT {$limit}";
+		}
 		return $this;
 	}
 	
 	public function addOffset($offset) {
+		if ($this->isSelect()) {
+			$this->query = $this->query . " OFFSET {$offset}";
+		}
 		return $this;
 	}
 	
