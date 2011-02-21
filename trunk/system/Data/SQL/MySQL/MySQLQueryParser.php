@@ -24,8 +24,13 @@ class MySQLQueryParser extends AbstractQueryParser implements IQueryParser {
 	
 	public function addSQLCalcFoundRows() {
 		if ($this->isSelect() && !preg_match('/SQL_CALC_FOUND_ROWS/i', $this->query)) {
-			$this->query = preg_replace('/^SELECT/i', 'SELECT SQL_CALC_FOUND_ROWS', $this->query);
+			$this->query = preg_replace('/^SELECT/i', 'SELECT SQL_CALC_FOUND_ROWS', trim($this->query));
 		}
+		return $this;
+	}
+	
+	public function setup() {
+		$this->addSQLCalcFoundRows();
 		return $this;
 	}
 	

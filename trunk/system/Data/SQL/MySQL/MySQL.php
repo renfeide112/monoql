@@ -271,5 +271,9 @@ class MySQL extends AbstractDatabase implements IDatabase {
 	public function truncateDatabase($enforceConstraints=true) {
 	}
 	
+	public function getQueryParser($query) {
+		return isset($this->queryParser) ? $this->queryParser->setQuery($query) : new MySQLQueryParser($query);
+	}
+	
 }
 ?>

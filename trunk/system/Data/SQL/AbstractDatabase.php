@@ -16,6 +16,7 @@ class AbstractDatabase extends Object {
 	protected $database;
 	protected $port;
 	protected $cache = array();
+	protected $queryParser;
 	
 }
 ?>

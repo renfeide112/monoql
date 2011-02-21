@@ -99,5 +99,7 @@ interface IDatabase {
 	
 	public function truncateDatabase($enforceConstraints=true);
 	
+	public function getQueryParser();
+	
 }
 ?>
