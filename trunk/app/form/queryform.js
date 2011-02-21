@@ -9,7 +9,7 @@ monoql.form.queryform = function() {
 			'border-right-width':'0px'
 		},
 		initComponent: function() {
-			this.addEvents('beforequery', 'query', 'queryresult');
+			this.addEvents('beforequery', 'query', 'queryresult', 'cancelquery');
 			this.querytextarea = new Ext.form.TextArea({
 				name:'queries',
 				hideLabel:true,
@@ -62,8 +62,18 @@ monoql.form.queryform = function() {
 			}
 		},
 		onQueryResult:function(result, response, query, connection) {
-			this.tab.resulttabset.resulttab.grid.store.loadData(result);
-			this.fireEvent('queryresult', this, query, connection);
+			// A cancelled query just sets the cancelled property of the tab to true
+			// since there is no way in Ext to abort a DirectProxy request -- so the
+			// response will arrive but get ignored
+			if (this.tab.cancelled) {
+				this.tab.cancelled = false;
+			} else {
+				this.tab.resulttabset.resulttab.grid.store.loadData(result);
+				this.fireEvent('queryresult', this, query, connection, result);
+			}
+		},
+		cancelQuery:function() {
+			this.fireEvent('cancelquery', this, this.tab.connection);
 		}
 	});
 	Ext.reg(cls, Class);

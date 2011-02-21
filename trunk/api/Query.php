@@ -20,6 +20,7 @@ class Query extends Object {
 				)
 			)
 		);*/
+		sleep(5);
 		$conn = val(val(Connection::get(array("id"=>$connectionId)), "records"), 0);
 		$db = DatabaseFactory::createDatabase($conn);
 		$rows = array();

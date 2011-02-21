@@ -59,16 +59,50 @@ monoql.bar.maintoolbar = function() {
 			this.addClass(cls);
 		},
 		initListeners:function() {
-			ui.tabs.on('tabchange', this.onMainTabSetTabChange, this);
+			ui.tabs.on({
+				scope:this,
+				tabchange:this.onMainTabSetTabChange,
+				add:this.onMainTabSetAdd
+			});
+			
+		},
+		onMainTabSetAdd:function(tabset, tab, index) {
+			if (tab.getXType()==='monoql-tab-querytab') {
+				tab.queryform.on({
+					scope:this,
+					beforequery:this.onQueryTabBeforeQuery,
+					query:this.onQueryTabQuery,
+					queryresult:this.onQueryTabQueryResult,
+					cancelquery:this.onQueryTabCancelQuery
+				});
+			}
+		},
+		onQueryTabBeforeQuery:function(queryform, query, connection) {
+		},
+		onQueryTabQuery:function(queryform, query, connection) {
+			this.runquerybutton.disable();
+			this.cancelquerybutton.enable();
+		},
+		onQueryTabQueryResult:function(queryform, query, connection, result) {
+			this.cancelquerybutton.disable();
+			this.runquerybutton.enable();
+		},
+		onQueryTabCancelQuery:function(queryform, connection) {
+			this.cancelquerybutton.disable();
+			this.runquerybutton.enable();
 		},
 		onMainTabSetTabChange:function(tabset, tab) {
 			(!tabset.getActiveTab() ? this.onNoActiveTab : this.onActiveTab).call(this, tab);
 		},
 		onNoActiveTab:function() {
+			this.runquerybutton.disable();
 			this.connectioncombobox.reset();
 			this.connectioncombobox.setDisabled(true);
 		},
 		onActiveTab:function(tab) {
+			if (tab.getXType()==='monoql-tab-querytab' && !tab.executing) {
+				this.runquerybutton.enable();
+			}
 			if (tab.connection) {
 				this.connectioncombobox.setValue(tab.connection.get('id'));
 				this.connectioncombobox.setDisabled(false);
