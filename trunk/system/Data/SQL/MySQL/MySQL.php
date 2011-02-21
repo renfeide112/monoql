@@ -125,7 +125,16 @@ class MySQL extends AbstractDatabase implements IDatabase {
 	}
 	
 	public function getStoredProcedures($database=null) {
+		$sprocs = array();
 		$database = isset($database) ? $database : $this->database;
+		$query = "SHOW PROCEDURE STATUS WHERE Db='{$database}'";
+		$this->query($query);
+		while ($this->getRecord()) {
+			$sprocs[] = $this->record["Name"];
+		}
+		$sprocs = array_unique($sprocs);
+		sort($sprocs);
+		return $sprocs;
 	}
 	
 	public function getTables($search=null, $database=null) {
@@ -142,11 +151,29 @@ class MySQL extends AbstractDatabase implements IDatabase {
 	}
 	
 	public function getTriggers($database=null) {
+		$triggers = array();
 		$database = isset($database) ? $database : $this->database;
+		$query = "SHOW TRIGGERS FROM {$database}";
+		$this->query($query);
+		while ($this->getRecord()) {
+			$triggers[] = $this->record["Trigger"];
+		}
+		$triggers = array_unique($triggers);
+		sort($triggers);
+		return $triggers;
 	}
 	
 	public function getViews($database=null) {
+		$views = array();
 		$database = isset($database) ? $database : $this->database;
+		$query = "SHOW FULL TABLES FROM {$database} WHERE Table_type='VIEW'" . (isset($search) ? " AND Tables_in_{$database} LIKE '%{$search}%'" : "");
+		$this->query($query);
+		while ($this->getRecord(false)) {
+			$views[] = $this->record[0];
+		}
+		$views = array_unique($views);
+		sort($views);
+		return $views;
 	}
 	
 	public function changeUser($username, $password, $database=null) {
