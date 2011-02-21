@@ -50,7 +50,7 @@ class Query extends Object {
 		return $result;
 	}
 	
-	// This must be an configuration array for the client-side
+	// This must be a configuration array for the client-side
 	// result grid reader.  It should contain a "fields" key to
 	// configure the grid record fields, and thus the column model
 	public static function buildMetaData(array $rows=array()) {
