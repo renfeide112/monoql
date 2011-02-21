@@ -3,7 +3,9 @@ monoql.bar.resultgridpagingtoolbar = function() {
 	var cls = 'monoql-bar-resultgridpagingtoolbar';
 	var Class = Ext.extend(Ext.PagingToolbar, {
 		initComponent: function() {
-			Ext.apply(this, {
+			Ext.applyIf(this, {
+				displayInfo:true,
+				pageSize:100,
 				store:this.grid.store
 			});
 			Class.superclass.initComponent.call(this);

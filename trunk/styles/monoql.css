@@ -38,11 +38,13 @@ button.monoql-button-resultstofilebutton-icon
 {background-image:url('../images/table.png')}
 
 .x-tree-node-el .monoql-tree-viewnode-icon
-{background-image:url('../images/table.png')}
+{background-image:url('../images/magnifier.png')}
 
-.x-tree-node-el .monoql-tree-functionnode-icon,
-.x-tree-node-el .monoql-tree-triggernode-icon
+.x-tree-node-el .monoql-tree-functionnode-icon
 {background-image:url('../images/script_go.png')}
+
+.x-tree-node-el .monoql-tree-triggernode-icon
+{background-image:url('../images/cog.png')}
 
 .x-tree-node-el .monoql-tree-sprocnode-icon
 {background-image:url('../images/script_gear.png')}

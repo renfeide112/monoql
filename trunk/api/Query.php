@@ -7,27 +7,33 @@ class Query extends Object {
 		$this->query = $query;
 	}
 	
-	public static function execute($query, $connectionId) {
+	public static function execute($query, $connectionId, $database=null) {
 		$conn = val(val(Connection::get(array("id"=>$connectionId)), "records"), 0);
 		$db = DatabaseFactory::createDatabase($conn);
 		$rows = array();
 		$messages = array();
 		$metaData = array();
+		$total = null;
 		$__id__ = 0;
 		
 		if ($db) {
-			$db->query($query);
+			$db->changeDatabase(alt($database, $conn["default_database"]));
+			$qp = new MySQLQueryParser($query);
+			$db->query($qp->addSQLCalcFoundRows()->getQuery());
 			while ($db->getRecord()) {
 				// Add an internal row id that the client side knows will be unique
 				$db->record["__id__"] = $__id__++;
 				$rows[] = $db->record;
 			}
+			$total = $db->getTotalRows();
 		}
+		
 		
 		$metaData = self::buildMetaData($rows);
 		
 		$result = array(
 			"success"=>true,
+			"total"=>$total,
 			"query"=>$query,
 			"rows"=>$rows,
 			"messages"=>$messages,

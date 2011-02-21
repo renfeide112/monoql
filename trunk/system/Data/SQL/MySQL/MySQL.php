@@ -26,6 +26,8 @@ class MySQL extends AbstractDatabase implements IDatabase {
 	}
 	
 	public function getTotalRows() {
+		$result = $this->query("SELECT FOUND_ROWS();");
+		return $this->getRecord(false) ? $this->record[0] : null;
 	}
 		
 	public function getRecord($associative=true) {

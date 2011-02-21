@@ -19,6 +19,7 @@ function autoload($class) {
 
 function logMessage($file, $message=null, $showTime=true) {
 	global $config;
+	echo $message;
 	if ($config["enable_log"]) {
 		$logFile = $config["log_prefix"] . $file;
 		$path = "{$config["root"]}/logs/{$logFile}";
