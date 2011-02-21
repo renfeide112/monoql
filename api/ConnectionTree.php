@@ -17,6 +17,18 @@ class ConnectionTree extends Object {
 			case "monoql-tree-tablegroupnode":
 				$children = self::getTableGroupChildNodes($args);
 				break;
+			case "monoql-tree-viewgroupnode":
+				$children = self::getViewGroupChildNodes($args);
+				break;
+			case "monoql-tree-sprocgroupnode":
+				$children = self::getSprocGroupChildNodes($args);
+				break;
+			case "monoql-tree-functiongroupnode":
+				$children = self::getFunctionGroupChildNodes($args);
+				break;
+			case "monoql-tree-triggergroupnode":
+				$children = self::getTriggerGroupChildNodes($args);
+				break;
 			default:
 				$children = array();
 		}
@@ -60,6 +72,66 @@ class ConnectionTree extends Object {
 				"text"=>$table,
 				"nodeType"=>"monoql-tree-tablenode",
 				"table"=>$table
+			);
+		}
+		return $children;
+	}
+	
+	public static function getViewGroupChildNodes($args) {
+		$children = array();
+		$conn = Connection::getById($args["connectionId"]);
+		$db = DatabaseFactory::createDatabase($conn);
+		$views = $db->getViews($args["database"]);
+		foreach ($views as $view) {
+			$children[] = array(
+				"text"=>$view,
+				"nodeType"=>"monoql-tree-viewnode",
+				"view"=>$view
+			);
+		}
+		return $children;
+	}
+	
+	public static function getSprocGroupChildNodes($args) {
+		$children = array();
+		$conn = Connection::getById($args["connectionId"]);
+		$db = DatabaseFactory::createDatabase($conn);
+		$sprocs = $db->getStoredProcedures($args["database"]);
+		foreach ($sprocs as $sproc) {
+			$children[] = array(
+				"text"=>$sproc,
+				"nodeType"=>"monoql-tree-sprocnode",
+				"sproc"=>$sproc
+			);
+		}
+		return $children;
+	}
+	
+	public static function getFunctionGroupChildNodes($args) {
+		$children = array();
+		$conn = Connection::getById($args["connectionId"]);
+		$db = DatabaseFactory::createDatabase($conn);
+		$functions = $db->getFunctions($args["database"]);
+		foreach ($functions as $function) {
+			$children[] = array(
+				"text"=>$function,
+				"nodeType"=>"monoql-tree-functionnode",
+				"function"=>$function
+			);
+		}
+		return $children;
+	}
+	
+	public static function getTriggerGroupChildNodes($args) {
+		$children = array();
+		$conn = Connection::getById($args["connectionId"]);
+		$db = DatabaseFactory::createDatabase($conn);
+		$triggers = $db->getTriggers($args["database"]);
+		foreach ($triggers as $trigger) {
+			$children[] = array(
+				"text"=>$trigger,
+				"nodeType"=>"monoql-tree-triggernode",
+				"trigger"=>$trigger
 			);
 		}
 		return $children;

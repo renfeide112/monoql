@@ -3,6 +3,9 @@ monoql.tree.triggernode = function() {
 	var cls = 'monoql-tree-triggernode';
 	var Class = Ext.extend(monoql.tree.node, {
 		constructor: function(attributes) {
+			Ext.apply(attributes, {
+				iconCls:cls + '-icon'
+			});
 			this.menu = new monoql.menu.triggernodemenu({
 				node:this
 			});

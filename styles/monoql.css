@@ -40,7 +40,8 @@ button.monoql-button-resultstofilebutton-icon
 .x-tree-node-el .monoql-tree-viewnode-icon
 {background-image:url('../images/table.png')}
 
-.x-tree-node-el .monoql-tree-functionnode-icon
+.x-tree-node-el .monoql-tree-functionnode-icon,
+.x-tree-node-el .monoql-tree-triggernode-icon
 {background-image:url('../images/script_go.png')}
 
 .x-tree-node-el .monoql-tree-sprocnode-icon
