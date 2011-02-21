@@ -8,6 +8,8 @@ monoql.tab.querytab = function() {
 		closable:true,
 		connection:null,
 		database:null,
+		executing:false,
+		cancelled:false,
 		constructor:function(config) {
 			this.addEvents('connectionchange', 'databasechange');
 			Class.superclass.constructor.call(this, config);
@@ -31,11 +33,32 @@ monoql.tab.querytab = function() {
 				bodyStyle:'border-top-width:1px;'
 			});
 			ui.toolbar.connectioncombobox.on('select', this.onToolBarConnectionComboBoxSelect, this);
+			ui.toolbar.runquerybutton.on('click', this.onToolBarRunQueryButtonClick, this);
+			ui.toolbar.cancelquerybutton.on('click', this.onToolBarCancelQueryButtonClick, this);
 			this.queryform.getForm().on('actioncomplete', this.onQueryFormActionComplete, this);
+			this.queryform.on({
+				scope:this,
+				beforequery:this.onBeforeQuery,
+				query:this.onQuery,
+				queryresult:this.onQueryResult,
+				cancelquery:this.onCancelQuery
+			});
 			this.on('connectionchange', this.onConnectionChange, this);
 			this.items = [this.queryform, this.resulttabset];
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
+		},
+		onBeforeQuery:function(queryform, query, connection) {
+		},
+		onQuery:function(queryform, query, connection) {
+			this.executing = true;
+		},
+		onQueryResult:function(queryform, query, connection, result) {
+			this.executing = false;
+		},
+		onCancelQuery:function(queryform, connection) {
+			this.cancelled = true;
+			this.executing = false;
 		},
 		onConnectionChange:function(tab, oldConn, newConn) {
 			this.updateTitle();
@@ -73,6 +96,16 @@ monoql.tab.querytab = function() {
 		onToolBarConnectionComboBoxSelect:function(combo, record, index) {
 			if (this.isActive()) {
 				this.setConnection(combo.getValue());
+			}
+		},
+		onToolBarRunQueryButtonClick:function(button, e) {
+			if (this.isActive()) {
+				this.queryform.executeQuery();
+			}
+		},
+		onToolBarCancelQueryButtonClick:function(button, e) {
+			if (this.isActive()) {
+				this.queryform.cancelQuery();
 			}
 		}
 	});
