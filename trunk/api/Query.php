@@ -8,19 +8,6 @@ class Query extends Object {
 	}
 	
 	public static function execute($query, $connectionId) {
-		/*return array(
-			"success"=>true,
-			"query"=>"some query",
-			"rows"=>array(),
-			"messages"=>null,
-			"metaData"=>array("fields"=>array(
-					array("name"=>"field1"),
-					array("name"=>"field2"),
-					array("name"=>"field432")
-				)
-			)
-		);*/
-		sleep(5);
 		$conn = val(val(Connection::get(array("id"=>$connectionId)), "records"), 0);
 		$db = DatabaseFactory::createDatabase($conn);
 		$rows = array();
