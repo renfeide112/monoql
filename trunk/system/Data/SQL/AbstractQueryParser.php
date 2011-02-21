@@ -5,7 +5,6 @@ class AbstractQueryParser extends Object {
 	protected $query;
 	
 	public function __construct($args) {
-		debug('constructing');
 		if (is_array($args)) {
 			$this->originalQuery = val($args, "query");
 		} else {
