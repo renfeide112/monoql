@@ -1,6 +1,7 @@
 <?php
 // Include Helix configuration and library
 require_once("../config/settings.php");
+print_r($config);
 require_once("../system/Helix.php");
 
 // Transform the raw post data from serialized JSON to associative array
@@ -48,7 +49,7 @@ foreach ($requests as $r) {
 }
 $responses = count($responses)===1 ? $responses[0] : $responses;
 
-if ($isFileUpload) {
+if (isset($isFileUpload) && $isFileUpload) {
 	echo "<html><body><textarea>" . JSON::encode($responses) . "</textarea></body></html>";
 } else {
 	JSON::send($responses);
