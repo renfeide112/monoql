@@ -18,8 +18,7 @@ class Query extends Object {
 		
 		if ($db) {
 			$db->changeDatabase(alt($database, $conn["default_database"]));
-			$qp = new MySQLQueryParser($query);
-			$db->query($qp->addSQLCalcFoundRows()->getQuery());
+			$db->query($db->getQueryParser($query)->setup()->getQuery());
 			while ($db->getRecord()) {
 				// Add an internal row id that the client side knows will be unique
 				$db->record["__id__"] = $__id__++;

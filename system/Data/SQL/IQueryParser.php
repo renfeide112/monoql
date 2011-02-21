@@ -15,5 +15,7 @@ interface IQueryParser {
 	
 	public function addOffset($offset);
 	
+	public function setup();
+	
 }
 ?>

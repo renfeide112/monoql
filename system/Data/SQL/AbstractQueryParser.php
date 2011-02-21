@@ -17,5 +17,10 @@ class AbstractQueryParser extends Object {
 		return $this->query;
 	}
 	
+	public function setQuery($query) {
+		$this->originalQuery = $query;
+		$this->query = $this->originalQuery;
+	}
+	
 }
 ?>

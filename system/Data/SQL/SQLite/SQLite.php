@@ -145,6 +145,8 @@ class SQLite extends AbstractDatabase implements IDatabase {
 	public function emptyDatabase($enforceConstraints=true) {}
 	
 	public function truncateDatabase($enforceConstraints=true) {}
+	
+	public function getQueryParser() {}
 
 }
 ?>
