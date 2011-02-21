@@ -25,10 +25,13 @@ class Query extends Object {
 		$rows = array();
 		$messages = array();
 		$metaData = array();
+		$__id__ = 0;
 		
 		if ($db) {
 			$db->query($query);
 			while ($db->getRecord()) {
+				// Add an internal row id that the client side knows will be unique
+				$db->record["__id__"] = $__id__++;
 				$rows[] = $db->record;
 			}
 		}
@@ -50,7 +53,14 @@ class Query extends Object {
 	// result grid reader.  It should contain a "fields" key to
 	// configure the grid record fields, and thus the column model
 	public static function buildMetaData(array $rows=array()) {
-		$meta = array("fields"=>array());
+		$meta = array(
+			"idProperty"=>"__id__",
+			"root"=>"rows",
+			"totalProperty"=>"total",
+			"successProperty"=>"success",
+			"messageProperty"=>"message",
+			"fields"=>array()
+		);
 		if (count($rows)>0) {
 			foreach ($rows[0] as $field=>$value) {
 				$meta["fields"][] = array("name"=>$field);

@@ -5,8 +5,8 @@ monoql.tab.resulttabset = function() {
 		activeTab:0,
 		border:false,
 		initComponent: function() {
-			this.resulttab = new monoql.tab.resulttab();
-			this.messagetab = new monoql.tab.messagetab();
+			this.resulttab = new monoql.tab.resulttab({tabset:this});
+			this.messagetab = new monoql.tab.messagetab({tabset:this});
 			this.items = [this.resulttab, this.messagetab];
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);

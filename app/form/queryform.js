@@ -9,6 +9,7 @@ monoql.form.queryform = function() {
 			'border-right-width':'0px'
 		},
 		initComponent: function() {
+			this.addEvents('beforequery', 'query', 'queryresult');
 			this.querytextarea = new Ext.form.TextArea({
 				name:'queries',
 				hideLabel:true,
@@ -37,16 +38,32 @@ monoql.form.queryform = function() {
 				handler:this.onQueryFormCtrlEnter,
 				stopEvent:true,
 				scope:this
+			},{
+				key:Ext.EventObject.F9,
+				ctrl:false,
+				handler:this.onQueryFormF9,
+				stopEvent:true,
+				scope:this
 			}]);
 		},
 		onQueryFormCtrlEnter:function(key, e) {
+			this.executeQuery();
+		},
+		onQueryFormF9:function(key, e) {
+			this.executeQuery();
+		},
+		executeQuery:function() {
 			var query = this.querytextarea.getSelectedText() || this.querytextarea.getValue();
-			if (query.trim()) {
-				monoql.direct.Query.execute(query, this.tab.connection.get('id'), this.onQueryResult.createDelegate(this));
+			if (this.fireEvent('beforequery', this, query, this.tab.connection) !== false) {
+				if (query.trim()) {
+					monoql.direct.Query.execute(query, this.tab.connection.id, this.onQueryResult.createDelegate(this, [query, this.tab.connection], true));
+					this.fireEvent('query', this, query, this.tab.connection);
+				}
 			}
 		},
-		onQueryResult:function(result, response) {
-			this.tab.resulttabset.resulttab.grid.store.reader.readRecords(result);
+		onQueryResult:function(result, response, query, connection) {
+			this.tab.resulttabset.resulttab.grid.store.loadData(result);
+			this.fireEvent('queryresult', this, query, connection);
 		}
 	});
 	Ext.reg(cls, Class);
