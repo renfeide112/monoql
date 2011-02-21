@@ -7,11 +7,11 @@ class MySQL extends AbstractDatabase implements IDatabase {
 		$this->le = "`";
 		$this->re = "`";
 		
-		$this->host = alt($host, $config["mysql_host"]);
-		$this->username = alt($username, $config["mysql_user"]);
-		$this->password = alt($password, $config["mysql_password"]);
-		$this->database = alt($database, $config["mysql_database"]);
-		$this->port = alt($port, $config["mysql_port"], 3306);
+		$this->host = $host;
+		$this->username = $username;
+		$this->password = $password;
+		$this->database = $database;
+		$this->port = alt($port, 3306);
 	}
 	
 	public function getAffectedRows() {
