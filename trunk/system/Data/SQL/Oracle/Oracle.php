@@ -99,7 +99,7 @@ class Oracle extends AbstractDatabase implements IDatabase {
 	
 	public function truncateDatabase($enforceConstraints=true) {}
 	
-	public function getQueryParser() {}
+	public function getQueryParser($query) {}
 	
 }
 ?>
