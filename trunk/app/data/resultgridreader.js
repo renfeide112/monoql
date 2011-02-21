@@ -3,7 +3,7 @@ monoql.data.resultgridreader = function() {
 	var Class = Ext.extend(Ext.data.JsonReader, {
 		constructor:function(meta, recordType) {
 			meta = Ext.apply({
-				idProperty:'id',
+				idProperty:'__id__',
 				root:'rows',
 				totalProperty:'total',
 				successProperty:'success',

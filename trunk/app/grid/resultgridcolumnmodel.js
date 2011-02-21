@@ -3,6 +3,9 @@ monoql.grid.resultgridcolumnmodel = function() {
 	var Class = Ext.extend(Ext.grid.ColumnModel, {
 		constructor:function(config) {
 			Ext.apply(this, {
+				defaults:{
+					menuDisabled:true
+				}
 				// The column model will be configured at runtime by listening
 				// for the metachange event on the grid store
 			}, config);
@@ -12,7 +15,10 @@ monoql.grid.resultgridcolumnmodel = function() {
 		onGridStoreMetaChange:function(store, meta) {
 			var columns = [];
 			Ext.each(meta.fields, function(item, index, items) {
-				columns.push({header:item.name, dataIndex:item.name});
+				// Add every field except the internal row id
+				if (item.name !== "__id__") {
+					columns.push({header:item.name, dataIndex:item.name});
+				}
 			});
 			// Only takes an array, not config object... ext bug?
 			this.setConfig(columns);

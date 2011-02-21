@@ -25,6 +25,7 @@ monoql.tab.querytab = function() {
 			});
 			this.resulttabset = new monoql.tab.resulttabset({
 				region:'center',
+				tab:this,
 				split:true,
 				border:false,
 				bodyStyle:'border-top-width:1px;'

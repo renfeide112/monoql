@@ -11,8 +11,18 @@ monoql.grid.resultgrid = function() {
 				view:new monoql.grid.resultgridview({grid:this}),
 				bbar:new monoql.bar.resultgridpagingtoolbar({grid:this})
 			});
+			this.on('render', this.onResultGridRender, this);
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
+		},
+		onResultGridRender:function(grid) {
+			this.getQueryTab().queryform.on('query', this.onQueryFormQuery, this);
+		},
+		onQueryFormQuery:function(queryform, query, connection) {
+			this.getStore().removeAll();
+		},
+		getQueryTab:function() {
+			return this.findParentByType(monoql.tab.querytab);
 		}
 	});
 	Ext.reg(cls, Class);
