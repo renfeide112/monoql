@@ -4,12 +4,12 @@
  */
 class AbstractDatabase extends Object {
 	
-	public $connection;
-	public $result;
 	public $record;
 	public $le;
 	public $re;
 	
+	protected $connection;
+	protected $result;
 	protected $host;
 	protected $username;
 	protected $password;

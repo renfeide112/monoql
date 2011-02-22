@@ -41,7 +41,7 @@ $config["monoql_db_path"] = "{$config["root"]}/data/monoql.db";
 ini_set("date.timezone","America/Chicago");
 
 // Include PHP errors in the response [true]
-ini_set("display_errors",true);
+ini_set("display_errors",false);
 
 // Set the path to the PHP error log file [logs/error.log]
 ini_set("error_log","logs/error.log");
