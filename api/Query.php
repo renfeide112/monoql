@@ -19,8 +19,6 @@ class Query extends Object {
 		if ($db) {
 			$db->changeDatabase(alt($database, $conn["default_database"]));
 			$q = $db->getQueryParser($query)->setup()->getQuery();
-			debug("Original Query: {$query}");
-			debug("Modified Query: {$q}");
 			$db->query($q);
 			while ($db->getRecord()) {
 				// Add an internal row id that the client side knows will be unique
@@ -30,9 +28,7 @@ class Query extends Object {
 			$total = $db->getTotalRows();
 		}
 		
-		
 		$metaData = self::buildMetaData($rows);
-		
 		$result = array(
 			"success"=>true,
 			"total"=>$total,
