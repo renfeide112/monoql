@@ -18,7 +18,7 @@ class Query extends Object {
 		
 		if ($db) {
 			$db->changeDatabase(alt($database, $conn["default_database"]));
-			$q = $db->getQueryParser($query)->setup()->addLimit(100)->addOffset(0)->getQuery();
+			$q = $db->getQueryParser($query)->setup()->getQuery();
 			debug("Original Query: {$query}");
 			debug("Modified Query: {$q}");
 			$db->query($q);

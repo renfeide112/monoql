@@ -13,15 +13,7 @@ monoql.form.queryform = function() {
 			this.querytextarea = new Ext.form.TextArea({
 				name:'queries',
 				hideLabel:true,
-				anchor:'0 0',
-				style:{
-					'border-width':'0px',
-					'padding':'',
-					'padding-left':'2px',
-					'font-size':'12px',
-					'line-height':'15px',
-					'font-family':'Verdana'
-				}
+				anchor:'0 0'
 			});
 			this.queryfield = new Ext.form.Hidden({
 				name:'query'

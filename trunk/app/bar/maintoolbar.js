@@ -109,6 +109,7 @@ monoql.bar.maintoolbar = function() {
 			if (tab.connection) {
 				this.connectioncombobox.setValue(tab.connection.get('id'));
 				this.connectioncombobox.enable();
+				this.databasecombobox.setValue(tab.database);
 				this.databasecombobox.enable();
 			}
 		},
