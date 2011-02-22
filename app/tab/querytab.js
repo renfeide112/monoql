@@ -33,6 +33,7 @@ monoql.tab.querytab = function() {
 				bodyStyle:'border-top-width:1px;'
 			});
 			ui.toolbar.connectioncombobox.on('select', this.onToolBarConnectionComboBoxSelect, this);
+			ui.toolbar.databasecombobox.on('select', this.onToolBarDatabaseComboBoxSelect, this);
 			ui.toolbar.runquerybutton.on('click', this.onToolBarRunQueryButtonClick, this);
 			ui.toolbar.cancelquerybutton.on('click', this.onToolBarCancelQueryButtonClick, this);
 			this.queryform.getForm().on('actioncomplete', this.onQueryFormActionComplete, this);
@@ -96,6 +97,11 @@ monoql.tab.querytab = function() {
 		onToolBarConnectionComboBoxSelect:function(combo, record, index) {
 			if (this.isActive()) {
 				this.setConnection(combo.getValue());
+			}
+		},
+		onToolBarDatabaseComboBoxSelect:function(combo, record, index) {
+			if (this.isActive()) {
+				this.setDatabase(combo.getValue());
 			}
 		},
 		onToolBarRunQueryButtonClick:function(button, e) {
