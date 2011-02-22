@@ -64,7 +64,7 @@ monoql.bar.maintoolbar = function() {
 				tabchange:this.onMainTabSetTabChange,
 				add:this.onMainTabSetAdd
 			});
-			
+			this.connectioncombobox.on('select', this.onConnectionComboBoxSelect, this);
 		},
 		onMainTabSetAdd:function(tabset, tab, index) {
 			if (tab.getXType()==='monoql-tab-querytab') {
@@ -97,7 +97,10 @@ monoql.bar.maintoolbar = function() {
 		onNoActiveTab:function() {
 			this.runquerybutton.disable();
 			this.connectioncombobox.reset();
-			this.connectioncombobox.setDisabled(true);
+			this.connectioncombobox.disable();
+			this.databasecombobox.reset();
+			this.databasecombobox.disable();
+			delete this.databasecombobox.lastQuery;
 		},
 		onActiveTab:function(tab) {
 			if (tab.getXType()==='monoql-tab-querytab' && !tab.executing) {
@@ -105,10 +108,14 @@ monoql.bar.maintoolbar = function() {
 			}
 			if (tab.connection) {
 				this.connectioncombobox.setValue(tab.connection.get('id'));
-				this.connectioncombobox.setDisabled(false);
+				this.connectioncombobox.enable();
+				this.databasecombobox.enable();
 			}
+		},
+		onConnectionComboBoxSelect:function(combo, record, index) {
+			this.databasecombobox.reset();
+			delete this.databasecombobox.lastQuery;
 		}
-		
 	});
 	Ext.reg(cls, Class);
 	return Class;

@@ -183,5 +183,17 @@ class Connection extends Object {
 		
 		return $result;
 	}
+	
+	public static function getDatabases($args) {
+		$connection = val($args, "connection");
+		$db = DatabaseFactory::createDatabase($connection);
+		$databases = $db->getDatabases();
+		$result = array("records"=>array());
+		foreach ($databases as $database) {
+			$result["records"][] = array("id"=>$database, "name"=>$database);
+		}
+		return $result;
+	}
+	
 }
 ?>
