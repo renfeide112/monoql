@@ -48,7 +48,13 @@ monoql.form.queryform = function() {
 			var query = this.querytextarea.getSelectedText() || this.querytextarea.getValue();
 			if (this.fireEvent('beforequery', this, query, this.tab.connection) !== false) {
 				if (query.trim()) {
-					monoql.direct.Query.execute(query, this.tab.connection.id, this.tab.database, this.onQueryResult.createDelegate(this, [query, this.tab.connection], true));
+					this.tab.resulttabset.resulttab.grid.getStore().load({
+						params:{
+							query:query,
+							connectionId:this.tab.connection.id,
+							database:this.tab.database
+						}
+					});
 					this.fireEvent('query', this, query, this.tab.connection);
 				}
 			}

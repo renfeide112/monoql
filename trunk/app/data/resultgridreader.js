@@ -1,6 +1,6 @@
 Ext.ns('monoql.data');
 monoql.data.resultgridreader = function() {
-	var Class = Ext.extend(Ext.data.JsonReader, {
+	var Class = Ext.extend(Ext.ux.grid.livegrid.JsonReader, {
 		constructor:function(meta, recordType) {
 			meta = Ext.apply({
 				idProperty:'__id__',

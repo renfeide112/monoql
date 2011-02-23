@@ -15,9 +15,11 @@ if (isset($config["monoql_db_path"]) && !is_file($config["monoql_db_path"])) {
 		<meta name="author" content="Johnathan Hebert, Damian O'Brien" />
 		<script src="ext/adapter/ext/ext-base-debug.js"></script>
 		<script src="ext/ext-all-debug.js"></script>
+		<script src="ext/ux/grid/livegrid/livegrid-all-debug.js"></script>
 		<script src="direct/api.php"></script>
 		<script src="app/bundle.php"></script>
 		<link rel="stylesheet" href="ext/resources/css/ext-all.css" />
+		<link rel="stylesheet" href="ext/ux/grid/livegrid/resources/css/ext-ux-livegrid.css" />
 		<link rel="stylesheet" href="styles/monoql.css" />
 	</head>
 	<body></body>
