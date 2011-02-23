@@ -56,18 +56,20 @@ monoql.form.queryform = function() {
 						}
 					});
 					this.fireEvent('query', this, query, this.tab.connection);
+					this.tab.resulttabset.resulttab.grid.getStore().on('load', this.onResultGridStoreLoad, this, {single:true});
 				}
 			}
 		},
-		onQueryResult:function(result, response, query, connection) {
+		onResultGridStoreLoad:function(store, records, options) {
 			// A cancelled query just sets the cancelled property of the tab to true
 			// since there is no way in Ext to abort a DirectProxy request -- so the
 			// response will arrive but get ignored
 			if (this.tab.cancelled) {
 				this.tab.cancelled = false;
 			} else {
-				this.tab.resulttabset.resulttab.grid.store.loadData(result);
-				this.fireEvent('queryresult', this, query, connection, result);
+				var query = options.params.query,
+					connection = ui.connectionstore.getById(options.params.connectionId)
+				this.fireEvent('queryresult', this, query, connection, records);
 			}
 		},
 		cancelQuery:function() {
