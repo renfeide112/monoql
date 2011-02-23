@@ -7,7 +7,7 @@ class Query extends Object {
 		$this->query = $query;
 	}
 	
-	public static function execute($query, $connectionId, $database=null) {
+	public static function execute($query, $connectionId, $limit=null, $offset=0, $database=null) {
 		$conn = val(val(Connection::get(array("id"=>$connectionId)), "records"), 0);
 		$db = DatabaseFactory::createDatabase($conn);
 		$rows = array();
@@ -18,7 +18,7 @@ class Query extends Object {
 		
 		if ($db) {
 			$db->changeDatabase(alt($database, $conn["default_database"]));
-			$q = $db->getQueryParser($query)->setup()->getQuery();
+			$q = $db->getQueryParser($query)->setup()->addLimit($limit)->addOffset($offset)->getQuery();
 			$db->query($q);
 			while ($db->getRecord()) {
 				// Add an internal row id that the client side knows will be unique
@@ -50,7 +50,7 @@ class Query extends Object {
 			"root"=>"rows",
 			"totalProperty"=>"total",
 			"successProperty"=>"success",
-			"messageProperty"=>"message",
+			"messageProperty"=>"messages",
 			"fields"=>array()
 		);
 		if (count($rows)>0) {

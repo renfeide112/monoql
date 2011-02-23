@@ -6,9 +6,7 @@ monoql.data.resultgridproxy = function() {
 				api:{
 					read:monoql.direct.ResultGrid.load
 				},
-				autoAbort:true,
-				timeout:30000,
-				paramOrder:['args']
+				paramOrder:['query', 'connectionId', 'limit', 'start', 'database']
 			}, config);
 			Class.superclass.constructor.call(this, config);
 		}
