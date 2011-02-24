@@ -63,12 +63,15 @@ class Helix {
 	 */
 	private function __construct() {}
 
-	// Throw and catch an ErrorException for every error o get access to a nicely formatted stack trace
-	// Return false to allow PHP to handle the error in the normal way
-	public static function errorHandler($errno, $error, $file=null, $line=null, $errcontext=null) {
+	public static function handleError($errno, $error, $file=null, $line=null, $errcontext=null) {
 		$e = new ErrorException($error, 0, $errno, $file, $line);
-		debug(self::$errors[$e->getSeverity()] . ": " . $e->getMessage() . NL . $e->getTraceAsString());
+		logException($e, self::$errors[$e->getSeverity()]);
 		return false;
+	}
+	
+	public static function handleException($e) {
+		logException($e, "Uncaught");
+		exit(E_ERROR);
 	}
 	
 	/**
@@ -78,7 +81,8 @@ class Helix {
 		global $config, $session;
 		if (isset(self::$path)) return;
 		require_once("Global.php");
-		set_error_handler(array("Helix", "errorHandler"));
+		set_error_handler(array("Helix", "handleError"));
+		set_exception_handler(array("Helix", "handleException"));
 		self::$path = dirname(__FILE__);
 		spl_autoload_register("autoload");
 		self::defineConstants();

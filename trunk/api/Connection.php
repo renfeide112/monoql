@@ -15,16 +15,22 @@ class Connection extends Object {
 			$where = "";
 		}
 		
-		$db->query("SELECT * FROM connection {$where};");
-		
-		$records = array();
-		while ($db->getRecord()) {
-			$record = $db->record;
-			$records[] = $record;
+		try {
+			$db->query("SELECT * FROM connection {$where};");
+			
+			$records = array();
+			while ($db->getRecord()) {
+				$record = $db->record;
+				$records[] = $record;
+			}
+			$success = true;
+		} catch (Exception $e) {
+			logException($e);
+			$success = false;
 		}
 		
 		$result = array(
-			"success"=>true,
+			"success"=>$success,
 			"records"=>$records
 		);
 		
@@ -53,8 +59,8 @@ class Connection extends Object {
 		
 		// $connections should have a "records" key that is an array of connection records
 		foreach ($connections["records"] as $conn) {
-			$now = date("Y-m-d H:i:s");
 			try {
+				$now = date("Y-m-d H:i:s");
 				$p = array(
 					"name"=>$db->quote(alt(val($conn,"name"), "New Connection [{$now}]")),
 					"type"=>$db->quote(val($conn,"type")),
@@ -72,18 +78,19 @@ class Connection extends Object {
 					(name, type, host, username, password, port, default_database, mdate, cdate, deleted) VALUES
 					({$p["name"]}, {$p["type"]}, {$p["host"]}, {$p["username"]}, {$p["password"]}, {$p["port"]}, {$p["defaultDatabase"]}, {$p["mdate"]}, {$p["cdate"]}, {$p["deleted"]});
 				");
+				$insertedRecords = val(self::get(array("id"=>$db->getInsertedId())), "records");
+				if (is_array($insertedRecords)) {
+					$records = array_merge($insertedRecords, $records);
+				}
+				$success = !!$success && !!$qresult;
 			} catch (Exception $e) {
-				debug($e->getMessage());
-				debug($e->getTraceAsString());
-			}	
-			$insertedRecords = val(self::get(array("id"=>$db->getInsertedId())), "records");
-			if (is_array($insertedRecords)) {
-				$records = array_merge($insertedRecords, $records);
+				$success = false;
+				throw $e;
 			}
 		}
 		
 		$result = array(
-			"success"=>!!$qresult,
+			"success"=>$success,
 			"records"=>$records
 		);
 		
