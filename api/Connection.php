@@ -54,7 +54,6 @@ class Connection extends Object {
 		// $connections should have a "records" key that is an array of connection records
 		foreach ($connections["records"] as $conn) {
 			$now = date("Y-m-d H:i:s");
-			if (!$db->connect()) {break;}
 			try {
 				$p = array(
 					"name"=>$db->quote(alt(val($conn,"name"), "New Connection [{$now}]")),
@@ -68,12 +67,11 @@ class Connection extends Object {
 					"cdate"=>$db->quote($now),
 					"deleted"=>$db->quote(0)
 				);
-				$statement = $db->connection->prepare("
+				$qresult = $db->query("
 					INSERT INTO connection
 					(name, type, host, username, password, port, default_database, mdate, cdate, deleted) VALUES
 					({$p["name"]}, {$p["type"]}, {$p["host"]}, {$p["username"]}, {$p["password"]}, {$p["port"]}, {$p["defaultDatabase"]}, {$p["mdate"]}, {$p["cdate"]}, {$p["deleted"]});
 				");
-				$result = $statement->execute();
 			} catch (Exception $e) {
 				debug($e->getMessage());
 				debug($e->getTraceAsString());
@@ -85,7 +83,7 @@ class Connection extends Object {
 		}
 		
 		$result = array(
-			"success"=>!!$result,
+			"success"=>!!$qresult,
 			"records"=>$records
 		);
 		
