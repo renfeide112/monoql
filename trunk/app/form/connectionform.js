@@ -27,7 +27,8 @@ monoql.form.connectionform = function() {
 				fields:['type', 'text'],
 				root:'records',
 				data:{"records":[
-					{"type":"mysql", "text":"MySQL"}
+					{"type":"mysql", "text":"MySQL"},
+					{"type":"sqlite", "text":"SQLite"}
 				]}
 			});
 			DatabaseTypeComboBox.superclass.initComponent.call(this);
@@ -36,7 +37,8 @@ monoql.form.connectionform = function() {
 	});
 	
 	var Class = Ext.extend(monoql.form.floatingform, {
-		title:'Add a new connection',
+		newTitle:'Add a new connection',
+		editTitle:'Edit Connection',
 		labelAlign:'left',
 		width:300,
 		monitorValid:true,
@@ -58,6 +60,9 @@ monoql.form.connectionform = function() {
 			});
 			this.databaseTypeComboBox = new DatabaseTypeComboBox(); 
 			this.items = [{
+				xtype:'hidden',
+				name:'id'
+			},{
 				xtype:'hidden',
 				name:'name'
 			},this.databaseTypeComboBox,{
@@ -81,10 +86,18 @@ monoql.form.connectionform = function() {
 			}];
 			this.buttons = [this.savebutton];
 			this.savebutton.on('click', this.onSaveButtonClick, this);
-			this.on('show', this.onConnectionFormShow, this);
-			this.on('hide', this.onConnectionFormHide, this);
+			this.on({
+				scope:this,
+				beforeshow:this.onConnectionFormBeforeShow,
+				show:this.onConnectionFormShow,
+				hide:this.onConnectionFormHide
+			});
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
+		},
+		onConnectionFormBeforeShow:function(form) {
+			var title = this.getForm().findField('id').getValue()>0 ? this.editTitle : this.newTitle;
+			this.setTitle(title);
 		},
 		onConnectionFormShow:function(form) {
 			this.getForm().findField('host').focus();
@@ -96,8 +109,12 @@ monoql.form.connectionform = function() {
 			this.savebutton.setDisabled(true);
 			var values = this.getForm().getFieldValues();
 			values.name = (values.username || 'username') + '@' + (values.host || 'Unknown') + ' [' + (values.type || 'Unknown') + ']';
-			var conn = new monoql.data.connectionrecord(values);
-			ui.connectionstore.add(conn);
+			if (parseInt(values.id)>0) {
+				// Modify record here
+			} else {
+				var conn = new monoql.data.connectionrecord(values);
+				ui.connectionstore.add(conn);
+			}
 			this.hide();
 			this.savebutton.setDisabled(false);
 		}
