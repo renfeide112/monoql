@@ -94,17 +94,15 @@ class SQLite extends AbstractDatabase implements IDatabase {
 	public function query($query) {
 		if (empty($query)) {return false;}
 		if (!$this->connect()) {return false;}
-		
+		$result = null;
 		$queries = is_array($query) ? $query : array($query);
 		foreach ($queries as $q) {
 			if (strlen(trim($q)) > 0) {
-				$this->result = $this->connection->query($q);
+				$result = $this->connection->query($q);
+				if ($result===false) {throw new Exception("SQLite Query Error: {$q}");}
 			}
 		}
-		
-		if ($this->result===false) {
-			debug("SQLite error on for: $q");
-		}
+		$this->result = $result===false ? false : $result;
 		return $this->result;
 	}
 	
