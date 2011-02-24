@@ -54,7 +54,7 @@ class Connection extends Object {
 	public static function create(array $connections) {
 		global $config;
 		$db = DatabaseFactory::createDatabase("sqlite", $config["monoql_db_path"]);
-		$success = null;
+		$success = true;
 		$records = array();
 		
 		// $connections should have a "records" key that is an array of connection records
@@ -84,8 +84,8 @@ class Connection extends Object {
 				}
 				$success = !!$success && !!$qresult;
 			} catch (Exception $e) {
+				logException($e);
 				$success = false;
-				throw $e;
 			}
 		}
 		
