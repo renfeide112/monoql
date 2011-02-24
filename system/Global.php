@@ -37,6 +37,12 @@ function debug($message=null) {
 	logMessage("debug.log", $text);
 }
 
+function logException($e, $type=null) {
+	$reflector = new ReflectionClass($e);
+	$extra = isset($type) ? " [{$type}]" : null;
+	debug("{$reflector->name}{$extra}: " . $e->getMessage() . NL . $e->getTraceAsString() . NL);
+}
+
 /**
  * Define this function for PHP version < 5.3
  */

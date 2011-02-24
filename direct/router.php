@@ -33,7 +33,7 @@ foreach ($requests as $r) {
 				$args = is_array($data) ? $data : array();
 				$response["result"] = $method->invokeArgs($object, $args);
 			} catch (Exception $e) {
-				helixExceptionHandler($e);
+				logException($e);
 				$response["type"] = "exception";
 				$response["message"] = $e->getMessage();
 				$response["where"] = $e->getTraceAsString();
