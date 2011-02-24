@@ -10,31 +10,41 @@ class Query extends Object {
 	public static function execute($query, $connectionId, $limit=null, $offset=0, $database=null) {
 		$conn = val(val(Connection::get(array("id"=>$connectionId)), "records"), 0);
 		$db = DatabaseFactory::createDatabase($conn);
+		$success = null;
 		$rows = array();
-		$messages = array();
+		$message = null;
 		$metaData = array();
 		$total = null;
 		$__id__ = 0;
 		
 		if ($db) {
 			$db->changeDatabase(alt($database, $conn["default_database"]));
-			$q = $db->getQueryParser($query)->setup()->addLimit($limit)->addOffset($offset)->getQuery();
-			$db->query($q);
-			while ($db->getRecord()) {
-				// Add an internal row id that the client side knows will be unique
-				$db->record["__id__"] = $__id__++;
-				$rows[] = $db->record;
+			if (!$db->getErrno()) {
+				$q = $db->getQueryParser($query)->setup()->addLimit($limit)->addOffset($offset)->getQuery();
+				if (!$db->getErrno()) {
+					$db->query($q);
+					if (!$db->getErrno()) {
+						while ($db->getRecord()) {
+							if (!!$db->getErrno()) {break;}
+							// Add an internal row id that the client side knows will be unique
+							$db->record["__id__"] = $__id__++;
+							$rows[] = $db->record;
+						}
+						$total = $db->getTotalRows();
+					}
+				}
 			}
-			$total = $db->getTotalRows();
+			$success = !$db->getErrno();
+			$message = $db->getError();
 		}
 		
 		$metaData = self::buildMetaData($rows);
 		$result = array(
-			"success"=>true,
+			"success"=>$success,
 			"total"=>$total,
 			"query"=>$query,
 			"rows"=>$rows,
-			"messages"=>$messages,
+			"message"=>$message,
 			"metaData"=>$metaData
 		);
 		
@@ -50,7 +60,7 @@ class Query extends Object {
 			"root"=>"rows",
 			"totalProperty"=>"total",
 			"successProperty"=>"success",
-			"messageProperty"=>"messages",
+			"messageProperty"=>"message",
 			"fields"=>array()
 		);
 		if (count($rows)>0) {

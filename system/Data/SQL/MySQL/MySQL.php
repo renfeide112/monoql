@@ -46,17 +46,19 @@ class MySQL extends AbstractDatabase implements IDatabase {
 	}
 	
 	public function getConnectErrno() {
-		return $this->connection->connect_errno;
+		return $this->connection ? $this->connection->connect_errno : null;
 	}
 	
 	public function getConnectError() {
-		return $this->connection->connect_error;
+		return $this->connection ? $this->connection->connect_error : null;
 	}
 	
 	public function getErrno() {
+		return $this->connection ? $this->connection->errno : null;
 	}
 	
 	public function getError() {
+		return $this->connection ? $this->connection->error : null;
 	}
 	
 	public function getFieldCount() {
@@ -186,7 +188,9 @@ class MySQL extends AbstractDatabase implements IDatabase {
 	
 	public function changeDatabase($database) {
 		$database = isset($database) ? $database : $this->database;
-		$this->connect()->select_db($database);
+		if ($database) {
+			$this->connect()->select_db($database);
+		}
 		return $this;
 	}
 	
@@ -215,7 +219,7 @@ class MySQL extends AbstractDatabase implements IDatabase {
 		if (!$this->connect()) {return false;}
 		$this->result = $this->connection->query($query);
 		if ($this->result===false) {
-			trigger_error("MySQL Error: {$this->connection->error}" . NL . $query, E_USER_ERROR);
+			trigger_error("MySQL Error: {$this->connection->error}" . NL . $query, E_USER_WARNING);
 		}
 	}
 	
