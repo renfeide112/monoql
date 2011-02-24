@@ -83,19 +83,10 @@ class SQLite extends AbstractDatabase implements IDatabase {
 	public function changeCharset($charset) {}
 	
 	public function connect($host=null, $username=null, $password=null, $database=null, $port=null) {
-		$error = null;
-		if (isset($this->connection)) {
-			$error = null;
-			return $this->connection;
-		} else {
-			try {
-				$this->connection = new PDO("sqlite:" . alt($host, $this->host));
-				return $this->connection;
-			} catch (Exception $e) {
-				$error = $e->getMessage();
-			}
-		}
-		return $error;
+		if (!isset($this->connection)) {
+			$this->connection = new PDO("sqlite:" . alt($host, $this->host));
+		};
+		return $this->connection;
 	}
 	
 	public function close() {}
@@ -111,7 +102,7 @@ class SQLite extends AbstractDatabase implements IDatabase {
 			}
 		}
 		
-		if (!$this->result) {
+		if ($this->result===false) {
 			debug("SQLite error on for: $q");
 		}
 		return $this->result;
