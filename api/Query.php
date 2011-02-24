@@ -35,7 +35,7 @@ class Query extends Object {
 				}
 			}
 			$success = !$db->getErrno();
-			$message = $db->getError();
+			$message = "Error " . $db->getErrno() . ": " . $db->getError();
 		}
 		
 		$metaData = self::buildMetaData($rows);
