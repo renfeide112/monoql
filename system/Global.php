@@ -37,15 +37,6 @@ function debug($message=null) {
 	logMessage("debug.log", $text);
 }
 
-function helixErrorHandler($errno, $error, $file=null, $line=null) {
-	debug("PHP Error {$errno}: {$error} in {$file} on line {$line}");
-	return false;
-}
-
-function helixExceptionHandler(Exception $e) {
-	debug($e->getMessage() . NL . $e->getTraceAsString());
-}
-
 /**
  * Define this function for PHP version < 5.3
  */

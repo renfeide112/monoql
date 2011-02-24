@@ -33,12 +33,42 @@ class Helix {
 	 * @var array
 	 */
 	public static $autoloaded = array(); 
+	
+	/**
+	 * An array of the predefined PHP errors 
+	 * 
+	 * @var array
+	 */
+	public static $errors = array(
+		E_ERROR              => 'Error',
+		E_WARNING            => 'Warning',
+		E_PARSE              => 'Parsing Error',
+		E_NOTICE             => 'Notice',
+		E_CORE_ERROR         => 'Core Error',
+		E_CORE_WARNING       => 'Core Warning',
+		E_COMPILE_ERROR      => 'Compile Error',
+		E_COMPILE_WARNING    => 'Compile Warning',
+		E_USER_ERROR         => 'User Error',
+		E_USER_WARNING       => 'User Warning',
+		E_USER_NOTICE        => 'User Notice',
+		E_STRICT             => 'Runtime Notice',
+		E_RECOVERABLE_ERROR  => 'Catchable Fatal Error',
+		E_DEPRECATED         => 'Deprected Notice',
+		E_USER_DEPRECATED    => 'User Deprecated Notice',
+		E_ALL                => 'All Errors'	
+	);
 
 	/**
 	 * This class contains only static methods and should not be constructed
 	 */
-	private function __construct() {
-		
+	private function __construct() {}
+
+	// Throw and catch an ErrorException for every error o get access to a nicely formatted stack trace
+	// Return false to allow PHP to handle the error in the normal way
+	public static function errorHandler($errno, $error, $file=null, $line=null, $errcontext=null) {
+		$e = new ErrorException($error, 0, $errno, $file, $line);
+		debug(self::$errors[$e->getSeverity()] . ": " . $e->getMessage() . NL . $e->getTraceAsString());
+		return false;
 	}
 	
 	/**
@@ -47,15 +77,15 @@ class Helix {
 	public static function initialize() {
 		global $config, $session;
 		if (isset(self::$path)) return;
-		self::$path = dirname(__FILE__);
 		require_once("Global.php");
+		set_error_handler(array("Helix", "errorHandler"));
+		self::$path = dirname(__FILE__);
 		spl_autoload_register("autoload");
-		set_error_handler("helixErrorHandler");
-		set_exception_handler("helixExceptionHandler");
 		self::defineConstants();
 		self::mapSystemClasses();
 		self::mapSystemClasses(dirname(self::$path) . "/api");
 		self::logRequest();
+		strpos();
 	}
 	
 	public static function mapSystemClasses($folder=null) {
