@@ -85,7 +85,6 @@ class Helix {
 		self::mapSystemClasses();
 		self::mapSystemClasses(dirname(self::$path) . "/api");
 		self::logRequest();
-		strpos();
 	}
 	
 	public static function mapSystemClasses($folder=null) {
