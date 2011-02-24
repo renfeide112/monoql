@@ -73,11 +73,11 @@ class Connection extends Object {
 					"cdate"=>$db->quote($now),
 					"deleted"=>$db->quote(0)
 				);
-				$qresult = $db->query("
-					INSERT INTO connection
-					(name, type, host, username, password, port, default_database, mdate, cdate, deleted) VALUES
-					({$p["name"]}, {$p["type"]}, {$p["host"]}, {$p["username"]}, {$p["password"]}, {$p["port"]}, {$p["defaultDatabase"]}, {$p["mdate"]}, {$p["cdate"]}, {$p["deleted"]});
-				");
+				$qresult = $db->query(implode(NL, array(
+					"INSERT INTO connection",
+					"(name, type, host, username, password, port, default_database, mdate, cdate, deleted) VALUES",
+					"({$p["name"]}, {$p["type"]}, {$p["host"]}, {$p["username"]}, {$p["password"]}, {$p["port"]}, {$p["defaultDatabase"]}, {$p["mdate"]}, {$p["cdate"]}, {$p["deleted"]});"
+				)));
 				$insertedRecords = val(self::get(array("id"=>$db->getInsertedId())), "records");
 				if (is_array($insertedRecords)) {
 					$records = array_merge($insertedRecords, $records);
@@ -172,7 +172,7 @@ class Connection extends Object {
 					"id"=>$db->quote($connId),
 				);
 				$qresult = $db->query(implode(NL, array(
-					"DELETE FROM connection WHEREx id={$p["id"]};"
+					"DELETE FROM connection WHERE id={$p["id"]};"
 				)));
 				$success = $qresult!==false;
 			} catch (Exception $e) {

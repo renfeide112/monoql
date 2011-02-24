@@ -15,9 +15,12 @@ class SQLite extends AbstractDatabase implements IDatabase {
 	public function getRecord($associative=true) {
 		if (isset($this->result)) {
 			$this->record = $this->result->fetch($associative ? PDO::FETCH_ASSOC : PDO::FETCH_BOTH);
+			if ($this->record===false && !!val($this->result->errorInfo(), 2)) {
+				throw new Exception("Unable to fetch PDO SQLite record from PDO Statement for query: {$this->result->queryString}");
+			}
 			return $this->record;
 		}
-		return null;
+		throw new Exception("PDO SQLite Statement object not set");
 	}
 		
 	public function getClientInfo() {}
@@ -30,9 +33,13 @@ class SQLite extends AbstractDatabase implements IDatabase {
 	
 	public function getConnectError() {}
 	
-	public function getErrno() {}
+	public function getErrno() {
+		return isset($this->connection) ? val($this->connection->errorInfo(), 1) : null;
+	}
 	
-	public function getError() {}
+	public function getError() {
+		return isset($this->connection) ? val($this->connection->errorInfo(), 2) : null;
+	}
 	
 	public function getFieldCount() {}
 	
@@ -84,6 +91,7 @@ class SQLite extends AbstractDatabase implements IDatabase {
 	
 	public function connect($host=null, $username=null, $password=null, $database=null, $port=null) {
 		if (!isset($this->connection)) {
+			// The PDO constructor will throw an exception on failure
 			$this->connection = new PDO("sqlite:" . alt($host, $this->host));
 		};
 		return $this->connection;
@@ -99,7 +107,9 @@ class SQLite extends AbstractDatabase implements IDatabase {
 		foreach ($queries as $q) {
 			if (strlen(trim($q)) > 0) {
 				$result = $this->connection->query($q);
-				if ($result===false) {throw new Exception("SQLite Query Error: {$q}");}
+				if ($result===false) {
+					throw new Exception($this->getError() . " for {$q}");
+				}
 			}
 		}
 		$this->result = $result===false ? false : $result;
@@ -112,7 +122,8 @@ class SQLite extends AbstractDatabase implements IDatabase {
 	
 	public function quote($string) {
 		if (!$this->connect()) {return false;}
-		return $this->connection->quote($string);
+		$quoted = $this->connection->quote($string);
+		return $quoted===false ? string : $quoted;
 	}
 	
 	public function escape($string) {
