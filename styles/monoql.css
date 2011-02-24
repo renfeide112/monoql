@@ -63,3 +63,6 @@ button.monoql-bar-connectiontreetoolbar-refreshbutton-icon
 
 .monoql-form-queryform textarea.x-form-field
 {border-width:0px;padding:0px;padding-left:2px;font-size:12px;line-height:15px;font-family:Courier New, monospace}
+
+.monoql-tab-messagetab .x-panel-body
+{padding:5px;font-family:Courier New, monospace;font-size:12px;}

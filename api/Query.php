@@ -17,24 +17,21 @@ class Query extends Object {
 		$total = null;
 		$__id__ = 0;
 		
-		if ($db) {
+		try {
 			$db->changeDatabase(alt($database, $conn["default_database"]));
-			if (!$db->getErrno()) {
-				$q = $db->getQueryParser($query)->setup()->addLimit($limit)->addOffset($offset)->getQuery();
-				if (!$db->getErrno()) {
-					$db->query($q);
-					if (!$db->getErrno()) {
-						while ($db->getRecord()) {
-							if (!!$db->getErrno()) {break;}
-							// Add an internal row id that the client side knows will be unique
-							$db->record["__id__"] = $__id__++;
-							$rows[] = $db->record;
-						}
-						$total = $db->getTotalRows();
-					}
-				}
+			$q = $db->getQueryParser($query)->setup()->addLimit($limit)->addOffset($offset)->getQuery();
+			$db->query($q);
+			while ($db->getRecord()) {
+				// Add an internal row id that the client side knows will be unique
+				$db->record["__id__"] = $__id__++;
+				$rows[] = $db->record;
 			}
+			$total = $db->getTotalRows();
 			$success = !$db->getErrno();
+			$message = $success ? "Success!" : "Error " . $db->getErrno() . ": " . $db->getError();
+		} catch (Exception $e) {
+			logException($e);
+			$success = false;
 			$message = "Error " . $db->getErrno() . ": " . $db->getError();
 		}
 		
