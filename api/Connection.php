@@ -171,18 +171,18 @@ class Connection extends Object {
 				$p = array(
 					"id"=>$db->quote($connId),
 				);
-				$statement = $db->connection->prepare("
-					DELETE FROM connection WHERE id={$p["id"]};
-				");
-				$result = $statement->execute();
+				$qresult = $db->query(implode(NL, array(
+					"DELETE FROM connection WHEREx id={$p["id"]};"
+				)));
+				$success = $qresult!==false;
 			} catch (Exception $e) {
-				debug($e->getMessage());
-				debug($e->getTraceAsString());
+				logException($e);
+				$success = false;
 			}
 		}
 		
 		$result = array(
-			"success"=>!!$result,
+			"success"=>$success,
 			"records"=>$records
 		);
 		
