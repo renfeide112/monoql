@@ -76,6 +76,10 @@ monoql.tree.connectiontree = function() {
 			this.getNodeByConnection(record).remove(true);
 		},
 		onStoreUpdate:function(store, record, operation) {
+			var node = this.getNodeByConnection(record);
+			if (node) {
+				node.setText(record.get('name'));
+			}
 		}
 	});
 	Ext.reg(cls, Class);
