@@ -3,7 +3,7 @@ monoql.data.resultgridstore = function() {
 	var Class = Ext.extend(Ext.ux.grid.livegrid.Store, {
 		constructor:function(config) {
 			config = Ext.apply({
-				bufferSize:100,
+				bufferSize:300,
 				autoDestroy:true,
 				autoLoad:false,
 				proxy:new monoql.data.resultgridproxy({store:this}),

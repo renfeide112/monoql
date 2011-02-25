@@ -221,7 +221,7 @@ class MySQL extends AbstractDatabase implements IDatabase {
 		}
 		$this->result = $this->connection->query($query);
 		if ($this->result===false) {
-			throw new Exception("Error during MySQL Query: {$query}");
+			throw new Exception($this->getError());
 		}
 	}
 	
