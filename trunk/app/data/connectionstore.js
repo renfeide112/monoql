@@ -13,7 +13,8 @@ monoql.data.connectionstore = function() {
 		constructor:function(meta, recordType) {
 			meta = Ext.apply({
 				encode:false,
-				listful:true
+				listful:true,
+				writeAllFields:true
 			}, meta);
 			Writer.superclass.constructor.call(this, meta, recordType);
 		}
