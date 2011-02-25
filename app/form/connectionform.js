@@ -107,10 +107,17 @@ monoql.form.connectionform = function() {
 		},
 		onSaveButtonClick:function(button, e) {
 			this.savebutton.setDisabled(true);
-			var values = this.getForm().getFieldValues();
+			var values = this.getForm().getFieldValues(),
+				id = parseInt(values.id);
 			values.name = (values.username || 'username') + '@' + (values.host || 'Unknown') + ' [' + (values.type || 'Unknown') + ']';
-			if (parseInt(values.id)>0) {
-				// Modify record here
+			
+			if (id>0) {
+				var conn = ui.connectionstore.getById(id);
+				conn.beginEdit();
+				Ext.iterate(values, function(key, value, object) {
+					conn.set(key, value);
+				});
+				conn.endEdit();
 			} else {
 				var conn = new monoql.data.connectionrecord(values);
 				ui.connectionstore.add(conn);
