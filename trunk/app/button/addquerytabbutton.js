@@ -38,6 +38,16 @@ monoql.button.addquerytabbutton = function() {
 				}));
 			}, this);
 		},
+		getItemByConnection:function(connection) {
+			var menuItem;
+			this.items.each(function(item, i, length) {
+				if (item.connection.id===connection.id) {
+					menuItem = item;
+					return false;
+				}
+			});
+			return menuItem;
+		},
 		onConnectionStoreAdd:function(store, records, index) {
 			this.addItemsFromConnectionStore(records);
 		},
@@ -49,7 +59,7 @@ monoql.button.addquerytabbutton = function() {
 			}, this);
 		},
 		onConnectionStoreUpdate:function(store, record, index) {
-		
+			this.getItemByConnection(record).setText(record.get('name'));
 		}
 	});
 	

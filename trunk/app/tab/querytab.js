@@ -44,6 +44,7 @@ monoql.tab.querytab = function() {
 				cancelquery:this.onCancelQuery
 			});
 			this.on('connectionchange', this.onConnectionChange, this);
+			ui.connectionstore.on('update', this.onConnectionStoreUpdate, this);
 			this.items = [this.queryform, this.resulttabset];
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
@@ -104,6 +105,9 @@ monoql.tab.querytab = function() {
 			if (this.isActive()) {
 				this.queryform.cancelQuery();
 			}
+		},
+		onConnectionStoreUpdate:function(store, record, index) {
+			this.updateTitle();
 		}
 	});
 	Ext.reg(cls, Class);
