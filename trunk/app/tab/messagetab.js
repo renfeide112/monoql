@@ -6,9 +6,22 @@ monoql.tab.messagetab = function() {
 		layout:'fit',
 		border:false,
 		initComponent: function() {
-			this.getQueryForm().on('query', this.onQueryFormQuery, this);
+			this.getQueryForm().on({
+				scope:this,
+				query:this.onQueryFormQuery,
+				queryresult:this.onQueryFormQueryResult
+			});
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
+		},
+		onQueryFormQueryResult:function(form, query, connection, records) {
+			var json = this.getResultGrid().getStore().reader.jsonData
+			this.update(json.message);
+			if (!json.success) {
+				this.tabset.activate(this);
+			}
+		},
+		updateMessage:function(message) {
 		},
 		onQueryFormQuery:function(form, query, connection) {
 			if (this.rendered) {
@@ -16,7 +29,13 @@ monoql.tab.messagetab = function() {
 			}
 		},
 		getQueryForm:function() {
-			return this.tabset.tab.queryform;
+			return this.getQueryTab().queryform;
+		},
+		getResultGrid:function() {
+			return this.tabset.resulttab.grid;
+		},
+		getQueryTab:function() {
+			return this.tabset.tab;
 		}
 	});
 	Ext.reg(cls, Class);

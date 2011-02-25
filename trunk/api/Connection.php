@@ -54,7 +54,7 @@ class Connection extends Object {
 	public static function create(array $connections) {
 		global $config;
 		$db = DatabaseFactory::createDatabase("sqlite", $config["monoql_db_path"]);
-		$success = true;
+		$success = null;
 		$records = array();
 		
 		// $connections should have a "records" key that is an array of connection records
@@ -67,7 +67,7 @@ class Connection extends Object {
 					"host"=>$db->quote(val($conn,"host")),
 					"username"=>$db->quote(val($conn,"username")),
 					"password"=>$db->quote(val($conn,"password")),
-					"port"=>$db->quote(intval(alt(val($conn,"port"), 0))),
+					"port"=>$db->quote(val($conn,"port")),
 					"defaultDatabase"=>$db->quote(val($conn,"defaultDatabase")),
 					"mdate"=>$db->quote($now),
 					"cdate"=>$db->quote($now),
@@ -82,7 +82,7 @@ class Connection extends Object {
 				if (is_array($insertedRecords)) {
 					$records = array_merge($insertedRecords, $records);
 				}
-				$success = !!$success && !!$qresult;
+				$success = alt($success, true) && ($qresult!==false);
 			} catch (Exception $e) {
 				logException($e);
 				$success = false;
