@@ -216,10 +216,12 @@ class MySQL extends AbstractDatabase implements IDatabase {
 	}
 	
 	public function query($query) {
-		if (!$this->connect()) {return false;}
+		if (!$this->connect()) {
+			throw new Exception("Unable to connect and run query: {$query}");
+		}
 		$this->result = $this->connection->query($query);
 		if ($this->result===false) {
-			trigger_error("MySQL Error: {$this->connection->error}" . NL . $query, E_USER_WARNING);
+			throw new Exception("Error during MySQL Query: {$query}");
 		}
 	}
 	
