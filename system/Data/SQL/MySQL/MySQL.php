@@ -207,6 +207,7 @@ class MySQL extends AbstractDatabase implements IDatabase {
 			$database = alt($database, $this->database);
 			$port = alt($port, $this->port);
 			$this->connection = new mysqli($host, $username, $password, $database, $port);
+			if (!!$this->getConnectErrno()) {throw new Exception($this->getConnectError());}
 		}
 		return $this->connection;
 	}
@@ -216,13 +217,8 @@ class MySQL extends AbstractDatabase implements IDatabase {
 	}
 	
 	public function query($query) {
-		if (!$this->connect()) {
-			throw new Exception("Unable to connect and run query: {$query}");
-		}
-		$this->result = $this->connection->query($query);
-		if ($this->result===false) {
-			throw new Exception($this->getError());
-		}
+		$this->result = $this->connect()->query($query);
+		if ($this->result===false) {throw new Exception($this->getError());}
 	}
 	
 	public function commit() {
