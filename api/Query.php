@@ -8,7 +8,7 @@ class Query extends Object {
 	}
 	
 	public static function execute($query, $connectionId, $limit=null, $offset=0, $database=null) {
-		$conn = val(val(Connection::get(array("id"=>$connectionId)), "records"), 0);
+		$conn = Connection::getById($connectionId);
 		$db = DatabaseFactory::createDatabase($conn);
 		$success = null;
 		$rows = array();
@@ -22,7 +22,6 @@ class Query extends Object {
 			$q = $db->getQueryParser($query)->setup()->addLimit($limit)->addOffset($offset)->getQuery();
 			$db->query($q);
 			while ($db->getRecord()) {
-				// Add an internal row id that the client side knows will be unique
 				$db->record["__id__"] = $__id__++;
 				$rows[] = $db->record;
 			}
@@ -34,6 +33,7 @@ class Query extends Object {
 			$success = false;
 			$message = "Error " . $db->getErrno() . ": " . $db->getError();
 		}
+		$message = $message . NL . NL . $db->getAffectedRows() . " rows affected";
 		
 		$metaData = self::buildMetaData($rows);
 		$result = array(
@@ -41,7 +41,7 @@ class Query extends Object {
 			"total"=>$total,
 			"query"=>$query,
 			"rows"=>$rows,
-			"message"=>$message,
+			"message"=>nl2br($message),
 			"metaData"=>$metaData
 		);
 		

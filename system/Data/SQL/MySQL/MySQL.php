@@ -11,10 +11,11 @@ class MySQL extends AbstractDatabase implements IDatabase {
 		$this->username = $username;
 		$this->password = $password;
 		$this->database = $database;
-		$this->port = alt($port, 3306);
+		$this->port = intval(alt($port, 3306));
 	}
 	
 	public function getAffectedRows() {
+		return max(0, $this->connect()->affected_rows);
 	}
 	
 	public function getNumRows() {
@@ -187,8 +188,7 @@ class MySQL extends AbstractDatabase implements IDatabase {
 	}
 	
 	public function changeDatabase($database) {
-		$database = isset($database) ? $database : $this->database;
-		if ($database) {
+		if (isset($database)) {
 			$this->connect()->select_db($database);
 		}
 		return $this;
@@ -205,7 +205,7 @@ class MySQL extends AbstractDatabase implements IDatabase {
 			$username = alt($username, $this->username);
 			$password = alt($password, $this->password);
 			$database = alt($database, $this->database);
-			$port = alt($port, $this->port);
+			$port = intval(alt($port, $this->port));
 			$this->connection = new mysqli($host, $username, $password, $database, $port);
 			if (!!$this->getConnectErrno()) {throw new Exception($this->getConnectError());}
 		}
@@ -219,6 +219,7 @@ class MySQL extends AbstractDatabase implements IDatabase {
 	public function query($query) {
 		$this->result = $this->connect()->query($query);
 		if ($this->result===false) {throw new Exception($this->getError());}
+		return $this->result;
 	}
 	
 	public function commit() {
