@@ -19,9 +19,13 @@ monoql.form.queryform = function() {
 				name:'query'
 			});
 			this.querytextarea.on('render', this.onQueryTextAreaRender, this);
+			this.tab.on('activate', this.onQueryTabActivate, this);
 			this.items = [this.querytextarea, this.queryfield];
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
+		},
+		onQueryTabActivate:function(tab) {
+			this.querytextarea.focus();
 		},
 		onQueryTextAreaRender:function(textarea) {
 			this.keyMap = new Ext.KeyMap(this.el, [{

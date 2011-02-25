@@ -6,8 +6,17 @@ monoql.tab.messagetab = function() {
 		layout:'fit',
 		border:false,
 		initComponent: function() {
+			this.getQueryForm().on('query', this.onQueryFormQuery, this);
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
+		},
+		onQueryFormQuery:function(form, query, connection) {
+			if (this.rendered) {
+				this.update('');
+			}
+		},
+		getQueryForm:function() {
+			return this.tabset.tab.queryform;
 		}
 	});
 	Ext.reg(cls, Class);
