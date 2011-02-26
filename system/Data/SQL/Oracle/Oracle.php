@@ -59,6 +59,8 @@ class Oracle extends AbstractDatabase implements IDatabase {
 	
 	public function getTables($search=null, $database=null) {}
 	
+	public function getColumns($table, $database=null) {}
+	
 	public function getTriggers($database=null) {}
 	
 	public function getViews($database=null) {}
