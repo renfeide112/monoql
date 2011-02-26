@@ -4,5 +4,6 @@ include("resultgridselectionmodel.js");
 include("resultgridview.js");
 include("grid.js");
 include("livegrid.js");
+include("tablegrid.js");
 include("resultgrid.js");
 ?>

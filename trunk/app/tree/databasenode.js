@@ -16,7 +16,7 @@ monoql.tree.databasenode = function() {
 		},
 		onMenuQueryClick:function(item, e) {
 			this.menu.hide();
-			ui.tabs.addQueryTab(this.getConnection(), this.attributes.database);
+			ui.tabs.addQueryTab(this.getConnection(), this.getDatabase());
 		},
 		onDatabaseNodeBeforeLoad:function(node) {
 			Ext.apply(node.getOwnerTree().getLoader().baseParams, {

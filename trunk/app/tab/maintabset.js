@@ -5,6 +5,9 @@ monoql.tab.maintabset = function() {
 	var Class = Ext.extend(monoql.tab.tabset, {
 		headerStyle:'border-top-width:0px;',
 		tabWidth:150,
+		defaults:{
+			closable:true
+		},
 		initComponent: function() {
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
@@ -16,6 +19,17 @@ monoql.tab.maintabset = function() {
 				});
 				tab.setConnection(connection);
 				tab.setDatabase(database);
+				this.activate(this.add(tab));
+				return tab;
+			}
+		},
+		addTableTab:function(connection, database, table) {
+			if (connection) {
+				var tab = new monoql.tab.tabletab({
+					connection:connection,
+					database:database,
+					table:table
+				});
 				this.activate(this.add(tab));
 				return tab;
 			}

@@ -1,6 +1,7 @@
 <?php
 include("connectionrecord.js");
 include("connectionstore.js");
+include("tablegridstore.js");
 include("resultgridproxy.js");
 include("resultgridrecord.js");
 include("resultgridreader.js");
