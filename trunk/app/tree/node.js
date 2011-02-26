@@ -44,6 +44,17 @@ monoql.tree.node = function() {
 			}
 			return null;
 		},
+		getTable:function() {
+			var node = this;
+			while (node) {
+				if (node.attributes.table) {
+					return node.attributes.table;
+				} else {
+					node = node.parentNode;
+				}
+			}
+			return null;
+		},
 		onNodeCollapse:function(node) {
 			(function() {
 				while (this.firstChild) {

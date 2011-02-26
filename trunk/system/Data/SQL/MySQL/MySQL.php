@@ -155,6 +155,22 @@ class MySQL extends AbstractDatabase implements IDatabase {
 		return $tables;
 	}
 	
+	public function getColumns($table,$database=null) {
+		$columns = array();
+		$database = isset($database) ? $database : $this->database;
+		$this->changeDatabase($database);
+		$query = "SHOW COLUMNS FROM {$table}" . (isset($search) ? " AND Field LIKE '%{$search}%'" : "");
+		$this->query($query);
+		while ($this->getRecord()) {
+			$columns[] = array(
+				"name"=>$this->record["Field"],
+				"key"=>strlen(trim($this->record["Key"]))>0,
+				"primary"=>val($this->record, "Key")==="PRI"
+			);
+		}
+		return $columns;
+	}
+	
 	public function getTriggers($database=null) {
 		$triggers = array();
 		$database = isset($database) ? $database : $this->database;

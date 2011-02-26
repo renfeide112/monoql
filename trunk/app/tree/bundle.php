@@ -14,6 +14,7 @@ include("sprocgroupnode.js");
 include("sprocnode.js");
 include("tablegroupnode.js");
 include("tablenode.js");
+include("columnnode.js");
 include("triggergroupnode.js");
 include("triggernode.js");
 include("usergroupnode.js");

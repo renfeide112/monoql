@@ -37,6 +37,15 @@ button.monoql-button-resultstofilebutton-icon
 .x-tree-node-el .monoql-tree-tablenode-icon
 {background-image:url('../images/table.png')}
 
+.x-tree-node-el .monoql-tree-columnnode-icon
+{background-image:url('../images/bullet_green.png')}
+
+.monoql-tree-columnnode-primary .monoql-tree-columnnode-icon
+{background-image:url('../images/key_go.png')}
+
+.monoql-tree-columnnode-key .monoql-tree-columnnode-icon
+{background-image:url('../images/key.png')}
+
 .x-tree-node-el .monoql-tree-viewnode-icon
 {background-image:url('../images/magnifier.png')}
 

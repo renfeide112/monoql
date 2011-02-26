@@ -21,6 +21,7 @@ include("sprocgroupnodemenu.js");
 include("sprocnodemenu.js");
 include("tablegroupnodemenu.js");
 include("tablenodemenu.js");
+include("columnnodemenu.js");
 include("triggergroupnodemenu.js");
 include("triggernodemenu.js");
 include("usergroupnodemenu.js");
