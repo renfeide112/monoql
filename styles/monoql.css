@@ -28,6 +28,18 @@ button.monoql-button-resultstofilebutton-icon
 .monoql-menu-item-refresh-icon
 {background-image:url('../images/arrow_refresh.png')}
 
+.monoql-menu-item-query-icon
+{background-image:url('../images/database_go.png')}
+
+.monoql-menu-item-modifyconnection-icon,
+.monoql-menu-item-modifytable-icon
+{background-image:url('../images/pencil.png')}
+
+.monoql-menu-item-removeconnection-icon,
+.monoql-menu-item-dropdatabase-icon,
+.monoql-menu-item-droptable-icon
+{background-image:url('../images/cross.png')}
+
 .x-tree-node-el .monoql-tree-connectionnode-icon
 {background-image:url('../images/server_connect.png')}
 
