@@ -4,6 +4,7 @@ include("querytab.js");
 include("hometab.js");
 include("tabset.js");
 include("maintabset.js");
+include("tabletab.js");
 include("resulttab.js");
 include("messagetab.js");
 include("resulttabset.js");

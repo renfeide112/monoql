@@ -9,6 +9,7 @@ monoql.tree.tablenode = function() {
 			this.menu = new monoql.menu.tablenodemenu({
 				node:this
 			});
+			this.menu.open.on('click', this.onMenuOpenClick, this);
 			Class.superclass.constructor.call(this, attributes);
 			this.on('beforeload', this.onTableNodeBeforeLoad, this);
 			this.attributes.cls = [this.attributes.cls, cls].join(" ");
@@ -18,6 +19,10 @@ monoql.tree.tablenode = function() {
 				table:node.getTable(),
 				database:node.getDatabase()
 			});
+		},
+		onMenuOpenClick:function(item, e) {
+			this.menu.hide();
+			ui.tabs.addTableTab(this.getConnection(), this.getDatabase(), this.getTable());
 		}
 	});
 	Ext.tree.TreePanel.nodeTypes[cls] = Class;

@@ -50,13 +50,13 @@ button.monoql-button-resultstofilebutton-icon
 {background-image:url('../images/table.png')}
 
 .x-tree-node-el .monoql-tree-columnnode-icon
-{background-image:url('../images/bullet_green.png')}
+{background-image:url('../images/bullet_black.png')}
 
 .monoql-tree-columnnode-primary .monoql-tree-columnnode-icon
-{background-image:url('../images/key_go.png')}
+{background-image:url('../images/bullet_key.png')}
 
 .monoql-tree-columnnode-key .monoql-tree-columnnode-icon
-{background-image:url('../images/key.png')}
+{background-image:url('../images/bullet_red.png')}
 
 .x-tree-node-el .monoql-tree-viewnode-icon
 {background-image:url('../images/magnifier.png')}

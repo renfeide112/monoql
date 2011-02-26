@@ -9,8 +9,14 @@ monoql.tree.viewnode = function() {
 			this.menu = new monoql.menu.viewnodemenu({
 				node:this
 			});
+			this.menu.open.on('click', this.onMenuOpenClick, this);
 			Class.superclass.constructor.call(this, attributes);
 			this.attributes.cls = [this.attributes.cls, cls].join(" ");
+		},
+		onMenuOpenClick:function(item, e) {
+			this.menu.hide();
+			// TODO: This should be a viewtab, not a tabletab
+			ui.tabs.addTableTab(this.getConnection(), this.getDatabase(), this.getTable());
 		}
 	});
 	Ext.tree.TreePanel.nodeTypes[cls] = Class;
