@@ -149,7 +149,6 @@ class ConnectionTree extends Object {
 		$conn = Connection::getById($args["connectionId"]);
 		$db = DatabaseFactory::createDatabase($conn);
 		$columns = $db->getColumns($args["table"], $args["database"]);
-			debug((print_r($columns, true)));
 		foreach ($columns as $column) {
 			$key = $column["key"] ? ($column["primary"] ? "primary" : "key") : "normal";
 			$children[] = array(
