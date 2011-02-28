@@ -1,0 +1,89 @@
+.x-tab-strip span.x-tab-strip-text
+{font-weight:bold;}
+
+button.monoql-button-openfilebutton-icon
+{background-image:url('../images/folder.png')}
+
+button.monoql-button-savefilebutton-icon
+{background-image:url('../images/disk.png')}
+
+button.monoql-button-runquerybutton-icon
+{background-image:url('../images/exclamation.png')}
+
+button.monoql-button-cancelquerybutton-icon
+{background-image:url('../images/cross.png')}
+
+button.monoql-button-addquerytabbutton-icon
+{background-image:url('../images/tab_add.png')}
+
+button.monoql-button-resultstogridbutton-icon
+{background-image:url('../images/table.png')}
+
+button.monoql-button-resultstotextbutton-icon
+{background-image:url('../images/text_columns.png')}
+
+button.monoql-button-resultstofilebutton-icon
+{background-image:url('../images/page_white_put.png')}
+
+.monoql-menu-item-refresh-icon
+{background-image:url('../images/arrow_refresh.png')}
+
+.monoql-menu-item-query-icon
+{background-image:url('../images/database_go.png')}
+
+.monoql-menu-item-modifyconnection-icon,
+.monoql-menu-item-modifytable-icon
+{background-image:url('../images/pencil.png')}
+
+.monoql-menu-item-removeconnection-icon,
+.monoql-menu-item-dropdatabase-icon,
+.monoql-menu-item-droptable-icon
+{background-image:url('../images/cross.png')}
+
+.x-tree-node-el .monoql-tree-connectionnode-icon
+{background-image:url('../images/server_connect.png')}
+
+.x-tree-node-el .monoql-tree-databasenode-icon
+{background-image:url('../images/database.png')}
+
+.x-tree-node-el .monoql-tree-tablenode-icon
+{background-image:url('../images/table.png')}
+
+.x-tree-node-el .monoql-tree-columnnode-icon
+{background-image:url('../images/bullet_black.png')}
+
+.monoql-tree-columnnode-primary .monoql-tree-columnnode-icon
+{background-image:url('../images/bullet_key.png')}
+
+.monoql-tree-columnnode-key .monoql-tree-columnnode-icon
+{background-image:url('../images/bullet_red.png')}
+
+.x-tree-node-el .monoql-tree-viewnode-icon
+{background-image:url('../images/magnifier.png')}
+
+.x-tree-node-el .monoql-tree-functionnode-icon
+{background-image:url('../images/script_go.png')}
+
+.x-tree-node-el .monoql-tree-triggernode-icon
+{background-image:url('../images/cog.png')}
+
+.x-tree-node-el .monoql-tree-sprocnode-icon
+{background-image:url('../images/script_gear.png')}
+
+button.monoql-bar-connectiontreetoolbar-newconnectionbutton-icon
+{background-image:url('../images/server_add.png')}
+
+button.monoql-bar-connectiontreetoolbar-refreshbutton-icon
+{background-image:url('../images/arrow_refresh.png')}
+
+.monoql-tab-querytab .x-layout-split
+{background-color:#DFE8F6;}
+
+.monoql-tab-tabset .x-tab-panel-body
+{background-color:#D0DEF0;}
+
+.monoql-form-queryform textarea.x-form-field
+{border-width:0px;padding:0px;padding-left:2px;font-size:12px;line-height:15px;font-family:Courier New, monospace}
+
+.monoql-tab-messagetab .x-panel-body
+{padding:5px;font-family:Courier New, monospace;font-size:12px;}

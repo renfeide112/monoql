@@ -1,0 +1,3 @@
+Options -Indexes
+RewriteEngine On
+RewriteRule ^(api|config|data|errors|logs|system)/ errors/403.php [F,L]
