@@ -295,5 +295,13 @@ class MySQL extends AbstractDatabase implements IDatabase {
 		return isset($this->queryParser) ? $this->queryParser->setQuery($query) : new MySQLQueryParser($query);
 	}
 	
+	public function enforceConstraint($query,$enforceConstraints=true){
+		if($enforceConstraints)
+		{
+			return " SET foreign_key_checks = 0;{$query};SET foreign_key_checks = 1;";
+		}
+		return $query;
+	}
+	
 }
 ?>

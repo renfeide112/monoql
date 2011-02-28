@@ -1,5 +1,5 @@
 <?php
-class MySQLTable extends Object implements ITable {
+class MySQLDatabase extends Object implements IDatabase {
 
 	public function __construct($tablename, $dbname=DB_NAME) {
 		
