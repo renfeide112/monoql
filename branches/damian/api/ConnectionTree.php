@@ -4,6 +4,7 @@ class ConnectionTree extends Object {
 	public function __construct() {}
 	
 	public static function getChildNodes($args) {
+		debug("nodeType: ".$args["nodeType"]);
 		switch ($args["nodeType"]) {
 			case "monoql-tree-connectiongroupnode":
 				$children = self::getConnectionGroupChildNodes($args);

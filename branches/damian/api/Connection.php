@@ -4,9 +4,10 @@ class Connection extends Object {
 	public function __construct() {}
 	
 	public static function get(array $filters=array()) {
+		
 		global $config;
 		$db = DatabaseFactory::createDatabase("sqlite", $config["monoql_db_path"]);
-		
+		debug("Connection.get");
 		if (isset($filters["id"])) {
 			$where = "WHERE id=" . $db->escape($filters["id"]);
 		} else if (isset($filters["name"])) {

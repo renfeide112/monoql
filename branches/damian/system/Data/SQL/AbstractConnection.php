@@ -1,8 +1,8 @@
 <?php
 /**
- * Database class to be extended by various vendor database types
+ * Connection class to be extended by various vendor connection types
  */
-class AbstractDatabase extends Object {
+class AbstractConnection extends Object {
 	
 	public $record;
 	public $le;
@@ -17,6 +17,6 @@ class AbstractDatabase extends Object {
 	protected $port;
 	protected $cache = array();
 	protected $queryParser;
-	
+
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-class MySQL extends AbstractDatabase implements IDatabase {
+class MySQLConnection extends AbstractConnection implements IConnection {
 	
 	public function __construct($host=null, $username=null, $password=null, $database=null, $port=null) {
 		global $config;
@@ -116,87 +116,6 @@ class MySQL extends AbstractDatabase implements IDatabase {
 		return $databases;
 	}
 	
-	public function getFunctions($database=null) {
-		$functions = array();
-		$database = isset($database) ? $database : $this->database;
-		$query = "SHOW FUNCTION STATUS WHERE Db='{$database}'";
-		$this->query($query);
-		while ($this->getRecord()) {
-			$functions[] = $this->record["Name"];
-		}
-		$functions = array_unique($functions);
-		sort($functions);
-		return $functions;
-	}
-	
-	public function getStoredProcedures($database=null) {
-		$sprocs = array();
-		$database = isset($database) ? $database : $this->database;
-		$query = "SHOW PROCEDURE STATUS WHERE Db='{$database}'";
-		$this->query($query);
-		while ($this->getRecord()) {
-			$sprocs[] = $this->record["Name"];
-		}
-		$sprocs = array_unique($sprocs);
-		sort($sprocs);
-		return $sprocs;
-	}
-	
-	public function getTables($search=null, $database=null) {
-		$tables = array();
-		$database = isset($database) ? $database : $this->database;
-		$query = "SHOW FULL TABLES FROM {$database} WHERE Table_type='BASE TABLE'" . (isset($search) ? " AND Tables_in_{$database} LIKE '%{$search}%'" : "");
-		$this->query($query);
-		while ($this->getRecord(false)) {
-			$tables[] = $this->record[0];
-		}
-		$tables = array_unique($tables);
-		sort($tables);
-		return $tables;
-	}
-	
-	public function getColumns($table,$database=null) {
-		$columns = array();
-		$database = isset($database) ? $database : $this->database;
-		$this->changeDatabase($database);
-		$query = "SHOW COLUMNS FROM {$table}" . (isset($search) ? " AND Field LIKE '%{$search}%'" : "");
-		$this->query($query);
-		while ($this->getRecord()) {
-			$columns[] = array(
-				"name"=>$this->record["Field"],
-				"key"=>strlen(trim($this->record["Key"]))>0,
-				"primary"=>val($this->record, "Key")==="PRI"
-			);
-		}
-		return $columns;
-	}
-	
-	public function getTriggers($database=null) {
-		$triggers = array();
-		$database = isset($database) ? $database : $this->database;
-		$query = "SHOW TRIGGERS FROM {$database}";
-		$this->query($query);
-		while ($this->getRecord()) {
-			$triggers[] = $this->record["Trigger"];
-		}
-		$triggers = array_unique($triggers);
-		sort($triggers);
-		return $triggers;
-	}
-	
-	public function getViews($database=null) {
-		$views = array();
-		$database = isset($database) ? $database : $this->database;
-		$query = "SHOW FULL TABLES FROM {$database} WHERE Table_type='VIEW'" . (isset($search) ? " AND Tables_in_{$database} LIKE '%{$search}%'" : "");
-		$this->query($query);
-		while ($this->getRecord(false)) {
-			$views[] = $this->record[0];
-		}
-		$views = array_unique($views);
-		sort($views);
-		return $views;
-	}
-	
 	public function changeUser($username, $password, $database=null) {
 		$database = isset($database) ? $database : $this->database;
 		$this->connect(null, $username, $password, $database);
@@ -258,39 +177,6 @@ class MySQL extends AbstractDatabase implements IDatabase {
 		return $this->le . $string . $this->re;
 	}
 	
-	public function createDatabase($database, $overwrite=false, array $options=null) {
-		$query = "CREATE DATABASE";
-		$query .= $overwrite ? " IF NOT EXISTS" : "";
-		$query .= " {$this->encapsulate($database)}";
-		if (isset($options)) {
-			$query .= isset($options["charset"]) ? " DEFAULT CHARACTER SET = {$options["charset"]}" : "";
-			$query .= isset($options["collation"]) ? " DEFAULT COLLATE = {$options["collation"]}" : "";
-		}
-		$status = $this->query($query);
-		return $status;
-	}
-	
-	public function dropDatabase($database) {
-		$query = "DROP DATABASE IF EXISTS " . $this->encapsulate($database);
-		$status = $this->query($query);
-		return $status;
-	}
-	
-	public function createTable($table, $properties, $enforceConstraints=true, $database=null) {
-	}
-	
-	public function dropTable($table, $enforceConstraints=true, $database=null) {
-	}
-	
-	public function truncateTable($table, $enforceConstraints=true) {
-	}
-	
-	public function emptyDatabase($enforceConstraints=true) {
-	}
-	
-	public function truncateDatabase($enforceConstraints=true) {
-	}
-	
 	public function getQueryParser($query) {
 		return isset($this->queryParser) ? $this->queryParser->setQuery($query) : new MySQLQueryParser($query);
 	}
@@ -302,6 +188,6 @@ class MySQL extends AbstractDatabase implements IDatabase {
 		}
 		return $query;
 	}
-	
+
 }
 ?>

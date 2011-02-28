@@ -1,5 +1,5 @@
 <?php
-class SQLite extends AbstractDatabase implements IDatabase {
+class SQLiteConnection extends AbstractConnection implements IConnection {
 	
 	public function __construct($host=null, $username=null, $password=null, $database=null, $port=null){
 		global $config;
