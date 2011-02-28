@@ -1,5 +1,5 @@
 <?php
-class MySQLColumn extends Object implements IColumn {
+class MySQLColumn extends AbstractColumn implements IColumn {
 	
 	public function __construct($tablename, $columnname, $database) {
 		
