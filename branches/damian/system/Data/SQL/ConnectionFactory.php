@@ -32,9 +32,7 @@ abstract class ConnectionFactory extends Object {
 				$connection = new OracleConnection($host, $username, $password, $dbname, $port);
 				break;
 			case "sqlite":
-				debug("SQLiteConnection: 1 ({$host}, {$username}, {$password}, {$dbname}, {$port})");
 				$connection = new SQLiteConnection($host, $username, $password, $dbname, $port);
-				debug("SQLiteConnection: 2");
 				break;
 			case "mysql":
 				$connection = new MySQLConnection($host, $username, $password, $dbname, $port);

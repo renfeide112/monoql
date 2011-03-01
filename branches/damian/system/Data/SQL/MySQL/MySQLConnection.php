@@ -109,6 +109,7 @@ class MySQLConnection extends AbstractConnection implements IConnection {
 	public function getDatabases() {
 		$dbnames = array();
 		$query = "SHOW DATABASES";
+		$tmp=$this;
 		$this->query($query);
 		while ($this->getRecord()) {
 			$dbnames[] = $this->record["Database"];

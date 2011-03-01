@@ -2,7 +2,6 @@
 class SQLiteConnection extends AbstractConnection implements IConnection {
 	
 	public function __construct($host=null, $username=null, $password=null, $dbname=null, $port=null){
-		debug("construct sqlite");
 		global $config;
 		$this->host = alt($host, $this->host, $config["monoql_db_path"]); //this is the path to the file
 	}
