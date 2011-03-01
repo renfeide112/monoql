@@ -21,6 +21,7 @@ class Connection extends Object {
 			$records = array();
 			while ($db->getRecord()) {
 				$record = $db->record;
+				unset($record["password"]);
 				$records[] = $record;
 			}
 			$success = true;
@@ -115,12 +116,13 @@ class Connection extends Object {
 				}
 				if (!!$where) {
 					$now = date("Y-m-d H:i:s");
+					$updatePassword = strlen(trim(val($conn,"password"))) > 0;
 					$p = array(
 						"name"=>$db->quote(alt(val($conn,"name"), "New Connection [{$now}]")),
 						"type"=>$db->quote(val($conn,"type")),
 						"host"=>$db->quote(val($conn,"host")),
 						"username"=>$db->quote(val($conn,"username")),
-						"password"=>$db->quote(val($conn,"password")),
+						"password"=>($updatePassword ? $db->quote(val($conn,"password")) : "password"),
 						"port"=>$db->quote(val($conn,"port")),
 						"defaultDatabase"=>$db->quote(val($conn,"defaultDatabase")),
 						"mdate"=>$db->quote($now),
