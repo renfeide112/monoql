@@ -13,7 +13,7 @@ class AbstractConnection extends Object {
 	protected $host;
 	protected $username;
 	protected $password;
-	protected $database;
+	protected $dbname;
 	protected $port;
 	protected $cache = array();
 	protected $queryParser;

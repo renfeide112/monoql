@@ -1,7 +1,7 @@
 <?php
 class MySQLConnection extends AbstractConnection implements IConnection {
 	
-	public function __construct($host=null, $username=null, $password=null, $database=null, $port=null) {
+	public function __construct($host=null, $username=null, $password=null, $dbname=null, $port=null) {
 		global $config;
 		
 		$this->le = "`";
@@ -10,7 +10,7 @@ class MySQLConnection extends AbstractConnection implements IConnection {
 		$this->host = $host;
 		$this->username = $username;
 		$this->password = $password;
-		$this->database = $database;
+		$this->dbname = $dbname;
 		$this->port = intval(alt($port, 3306));
 	}
 	
@@ -103,28 +103,28 @@ class MySQLConnection extends AbstractConnection implements IConnection {
 	}
 	
 	public function getDatabase() {
-		return $this->database;
+		return new MySQLDatabase($this->dbname,$this);
 	}
 	
 	public function getDatabases() {
-		$databases = array();
+		$dbnames = array();
 		$query = "SHOW DATABASES";
 		$this->query($query);
 		while ($this->getRecord()) {
-			$databases[] = $this->record["Database"];
+			$dbnames[] = $this->record["Database"];
 		}
-		return $databases;
+		return $dbnames;
 	}
 	
-	public function changeUser($username, $password, $database=null) {
-		$database = isset($database) ? $database : $this->database;
-		$this->connect(null, $username, $password, $database);
+	public function changeUser($username, $password, $dbname=null) {
+		$dbname = isset($dbname) ? $dbname : $this->dbname;
+		$this->connect(null, $username, $password, $dbname);
 		return $this;
 	}
 	
-	public function changeDatabase($database) {
-		if (isset($database)) {
-			$this->connect()->select_db($database);
+	public function changeDatabase($dbname) {
+		if (isset($dbname)) {
+			$this->connect()->select_db($dbname);
 		}
 		return $this;
 	}
@@ -134,14 +134,14 @@ class MySQLConnection extends AbstractConnection implements IConnection {
 		$this->connection->set_charset($charset);
 	}
 	
-	public function connect($host=null, $username=null, $password=null, $database=null, $port=null) {
+	public function connect($host=null, $username=null, $password=null, $dbname=null, $port=null) {
 		if (!isset($this->connection)) {
 			$host = alt($host, $this->host);
 			$username = alt($username, $this->username);
 			$password = alt($password, $this->password);
-			$database = alt($database, $this->database);
+			$dbname = alt($dbname, $this->dbname);
 			$port = intval(alt($port, $this->port));
-			$this->connection = new mysqli($host, $username, $password, $database, $port);
+			$this->connection = new mysqli($host, $username, $password, $dbname, $port);
 			if (!!$this->getConnectErrno()) {throw new Exception($this->getConnectError());}
 		}
 		return $this->connection;

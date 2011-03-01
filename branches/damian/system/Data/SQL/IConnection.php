@@ -53,13 +53,13 @@ interface IConnection {
 	
 	public function getDatabases();
 	
-	public function changeUser($username, $password, $database=null);
+	public function changeUser($username, $password, $dbname=null);
 	
 	public function changeDatabase($database);
 	
 	public function changeCharset($charset);
 	
-	public function connect($host=null, $username=null, $password=null, $database=null, $port=null);
+	public function connect($host=null, $username=null, $password=null, $dbname=null, $port=null);
 	
 	public function close();
 	

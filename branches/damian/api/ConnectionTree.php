@@ -54,7 +54,7 @@ class ConnectionTree extends Object {
 	public static function getConnectionChildNodes($args) {
 		$children = array();
 		$conn = Connection::getById($args["connectionId"]);
-		$db = DatabaseFactory::createDatabase($conn);
+		$db = ConnectionFactory::createConnection($conn);
 		$databases = $db->getDatabases();
 		foreach ($databases as $database) {
 			$children[] = array(
@@ -69,7 +69,8 @@ class ConnectionTree extends Object {
 	public static function getTableGroupChildNodes($args) {
 		$children = array();
 		$conn = Connection::getById($args["connectionId"]);
-		$db = DatabaseFactory::createDatabase($conn);
+		$db = ConnectionFactory::createConnection($conn,$args["database"]);
+		
 		$tables = $db->getTables(null, $args["database"]);
 		foreach ($tables as $table) {
 			$children[] = array(
@@ -84,7 +85,7 @@ class ConnectionTree extends Object {
 	public static function getViewGroupChildNodes($args) {
 		$children = array();
 		$conn = Connection::getById($args["connectionId"]);
-		$db = DatabaseFactory::createDatabase($conn);
+		$db = ConnectionFactory::createConnection($conn);
 		$views = $db->getViews($args["database"]);
 		foreach ($views as $view) {
 			$children[] = array(
@@ -100,7 +101,7 @@ class ConnectionTree extends Object {
 	public static function getSprocGroupChildNodes($args) {
 		$children = array();
 		$conn = Connection::getById($args["connectionId"]);
-		$db = DatabaseFactory::createDatabase($conn);
+		$db = ConnectionFactory::createConnection($conn);
 		$sprocs = $db->getStoredProcedures($args["database"]);
 		foreach ($sprocs as $sproc) {
 			$children[] = array(
@@ -116,7 +117,7 @@ class ConnectionTree extends Object {
 	public static function getFunctionGroupChildNodes($args) {
 		$children = array();
 		$conn = Connection::getById($args["connectionId"]);
-		$db = DatabaseFactory::createDatabase($conn);
+		$db = ConnectionFactory::createConnection($conn);
 		$functions = $db->getFunctions($args["database"]);
 		foreach ($functions as $function) {
 			$children[] = array(
@@ -132,7 +133,7 @@ class ConnectionTree extends Object {
 	public static function getTriggerGroupChildNodes($args) {
 		$children = array();
 		$conn = Connection::getById($args["connectionId"]);
-		$db = DatabaseFactory::createDatabase($conn);
+		$db = ConnectionFactory::createConnection($conn);
 		$triggers = $db->getTriggers($args["database"]);
 		foreach ($triggers as $trigger) {
 			$children[] = array(
@@ -148,7 +149,7 @@ class ConnectionTree extends Object {
 	public static function getTableChildNodes($args) {
 		$children = array();
 		$conn = Connection::getById($args["connectionId"]);
-		$db = DatabaseFactory::createDatabase($conn);
+		$db = ConnectionFactory::createConnection($conn);
 		$columns = $db->getColumns($args["table"], $args["database"]);
 		foreach ($columns as $column) {
 			$key = $column["key"] ? ($column["primary"] ? "primary" : "key") : "normal";

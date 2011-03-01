@@ -1,7 +1,8 @@
 <?php
 class SQLiteConnection extends AbstractConnection implements IConnection {
 	
-	public function __construct($host=null, $username=null, $password=null, $database=null, $port=null){
+	public function __construct($host=null, $username=null, $password=null, $dbname=null, $port=null){
+		debug("construct sqlite");
 		global $config;
 		$this->host = alt($host, $this->host, $config["monoql_db_path"]); //this is the path to the file
 	}
@@ -73,25 +74,25 @@ class SQLiteConnection extends AbstractConnection implements IConnection {
 	
 	public function getDatabases() {}
 	
-	public function getFunctions($database=null) {}
+	public function getFunctions($dbname=null) {}
 	
-	public function getStoredProcedures($database=null) {}
+	public function getStoredProcedures($dbname=null) {}
 	
-	public function getTables($search=null, $database=null) {}
+	public function getTables($search=null, $dbname=null) {}
 	
-	public function getColumns($table, $database=null) {}
+	public function getColumns($table, $dbname=null) {}
 	
-	public function getTriggers($database=null) {}
+	public function getTriggers($dbname=null) {}
 	
-	public function getViews($database=null) {}
+	public function getViews($dbname=null) {}
 	
-	public function changeUser($username, $password, $database=null) {}
+	public function changeUser($username, $password, $dbname=null) {}
 	
-	public function changeDatabase($database) {}
+	public function changeDatabase($dbname) {}
 	
 	public function changeCharset($charset) {}
 	
-	public function connect($host=null, $username=null, $password=null, $database=null, $port=null) {
+	public function connect($host=null, $username=null, $password=null, $dbname=null, $port=null) {
 		if (!isset($this->connection)) {
 			// The PDO constructor will throw an exception on failure
 			$this->connection = new PDO("sqlite:" . alt($host, $this->host));
@@ -134,13 +135,13 @@ class SQLiteConnection extends AbstractConnection implements IConnection {
 	
 	public function encapsulate($string) {}
 	
-	public function createDatabase($database, $overwrite=false, array $options=null) {}
+	public function createDatabase($dbname, $overwrite=false, array $options=null) {}
 	
-	public function dropDatabase($database) {}
+	public function dropDatabase($dbname) {}
 	
-	public function createTable($table, $properties, $enforceConstraints=true, $database=null) {}
+	public function createTable($table, $properties, $enforceConstraints=true, $dbname=null) {}
 	
-	public function dropTable($table, $enforceConstraints=true, $database=null) {}
+	public function dropTable($table, $enforceConstraints=true, $dbname=null) {}
 	
 	public function truncateTable($table, $enforceConstraints=true) {}
 	

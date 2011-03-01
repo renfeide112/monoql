@@ -6,8 +6,8 @@ class Connection extends Object {
 	public static function get(array $filters=array()) {
 		
 		global $config;
-		$db = DatabaseFactory::createDatabase("sqlite", $config["monoql_db_path"]);
 		debug("Connection.get");
+		$db = ConnectionFactory::createConnection("sqlite", $config["monoql_db_path"]);
 		if (isset($filters["id"])) {
 			$where = "WHERE id=" . $db->escape($filters["id"]);
 		} else if (isset($filters["name"])) {
@@ -22,6 +22,7 @@ class Connection extends Object {
 			$records = array();
 			while ($db->getRecord()) {
 				$record = $db->record;
+				unset($record["password"]);
 				$records[] = $record;
 			}
 			$success = true;
@@ -54,7 +55,7 @@ class Connection extends Object {
 	// This will create 1 or more connections
 	public static function create(array $connections) {
 		global $config;
-		$db = DatabaseFactory::createDatabase("sqlite", $config["monoql_db_path"]);
+		$db = ConnectionFactory::createConnection("sqlite", $config["monoql_db_path"]);
 		$success = null;
 		$records = array();
 		
@@ -100,7 +101,7 @@ class Connection extends Object {
 	
 	public static function save(array $connections) {
 		global $config;
-		$db = DatabaseFactory::createDatabase("sqlite", $config["monoql_db_path"]);
+		$db = ConnectionFactory::createConnection("sqlite", $config["monoql_db_path"]);
 		$success = null;
 		$records = array();
 		
@@ -116,12 +117,13 @@ class Connection extends Object {
 				}
 				if (!!$where) {
 					$now = date("Y-m-d H:i:s");
+					$updatePassword = strlen(trim(val($conn,"password"))) > 0;
 					$p = array(
 						"name"=>$db->quote(alt(val($conn,"name"), "New Connection [{$now}]")),
 						"type"=>$db->quote(val($conn,"type")),
 						"host"=>$db->quote(val($conn,"host")),
 						"username"=>$db->quote(val($conn,"username")),
-						"password"=>$db->quote(val($conn,"password")),
+						"password"=>($updatePassword ? $db->quote(val($conn,"password")) : "password"),
 						"port"=>$db->quote(val($conn,"port")),
 						"defaultDatabase"=>$db->quote(val($conn,"defaultDatabase")),
 						"mdate"=>$db->quote($now),
@@ -163,7 +165,7 @@ class Connection extends Object {
 	
 	public static function delete(array $connections) {
 		global $config;
-		$db = DatabaseFactory::createDatabase("sqlite", $config["monoql_db_path"]);
+		$db = ConnectionFactory::createConnection("sqlite", $config["monoql_db_path"]);
 		$success = null;
 		$records = array();
 		
@@ -194,7 +196,7 @@ class Connection extends Object {
 	
 	public static function getDatabases($args) {
 		$connection = val($args, "connection");
-		$db = DatabaseFactory::createDatabase($connection);
+		$db = ConnectionFactory::createConnection($connection);
 		$databases = $db->getDatabases();
 		$result = array("records"=>array());
 		foreach ($databases as $database) {

@@ -15,6 +15,8 @@ interface IDatabase {
 	
 	public function dropDatabase();
 	
+	public function createDatabase();
+	
 	public function emptyDatabase($enforceConstraints=true);
 	
 	public function truncateDatabase($enforceConstraints=true);
