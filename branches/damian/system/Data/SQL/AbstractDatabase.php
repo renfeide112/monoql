@@ -3,7 +3,7 @@
  * Database class to be extended by various vendor database types
  */
 class AbstractDatabase extends Object {
-	protected $dbname;
-	protected $connection;
+	public $dbname;
+	public $connection;
 }
 ?>

@@ -22,7 +22,7 @@ class Connection extends Object {
 			$records = array();
 			while ($db->getRecord()) {
 				$record = $db->record;
-				unset($record["password"]);
+				//unset($record["password"]);
 				$records[] = $record;
 			}
 			$success = true;

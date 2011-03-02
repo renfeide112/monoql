@@ -2,8 +2,6 @@
 class MySQLConnection extends AbstractConnection implements IConnection {
 	
 	public function __construct($host=null, $username=null, $password=null, $dbname=null, $port=null) {
-		global $config;
-		
 		$this->le = "`";
 		$this->re = "`";
 		
@@ -106,15 +104,21 @@ class MySQLConnection extends AbstractConnection implements IConnection {
 		return new MySQLDatabase($this->dbname,$this);
 	}
 	
-	public function getDatabases() {
+	public function getDatabaseNames() {
 		$dbnames = array();
 		$query = "SHOW DATABASES";
-		$tmp=$this;
 		$this->query($query);
 		while ($this->getRecord()) {
 			$dbnames[] = $this->record["Database"];
 		}
 		return $dbnames;
+	}
+	
+	public function getDatabases() {
+		foreach ($this->getDatabaseNames() as $dbname) {
+			$databases[$dbname] = new MySQLDatabase($dbname,$this);
+		}
+		return $databases;
 	}
 	
 	public function changeUser($username, $password, $dbname=null) {
