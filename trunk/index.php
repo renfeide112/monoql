@@ -2,7 +2,7 @@
 require_once("config/settings.php");
 require_once("system/Helix.php"); 
 if (isset($config["monoql_db_path"]) && !is_file($config["monoql_db_path"])) {
-	$db = new SQLite($config["monoql_db_path"]);
+	$db = new SQLiteDatabase($config["monoql_db_path"]);
 	$db->query(file_get_contents("config/monoql.sql"));
 }
 ?>
