@@ -1,8 +1,18 @@
 <?php
-class MySQLColumn extends Object implements IColumn {
+class MySQLColumn extends AbstractColumn implements IColumn {
 	
-	public function __construct($tablename, $columnname, $database) {
-		
+	public function __construct($name, $table) {
+		$this->name=$name;
+		$this->table = $table;
+	}
+	
+	
+	public function getName() {
+		return $this->name;
+	}
+	
+	public function getTable() {
+		return $this->table;
 	}
 	
 	public function add() {
@@ -34,7 +44,7 @@ class MySQLColumn extends Object implements IColumn {
 	}
 	
 	public function __toString() {
-		
+		return $this->name;
 	}
 	
 }

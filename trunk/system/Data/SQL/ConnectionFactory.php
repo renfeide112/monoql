@@ -1,7 +1,7 @@
 <?php
-abstract class DatabaseFactory extends Object {
+abstract class ConnectionFactory extends Object {
 	
-	private static $instances = array();
+	private static $connections = array();
 	
 	/**
 	 * Get a new or used instance of one of the database object types 
@@ -13,38 +13,37 @@ abstract class DatabaseFactory extends Object {
 	 * @param string $database The default database for the connection
 	 * @param int $port The port number to connect to the server
 	 */
-	public static function createDatabase($type=null, $host=null, $username=null, $password=null, $database=null, $port=null) {
-		global $config;
+	public static function createConnection($type=null, $host=null, $username=null, $password=null, $dbname=null, $port=null) {
 		if (is_array($type)) {
 			$args = $type;
 			$type = val($args, "type");
 			$host = val($args, "host");
 			$username = val($args, "username");
 			$password = val($args, "password");
-			$database = val($args, "database");
+			$dbname = val($args, "database");
 			$port = val($args, "port");
 		}
-		if (isset(self::$instances[$type])) {return self::$instances[$type];}
+		if (isset(self::$connections[$type])) {return self::$connections[$type];}
 		switch ($type) {
 			case "mssql":
-				$instance = new MSSQL($host, $username, $password, $database, $port);
+				$connection = new MSSQLConnection($host, $username, $password, $dbname, $port);
 				break;
 			case "oracle":
-				$instance = new Oracle($host, $username, $password, $database, $port);
+				$connection = new OracleConnection($host, $username, $password, $dbname, $port);
 				break;
 			case "sqlite":
-				$instance = new SQLite($host, $username, $password, $database, $port);
+				$connection = new SQLiteConnection($host, $username, $password, $dbname, $port);
 				break;
 			case "mysql":
-				$instance = new MySQL($host, $username, $password, $database, $port);
+				$connection = new MySQLConnection($host, $username, $password, $dbname, $port);
 				break;
 			case "pgsql":
-				$instance = new PostGreSQL($host, $username, $password, $database, $port);
+				$connection = new PostGreSQLConnection($host, $username, $password, $dbname, $port);
 				break;
 		}
-		self::$instances[$type] = $instance;
-		return $instance;
+		self::$connections[$type] = $connection;
+		return $connection;
 	}
-	
+
 }
 ?>
