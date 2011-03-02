@@ -73,17 +73,17 @@ class SQLiteDatabase extends AbstractDatabase implements IDatabase {
 	
 	public function getDatabases() {}
 	
-	public function getFunctions($database=null) {}
+	public function getFunctions() {}
 	
-	public function getStoredProcedures($database=null) {}
+	public function getStoredProcedures() {}
 	
-	public function getTables($search=null, $database=null) {}
+	public function getTables($search=null) {}
 	
 	public function getColumns($table, $database=null) {}
 	
-	public function getTriggers($database=null) {}
+	public function getTriggers() {}
 	
-	public function getViews($database=null) {}
+	public function getViews() {}
 	
 	public function changeUser($username, $password, $database=null) {}
 	
@@ -134,15 +134,15 @@ class SQLiteDatabase extends AbstractDatabase implements IDatabase {
 	
 	public function encapsulate($string) {}
 	
-	public function createDatabase($database, $overwrite=false, array $options=null) {}
+	public function createDatabase() {}
 	
 	public function dropDatabase() {}
 	
-	public function createTable($table, $properties, $enforceConstraints=true, $database=null) {}
+	public function createTable() {}
 	
-	public function dropTable($table, $enforceConstraints=true, $database=null) {}
+	public function dropTable() {}
 	
-	public function truncateTable($table, $enforceConstraints=true) {}
+	public function truncateTable() {}
 	
 	public function emptyDatabase($enforceConstraints=true) {}
 	
