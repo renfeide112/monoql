@@ -4,9 +4,10 @@ class Connection extends Object {
 	public function __construct() {}
 	
 	public static function get(array $filters=array()) {
-		global $config;
-		$db = DatabaseFactory::createDatabase("sqlite", $config["monoql_db_path"]);
 		
+		global $config;
+		debug("Connection.get");
+		$db = ConnectionFactory::createConnection("sqlite", $config["monoql_db_path"]);
 		if (isset($filters["id"])) {
 			$where = "WHERE id=" . $db->escape($filters["id"]);
 		} else if (isset($filters["name"])) {
@@ -21,7 +22,7 @@ class Connection extends Object {
 			$records = array();
 			while ($db->getRecord()) {
 				$record = $db->record;
-				unset($record["password"]);
+				//unset($record["password"]);
 				$records[] = $record;
 			}
 			$success = true;
@@ -54,7 +55,7 @@ class Connection extends Object {
 	// This will create 1 or more connections
 	public static function create(array $connections) {
 		global $config;
-		$db = DatabaseFactory::createDatabase("sqlite", $config["monoql_db_path"]);
+		$db = ConnectionFactory::createConnection("sqlite", $config["monoql_db_path"]);
 		$success = null;
 		$records = array();
 		
@@ -100,7 +101,7 @@ class Connection extends Object {
 	
 	public static function save(array $connections) {
 		global $config;
-		$db = DatabaseFactory::createDatabase("sqlite", $config["monoql_db_path"]);
+		$db = ConnectionFactory::createConnection("sqlite", $config["monoql_db_path"]);
 		$success = null;
 		$records = array();
 		
@@ -164,7 +165,7 @@ class Connection extends Object {
 	
 	public static function delete(array $connections) {
 		global $config;
-		$db = DatabaseFactory::createDatabase("sqlite", $config["monoql_db_path"]);
+		$db = ConnectionFactory::createConnection("sqlite", $config["monoql_db_path"]);
 		$success = null;
 		$records = array();
 		
@@ -195,7 +196,7 @@ class Connection extends Object {
 	
 	public static function getDatabases($args) {
 		$connection = val($args, "connection");
-		$db = DatabaseFactory::createDatabase($connection);
+		$db = ConnectionFactory::createConnection($connection);
 		$databases = $db->getDatabases();
 		$result = array("records"=>array());
 		foreach ($databases as $database) {

@@ -9,7 +9,7 @@ class Query extends Object {
 	
 	public static function execute($query, $connectionId, $limit=null, $offset=0, $database=null) {
 		$conn = Connection::getById($connectionId);
-		$db = DatabaseFactory::createDatabase($conn);
+		$db = DatabaseFactory::createConnection($conn);
 		$success = null;
 		$rows = array();
 		$message = null;
