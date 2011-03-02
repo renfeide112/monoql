@@ -1,17 +1,25 @@
 <?php
 class MySQLDatabase extends AbstractDatabase implements IDatabase {
 
-	public function __construct($dbname=DB_NAME, $connection) {
-		$this->dbname=$dbname;
+	public function __construct($name=DB_NAME, $connection) {
+		$this->name=$name;
 		$this->connection = $connection;
 	}
 
+	public function getName(){
+		return $this->name;	
+	}
+	
+	public function getConnection(){
+		return $this->connection;
+	}
+	
 	public function getFunctions(){
 		$functions = array();
-        $query = "SHOW FUNCTION STATUS WHERE Db='{$this->dbname}'";
+        $query = "SHOW FUNCTION STATUS WHERE Db='{$this->name}'";
         $this->connection->query($query);
         while ($this->connection->getRecord()) {
-                $functions[] = $this->connection->record["Name"];
+			$functions[] = $this->connection->record["Name"];
         }
         $functions = array_unique($functions);
         sort($functions);
@@ -20,31 +28,39 @@ class MySQLDatabase extends AbstractDatabase implements IDatabase {
 	
 	public function getStoredProcedures(){
 		$sprocs = array();
-        $query = "SHOW PROCEDURE STATUS WHERE Db='{$this->dbname}'";
+        $query = "SHOW PROCEDURE STATUS WHERE Db='{$this->name}'";
         $this->connection->query($query);
         while ($this->connection->getRecord()) {
-                $sprocs[] = $this->connection->record["Name"];
+			$sprocs[] = $this->connection->record["Name"];
         }
         $sprocs = array_unique($sprocs);
         sort($sprocs);
         return $sprocs;
 	}
 	
-	public function getTables($search=null){
-		$tables = array();
-		$query = "SHOW FULL TABLES FROM {$this->dbname} WHERE Table_type='BASE TABLE'" . (isset($search) ? " AND Tables_in_{{$this->dbname}} LIKE '%{$search}%'" : "");
+	public function getTableNames($search=null){
+		$tableNames = array();
+		$query = "SHOW FULL TABLES FROM {$this->name} WHERE Table_type='BASE TABLE'" . (isset($search) ? " AND Tables_in_{{$this->name}} LIKE '%{$search}%'" : "");
 		$this->connection->query($query);
 		while ($this->connection->getRecord(false)) {
-		        $tables[] = $this->connection->record[0];
+			$tableNames[] = $this->connection->record[0];
 		}
-		$tables = array_unique($tables);
-		sort($tables);
+		$tableNames = array_unique($tableNames);
+		sort($tableNames);
+		return $tableNames;
+	}
+	
+	public function getTables($search=null){
+		$tables = array();
+		foreach($this->tableNames as $tablename) {
+			$tables[$tablename] = new MySQLTable($tablename,$this);
+		}
 		return $tables;
 	}
 	
 	public function getTriggers(){
 		$triggers = array();
-		$query = "SHOW TRIGGERS FROM {$this->dbname}";
+		$query = "SHOW TRIGGERS FROM {$this->name}";
 		$this->connection->query($query);
 		while ($this->connection->getRecord()) {
 		        $triggers[] = $this->connection->record["Trigger"];
@@ -56,7 +72,7 @@ class MySQLDatabase extends AbstractDatabase implements IDatabase {
 	
 	public function getViews(){
 		 $views = array();
-         $query = "SHOW FULL TABLES FROM {$this->dbname} WHERE Table_type='VIEW'" . (isset($search) ? " AND Tables_in_{$this->dbname} LIKE '%{$search}%'" : "");
+         $query = "SHOW FULL TABLES FROM {$this->name} WHERE Table_type='VIEW'" . (isset($search) ? " AND Tables_in_{$this->name} LIKE '%{$search}%'" : "");
          $this->connection->query($query);
          while ($this->connection->getRecord(false)) {
                  $views[] = $this->connection->record[0];

@@ -1,7 +1,7 @@
 <?php
 interface IColumn {
 	
-	public function __construct($tablename, $columnname, $database);
+	public function __construct($name, $table);
 	
 	public function add();
 	

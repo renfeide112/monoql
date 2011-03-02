@@ -1,10 +1,19 @@
 <?php
 class MySQLTable extends AbstractTable implements ITable {
 
-	public function __construct($tablename, $dbname=DB_NAME) {
-		
+	public function __construct($name, $database) {
+		$this->name=$name;
+		$this->database = $database;
 	}
-
+	
+	public function getName() {
+		return $this->name;
+	}
+	
+	public function getDatabase() {
+		return $this->database;
+	}
+	
 	public function getParent() {
 		
 	}
@@ -17,20 +26,22 @@ class MySQLTable extends AbstractTable implements ITable {
 		
 	}
 	
+	public function getColumnNames($search=null) {
+		$columnNames = array();
+        $query = "SHOW COLUMNS FROM `{$this->database->name}`.`{$this->name}`" . (isset($search) ? " AND Field LIKE '%{$search}%'" : "");
+        $this->database->connection->query($query);
+        while ($this->database->connection->getRecord()) {
+           $columnNames[]=$this->database->connection->record["Field"];
+        }
+        return $columnNames;
+	}
+	
 	public function getColumns() {
 		$columns = array();
-        $database = isset($database) ? $database : $this->database;
-        $this->changeDatabase($database);
-        $query = "SHOW COLUMNS FROM {$table}" . (isset($search) ? " AND Field LIKE '%{$search}%'" : "");
-        $this->query($query);
-        while ($this->getRecord()) {
-                $columns[] = array(
-                        "name"=>$this->record["Field"],
-                        "key"=>strlen(trim($this->record["Key"]))>0,
-                        "primary"=>val($this->record, "Key")==="PRI"
-                );
-        }
-        return $columns;
+		foreach($this->columnNames as $columnname) {
+			$columns[$columnname] = new MySQLColumn($columnname,$this);
+		}
+		return $columns;
 	}
 	
 	public function getEngine() {
@@ -41,7 +52,7 @@ class MySQLTable extends AbstractTable implements ITable {
 		return $databases;
 		$query = "SELECT TABLE_NAME,ENGINE
 		FROM information_schema.TABLES 
-		WHERE TABLE_SCHEMA = '{{$this->dbname}}' and TABLE_NAME='{{$this->tablename}}'";
+		WHERE TABLE_SCHEMA = '{{$this->dbname}}' and TABLE_NAME='{{$this->name}}'";
 		
 	}
 	
