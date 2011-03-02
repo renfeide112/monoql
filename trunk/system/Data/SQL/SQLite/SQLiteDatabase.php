@@ -136,7 +136,7 @@ class SQLiteDatabase extends AbstractDatabase implements IDatabase {
 	
 	public function createDatabase($database, $overwrite=false, array $options=null) {}
 	
-	public function dropDatabase($database) {}
+	public function dropDatabase() {}
 	
 	public function createTable($table, $properties, $enforceConstraints=true, $database=null) {}
 	
