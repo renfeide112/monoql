@@ -196,11 +196,12 @@ class Connection extends Object {
 	
 	public static function getDatabases($args) {
 		$connection = val($args, "connection");
-		$db = ConnectionFactory::createConnection($connection);
-		$databases = $db->getDatabases();
+		$conn = ConnectionFactory::createConnection($connection);
+		$databases = $conn->databases;
+		
 		$result = array("records"=>array());
 		foreach ($databases as $database) {
-			$result["records"][] = array("id"=>$database, "name"=>$database);
+			$result["records"][] = array("id"=>$database->name, "name"=>$database->name);
 		}
 		return $result;
 	}
