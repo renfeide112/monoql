@@ -7,8 +7,14 @@ monoql.button.resultstofilebutton = function() {
 		enableToggle:true,
 		toggleGroup:'monoql-button-resultstogglegroup',
 		initComponent: function() {
+			this.on('click', this.onResultsToFileButtonClick, this);
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
+		},
+		onResultsToFileButtonClick:function(button, e) {
+			if (!this.pressed) {
+				this.toggle(true);
+			}
 		}
 	});
 	Ext.reg(cls, Class);
