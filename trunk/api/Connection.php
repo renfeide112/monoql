@@ -4,9 +4,7 @@ class Connection extends Object {
 	public function __construct() {}
 	
 	public static function get(array $args=array()) {
-		
 		global $config;
-		debug("Connection.get");
 		$db = ConnectionFactory::createConnection("sqlite", $config["monoql_db_path"]);
 		if (isset($args["id"])) {
 			$where = "WHERE id=" . $db->escape($args["id"]);
@@ -22,7 +20,7 @@ class Connection extends Object {
 			$records = array();
 			while ($db->getRecord()) {
 				$record = $db->record;
-				if ($args["hidePassword"]!==false) {
+				if (val($args, "hidePassword") !== false) {
 					unset($record["password"]);
 				}
 				$records[] = $record;

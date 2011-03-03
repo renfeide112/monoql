@@ -28,7 +28,8 @@ monoql.data.connectionstore = function() {
 					create:monoql.direct.Connection.create,
 					update:monoql.direct.Connection.save,
 					destroy:monoql.direct.Connection.delete
-				}
+				},
+				paramOrder:['args']
 			}, config);
 			Proxy.superclass.constructor.call(this, config);
 		}
@@ -39,7 +40,10 @@ monoql.data.connectionstore = function() {
 			config = Ext.apply({
 				proxy:new Proxy(),
 				reader:new Reader({}, monoql.data.connectionrecord),
-				writer:new Writer({}, monoql.data.connectionrecord)
+				writer:new Writer({}, monoql.data.connectionrecord),
+				baseParams:{
+					args:{}
+				}
 			}, config);
 			Class.superclass.constructor.call(this, config);
 		}
