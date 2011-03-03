@@ -9,6 +9,8 @@ monoql.data.resultgridstore = function() {
 				proxy:new monoql.data.resultgridproxy({store:this}),
 				reader:new monoql.data.resultgridreader({store:this}),
 				baseParams:{
+					query:null,
+					connectionId:null,
 					start:0,
 					limit:100
 				}

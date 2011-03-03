@@ -52,12 +52,15 @@ monoql.form.queryform = function() {
 			var query = this.querytextarea.getSelectedText() || this.querytextarea.getValue();
 			if (this.fireEvent('beforequery', this, query, this.tab.connection) !== false) {
 				if (query.trim()) {
-					this.tab.resulttabset.resulttab.grid.getStore().load({
-						params:{
+					var store = this.tab.resulttabset.resulttab.grid.getStore();
+					// Apply params to the baseParams so the livegrid toolbar will pick them up, because
+					// it is not remembering params
+					store.load({
+						baseParams:Ext.apply(store.baseParams, {
 							query:query,
 							connectionId:this.tab.connection.id,
 							database:this.tab.database
-						}
+						})
 					});
 					this.fireEvent('query', this, query, this.tab.connection);
 					this.tab.resulttabset.resulttab.grid.getStore().on('load', this.onResultGridStoreLoad, this, {single:true});
