@@ -11,10 +11,6 @@ monoql.menu.databasenodemenu = function() {
 				text:'Create Table',
 				iconCls:'monoql-menu-item-createtable-icon'
 			});
-			this.drop = new monoql.menu.item({
-				text:'Drop',
-				iconCls:'monoql-menu-item-dropdatabase-icon'
-			});
 			this.dropalltables = new monoql.menu.item({
 				text:'Drop All Tables',
 				iconCls:'monoql-menu-item-dropalltables-icon'
@@ -23,9 +19,13 @@ monoql.menu.databasenodemenu = function() {
 				text:'Empty All Tables',
 				iconCls:'monoql-menu-item-emptyalltables-icon'
 			});
+			this.drop = new monoql.menu.item({
+				text:'Drop Database',
+				iconCls:'monoql-menu-item-dropdatabase-icon'
+			});
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
-			this.add([this.query, this.createtable, this.drop, this.emptyalltables, this.dropalltables, this.refresh]);
+			this.add([this.query, this.createtable, this.emptyalltables, this.dropalltables, this.drop, this.refresh]);
 		}
 	});
 	Ext.reg(cls, Class);

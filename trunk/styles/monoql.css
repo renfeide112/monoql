@@ -25,6 +25,20 @@ button.monoql-button-resultstotextbutton-icon
 button.monoql-button-resultstofilebutton-icon
 {background-image:url('../images/page_white_put.png')}
 
+.monoql-menu-item-createtable-icon
+{background-image:url('../images/table_add.png')}
+
+.monoql-menu-item-tabledata-icon
+{background-image:url('../images/table_go.png')}
+
+.monoql-menu-item-dropalltables-icon,
+.monoql-menu-item-droptable-icon
+{background-image:url('../images/table_delete.png')}
+
+.monoql-menu-item-emptyalltables-icon,
+.monoql-menu-item-emptytable-icon
+{background-image:url('../images/table_row_delete.png')}
+
 .monoql-menu-item-refresh-icon
 {background-image:url('../images/arrow_refresh.png')}
 
@@ -35,10 +49,11 @@ button.monoql-button-resultstofilebutton-icon
 .monoql-menu-item-modifytable-icon
 {background-image:url('../images/pencil.png')}
 
-.monoql-menu-item-removeconnection-icon,
-.monoql-menu-item-dropdatabase-icon,
-.monoql-menu-item-droptable-icon
+.monoql-menu-item-removeconnection-icon
 {background-image:url('../images/cross.png')}
+
+.monoql-menu-item-dropdatabase-icon
+{background-image:url('../images/database_delete.png')}
 
 .x-tree-node-el .monoql-tree-connectionnode-icon
 {background-image:url('../images/server_connect.png')}
