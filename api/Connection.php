@@ -3,15 +3,15 @@ class Connection extends Object {
 	
 	public function __construct() {}
 	
-	public static function get(array $filters=array()) {
+	public static function get(array $args=array()) {
 		
 		global $config;
 		debug("Connection.get");
 		$db = ConnectionFactory::createConnection("sqlite", $config["monoql_db_path"]);
-		if (isset($filters["id"])) {
-			$where = "WHERE id=" . $db->escape($filters["id"]);
-		} else if (isset($filters["name"])) {
-			$where = "WHERE name=" . $db->escape($filters["name"]);
+		if (isset($args["id"])) {
+			$where = "WHERE id=" . $db->escape($args["id"]);
+		} else if (isset($args["name"])) {
+			$where = "WHERE name=" . $db->escape($args["name"]);
 		} else {
 			$where = "";
 		}
@@ -22,7 +22,9 @@ class Connection extends Object {
 			$records = array();
 			while ($db->getRecord()) {
 				$record = $db->record;
-				//unset($record["password"]);
+				if ($args["hidePassword"]!==false) {
+					unset($record["password"]);
+				}
 				$records[] = $record;
 			}
 			$success = true;
@@ -40,7 +42,7 @@ class Connection extends Object {
 	}
 	
 	public static function getById($id) {
-		$records = val(self::get(array("id"=>$id)), "records");
+		$records = val(self::get(array("id"=>$id, "hidePassword"=>false)), "records");
 		$data = count($records)===1 ? $records[0] : null;
 		return $data;
 	}
