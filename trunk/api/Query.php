@@ -8,8 +8,7 @@ class Query extends Object {
 	}
 	
 	public static function execute($query, $connectionId, $limit=null, $offset=0, $database=null) {
-		$conn = Connection::getById($connectionId);
-		$db = ConnectionFactory::createConnection($conn);
+		$conn = ConnectionFactory::createConnection(Connection::getById($connectionId));
 		$success = null;
 		$rows = array();
 		$message = null;
@@ -18,22 +17,22 @@ class Query extends Object {
 		$__id__ = 0;
 		
 		try {
-			$db->changeDatabase(alt($database, $conn["default_database"]));
-			$q = $db->getQueryParser($query)->setup()->addLimit($limit)->addOffset($offset)->getQuery();
-			$db->query($q);
-			while ($db->getRecord()) {
-				$db->record["__id__"] = $__id__++;
-				$rows[] = $db->record;
+			$conn->changeDatabase($database);
+			$q = $conn->getQueryParser($query)->setup()->addLimit($limit)->addOffset($offset)->getQuery();
+			$conn->query($q);
+			while ($conn->getRecord()) {
+				$conn->record["__id__"] = $__id__++;
+				$rows[] = $conn->record;
 			}
-			$total = $db->getTotalRows();
-			$success = !$db->getErrno();
-			$message = $success ? "Success!" : "Error " . $db->getErrno() . ": " . $db->getError();
+			$total = $conn->getTotalRows();
+			$success = !$conn->getErrno();
+			$message = $success ? "Success!" : "Error " . $conn->getErrno() . ": " . $conn->getError();
 		} catch (Exception $e) {
 			logException($e);
 			$success = false;
-			$message = "Error " . $db->getErrno() . ": " . $db->getError();
+			$message = "Error " . $conn->getErrno() . ": " . $conn->getError();
 		}
-		$message = $message . NL . NL . $db->getAffectedRows() . " rows affected";
+		$message = $message . NL . NL . $conn->getAffectedRows() . " rows affected";
 		
 		$metaData = self::buildMetaData($rows);
 		$result = array(
