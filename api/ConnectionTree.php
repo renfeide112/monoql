@@ -4,7 +4,7 @@ class ConnectionTree extends Object {
 	public function __construct() {}
 	
 	public static function getChildNodes($args) {
-		debug("nodeType: ".$args["nodeType"]);
+		$args["connection"] = ConnectionFactory::createConnection(Connection::getById($args["connectionId"]));
 		switch ($args["nodeType"]) {
 			case "monoql-tree-connectiongroupnode":
 				$children = self::getConnectionGroupChildNodes($args);
@@ -53,8 +53,7 @@ class ConnectionTree extends Object {
 	
 	public static function getConnectionChildNodes($args) {
 		$children = array();
-		$conn = ConnectionFactory::createConnection(Connection::getById($args["connectionId"]));
-		foreach ($conn->databases as $database) {
+		foreach ($args["connection"]->databases as $database) {
 			$children[] = array(
 				"text"=>$database->name,
 				"nodeType"=>"monoql-tree-databasenode",
@@ -66,8 +65,7 @@ class ConnectionTree extends Object {
 	
 	public static function getTableGroupChildNodes($args) {
 		$children = array();
-		$conn = ConnectionFactory::createConnection(Connection::getById($args["connectionId"]));
-		foreach ($conn->databases[$args["database"]]->tables as $table) {
+		foreach ($args["connection"]->databases[$args["database"]]->tables as $table) {
 			$children[] = array(
 				"text"=>$table->name,
 				"nodeType"=>"monoql-tree-tablenode",
@@ -79,8 +77,7 @@ class ConnectionTree extends Object {
 	
 	public static function getViewGroupChildNodes($args) {
 		$children = array();
-		$conn = ConnectionFactory::createConnection(Connection::getById($args["connectionId"]));
-		foreach ($conn->databases[$args["database"]]->views as $view) {
+		foreach ($args["connection"]->databases[$args["database"]]->views as $view) {
 			$children[] = array(
 				"text"=>$view,
 				"nodeType"=>"monoql-tree-viewnode",
@@ -93,8 +90,7 @@ class ConnectionTree extends Object {
 	
 	public static function getSprocGroupChildNodes($args) {
 		$children = array();
-		$conn = ConnectionFactory::createConnection(Connection::getById($args["connectionId"]));
-		foreach ($conn->databases[$args["database"]]->storedProcedures as $sproc) {
+		foreach ($args["connection"]->databases[$args["database"]]->storedProcedures as $sproc) {
 			$children[] = array(
 				"text"=>$sproc,
 				"nodeType"=>"monoql-tree-sprocnode",
@@ -107,8 +103,7 @@ class ConnectionTree extends Object {
 	
 	public static function getFunctionGroupChildNodes($args) {
 		$children = array();
-		$conn = ConnectionFactory::createConnection(Connection::getById($args["connectionId"]));
-		foreach ($conn->databases[$args["database"]]->functions as $function) {
+		foreach ($args["connection"]->databases[$args["database"]]->functions as $function) {
 			$children[] = array(
 				"text"=>$function,
 				"nodeType"=>"monoql-tree-functionnode",
@@ -121,8 +116,7 @@ class ConnectionTree extends Object {
 	
 	public static function getTriggerGroupChildNodes($args) {
 		$children = array();
-		$conn = ConnectionFactory::createConnection(Connection::getById($args["connectionId"]));
-		foreach ($conn->databases[$args["database"]]->triggers as $trigger) {
+		foreach ($args["connection"]->databases[$args["database"]]->triggers as $trigger) {
 			$children[] = array(
 				"text"=>$trigger,
 				"nodeType"=>"monoql-tree-triggernode",
@@ -135,8 +129,7 @@ class ConnectionTree extends Object {
 	
 	public static function getTableChildNodes($args) {
 		$children = array();
-		$conn = ConnectionFactory::createConnection(Connection::getById($args["connectionId"]));
-		foreach ($conn->databases[$args["database"]]->tables[$args["table"]]->columns as $column) {
+		foreach ($args["connection"]->databases[$args["database"]]->tables[$args["table"]]->columns as $column) {
 			$key = $column->key ? ($column->primary ? "primary" : "key") : "normal";
 			$children[] = array(
 				"text"=>$column->name,
