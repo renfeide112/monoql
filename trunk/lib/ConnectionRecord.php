@@ -28,14 +28,16 @@ class ConnectionRecord extends Object {
 	}
 	
 	public static function add($args) {
-		self::get($args)->save();
+		$record = self::get($args);
+		$record->save();
+		return $record;
 	}
 	
 	public function save() {
 		if ($this->isReal()) {
-			$this->create();
+			return $this->create();
 		} else {
-			$this->update();
+			return $this->update();
 		}
 	}
 	
@@ -48,6 +50,30 @@ class ConnectionRecord extends Object {
 			return false;
 		}
 	}
+	
+	public function getId() {return val($this->data, "id");}
+	public function setId($value) {$this->data["id"] = $value; return $this;}
+	
+	public function getName() {return val($this->data, "name");}
+	public function setName($value) {$this->data["name"] = $value; return $this;}
+	
+	public function getType() {return val($this->data, "type");}
+	public function setType($value) {$this->data["type"] = $value; return $this;}
+	
+	public function getHost() {return val($this->data, "host");}
+	public function setHost($value) {$this->data["host"] = $value; return $this;}
+	
+	public function getUsername() {return val($this->data, "username");}
+	public function setUsername($value) {$this->data["username"] = $value; return $this;}
+	
+	public function getPassword() {return val($this->data, "password");}
+	public function setPassword($value) {$this->data["password"] = $value; return $this;}
+	
+	public function getPort() {return val($this->data, "port");}
+	public function setPort($value) {$this->data["port"] = $value; return $this;}
+	
+	public function getDefaultDatabase() {return val($this->data, "default_database");}
+	public function setDefaultDatabase($value) {$this->data["default_database"] = $value; return $this;}
 	
 	///////////////////////////////////////////////////////////////
 	// Private Methods
@@ -121,11 +147,12 @@ class ConnectionRecord extends Object {
 		foreach ($data as $property=>$value) {
 			$this->data[$property] = $value;
 		}
+		return $this;
 	}
 	
 	private function constructFromId($id) {
 		global $config;
-		$this->constructFromArray($this->getRecordFromDatabase($id));
+		return $this->constructFromArray($this->getRecordFromDatabase($id));
 	}
 	
 	private function getRecordFromDatabase($id) {
