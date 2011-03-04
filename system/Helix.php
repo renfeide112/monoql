@@ -88,6 +88,7 @@ class Helix {
 		self::defineConstants();
 		self::mapSystemClasses();
 		self::mapSystemClasses(dirname(self::$path) . "/api");
+		self::mapSystemClasses(dirname(self::$path) . "/lib");
 		self::logRequest();
 	}
 	
