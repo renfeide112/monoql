@@ -51,6 +51,8 @@ class ConnectionRecord extends Object {
 		}
 	}
 	
+	public function getData() {return $this->data;}
+	
 	public function getId() {return val($this->data, "id");}
 	public function setId($value) {$this->data["id"] = $value; return $this;}
 	
@@ -137,7 +139,7 @@ class ConnectionRecord extends Object {
 				"WHERE id='{$this->properties["id"]}';"
 			)));
 			return true;
-		} catch {
+		} catch (Exception $e) {
 			logException($e);
 			return false;
 		}
@@ -155,11 +157,25 @@ class ConnectionRecord extends Object {
 		return $this->constructFromArray($this->getRecordFromDatabase($id));
 	}
 	
+	private static function getAllRecordsFromDatabase() {
+		try {
+			$this->connection->query("SELECT * FROM connection;");
+			$records = array();
+			while ($this->connection->getRecord()) {
+				$records[] = $this->connection->record;
+			}
+			return $records;
+		} catch (Exception $e) {
+			logException($e);
+			return false;
+		}
+	}
+	
 	private function getRecordFromDatabase($id) {
 		try {
 			$this->connection->query("SELECT * FROM connection WHERE id='{$id}';");
 			return $this->connection->getRecord();
-		} catch {
+		} catch (Exception $e) {
 			logException($e);
 			return false;
 		}
