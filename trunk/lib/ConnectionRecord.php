@@ -49,9 +49,9 @@ class ConnectionRecord extends Object {
 	
 	public function save() {
 		if ($this->isReal()) {
-			return $this->create();
-		} else {
 			return $this->update();
+		} else {
+			return $this->create();
 		}
 	}
 	
@@ -122,6 +122,7 @@ class ConnectionRecord extends Object {
 				"({$p["name"]}, {$p["type"]}, {$p["host"]}, {$p["username"]}, {$p["password"]}, {$p["port"]}, {$p["defaultDatabase"]}, {$p["mdate"]}, {$p["cdate"]}, {$p["deleted"]});"
 			)));
 			$this->data["id"] = self::getConnection()->getInsertedId();
+			debug(print_r($this->data, true));
 			return true;
 		} catch (Exception $e) {
 			logException($e);
