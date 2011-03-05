@@ -36,7 +36,7 @@ monoql.form.databasecombobox = function() {
 			this.addClass(cls);
 		},
 		onDatabaseComboBoxStoreBeforeLoad:function(store, options) {
-			store.baseParams.connection = ui.connectionstore.getById(ui.toolbar.connectioncombobox.getValue()).data;
+			store.baseParams.connectionId = ui.toolbar.connectioncombobox.getValue();
 		}
 	});
 	Ext.reg(cls, Class);
