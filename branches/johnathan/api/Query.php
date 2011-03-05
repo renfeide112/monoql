@@ -8,7 +8,7 @@ class Query extends Object {
 	}
 	
 	public static function execute($query, $connectionId, $limit=null, $offset=0, $database=null) {
-		$conn = ConnectionFactory::createConnection(Connection::getById($connectionId));
+		$conn = ConnectionFactory::createConnection(ConnectionRecord::get($connectionId)->getData());
 		$success = null;
 		$rows = array();
 		$message = null;

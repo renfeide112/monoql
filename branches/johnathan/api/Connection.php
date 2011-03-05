@@ -6,7 +6,7 @@ class Connection extends Object {
 	public static function get($id=null) {
 		try {
 			$records = array();
-			$connections = isset($id) ? array(ConnectionRecord::get($id)) : ConnectionRecord::getAll();
+			$connections = empty($id) ? ConnectionRecord::getAll() : array(ConnectionRecord::get($id));
 			foreach ($connections as $connection) {
 				$record = $connection->getData();
 				unset($record["password"]);
@@ -95,7 +95,7 @@ class Connection extends Object {
 	}
 	
 	public static function getDatabases($args) {
-		$conn = ConnectionFactory::createConnection(val($args, "connection"));
+		$conn = ConnectionFactory::createConnection(ConnectionRecord::get($args["connectionId"])->getData());
 		$result = array("records"=>array());
 		foreach ($conn->getDatabases() as $database) {
 			$result["records"][] = array("id"=>$database->name, "name"=>$database->name);
