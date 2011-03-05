@@ -31,7 +31,6 @@ class Connection extends Object {
 		$records = array();
 		
 		try {
-			// $connections should have a "records" key that is an array of connection records
 			foreach ($connections["records"] as $conn) {
 				$records[] = ConnectionRecord::add($conn)->getData();
 			}
@@ -54,7 +53,6 @@ class Connection extends Object {
 		$records = array();
 		
 		try {
-			// $connections should have a "records" key that is an array of connection records
 			foreach ($connections["records"] as $conn) {
 				$record = ConnectionRecord::get($conn["id"])->set($conn);
 				$record->save();
@@ -79,7 +77,6 @@ class Connection extends Object {
 		$records = array();
 		
 		try {
-			// $connections should have a "records" key that is an array of connection records
 			foreach ($connections["records"] as $conn) {
 				$records[] = ConnectionRecord::get($conn["id"])->delete();
 			}
