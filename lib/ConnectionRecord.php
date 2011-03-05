@@ -103,25 +103,26 @@ class ConnectionRecord extends Object {
 	private function create() {
 		try {
 			$now = date("Y-m-d H:i:s");
+			$conn = self::getConnection();
 			$p = array(
-				"name"=>self::getConnection()->quote(alt(val($this->data,"name"), "New this->dataection [{$now}]")),
-				"type"=>self::getConnection()->quote(val($this->data,"type")),
-				"host"=>self::getConnection()->quote(val($this->data,"host")),
-				"username"=>self::getConnection()->quote(val($this->data,"username")),
-				"password"=>self::getConnection()->quote(val($this->data,"password")),
-				"port"=>self::getConnection()->quote(val($this->data,"port")),
-				"default_database"=>self::getConnection()->quote(val($this->data,"defaultDatabase")),
-				"mdate"=>self::getConnection()->quote($now),
-				"cdate"=>self::getConnection()->quote($now),
-				"deleted"=>self::getConnection()->quote(0)
+				"name"=>$conn->quote(alt(val($this->data,"name"), "New this->dataection [{$now}]")),
+				"type"=>$conn->quote(val($this->data,"type")),
+				"host"=>$conn->quote(val($this->data,"host")),
+				"username"=>$conn->quote(val($this->data,"username")),
+				"password"=>$conn->quote(val($this->data,"password")),
+				"port"=>$conn->quote(val($this->data,"port")),
+				"default_database"=>$conn->quote(val($this->data,"default_database")),
+				"mdate"=>$conn->quote($now),
+				"cdate"=>$conn->quote($now),
+				"deleted"=>$conn->quote(0)
 			);
-			$result = self::getConnection()->query(implode(NL, array(
+			$result = $conn->query(implode(NL, array(
 				"INSERT INTO connection",
 				"(name, type, host, username, password, port, default_database, mdate, cdate, deleted)",
 				"VALUES",
-				"({$p["name"]}, {$p["type"]}, {$p["host"]}, {$p["username"]}, {$p["password"]}, {$p["port"]}, {$p["defaultDatabase"]}, {$p["mdate"]}, {$p["cdate"]}, {$p["deleted"]});"
+				"({$p["name"]}, {$p["type"]}, {$p["host"]}, {$p["username"]}, {$p["password"]}, {$p["port"]}, {$p["default_database"]}, {$p["mdate"]}, {$p["cdate"]}, {$p["deleted"]});"
 			)));
-			$this->data["id"] = self::getConnection()->getInsertedId();
+			$this->data["id"] = $conn->getInsertedId();
 			debug(print_r($this->data, true));
 			return true;
 		} catch (Exception $e) {
@@ -133,19 +134,20 @@ class ConnectionRecord extends Object {
 	private function update() {
 		try {
 			$now = date("Y-m-d H:i:s");
+			$conn = self::getConnection();
 			$p = array(
-				"name"=>self::getConnection()->quote(alt(val($this->data,"name"), "New this->dataection [{$now}]")),
-				"type"=>self::getConnection()->quote(val($this->data,"type")),
-				"host"=>self::getConnection()->quote(val($this->data,"host")),
-				"username"=>self::getConnection()->quote(val($this->data,"username")),
-				"password"=>self::getConnection()->quote(val($this->data,"password")),
-				"port"=>self::getConnection()->quote(val($this->data,"port")),
-				"default_database"=>self::getConnection()->quote(val($this->data,"defaultDatabase")),
-				"mdate"=>self::getConnection()->quote($now),
-				"cdate"=>self::getConnection()->quote($now),
-				"deleted"=>self::getConnection()->quote(0)
+				"name"=>$conn->quote(alt(val($this->data,"name"), "New this->dataection [{$now}]")),
+				"type"=>$conn->quote(val($this->data,"type")),
+				"host"=>$conn->quote(val($this->data,"host")),
+				"username"=>$conn->quote(val($this->data,"username")),
+				"password"=>$conn->quote(val($this->data,"password")),
+				"port"=>$conn->quote(val($this->data,"port")),
+				"default_database"=>$conn->quote(val($this->data,"default_database")),
+				"mdate"=>$conn->quote($now),
+				"cdate"=>$conn->quote($now),
+				"deleted"=>$conn->quote(0)
 			);
-			$result = self::getConnection()->query(implode(NL, array(
+			$result = $conn->query(implode(NL, array(
 				"UPDATE connection SET",
 					"name = {$p["name"]},",
 					"type = {$p["type"]},",
@@ -153,7 +155,7 @@ class ConnectionRecord extends Object {
 					"username = {$p["username"]},",
 					"password = {$p["password"]},",
 					"port = {$p["port"]},",
-					"default_database = {$p["defaultDatabase"]},",
+					"default_database = {$p["default_database"]},",
 					"mdate = {$p["mdate"]},",
 					"deleted = {$p["deleted"]}",
 				"WHERE id='{$this->properties["id"]}';"
