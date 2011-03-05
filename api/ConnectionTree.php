@@ -56,7 +56,7 @@ class ConnectionTree extends Object {
 	
 	public static function getConnectionChildNodes($args) {
 		$children = array();
-		foreach ($args["connection"]->databases as $database) {
+		foreach ($args["connection"]->getDatabases() as $database) {
 			$children[] = array(
 				"text"=>$database->name,
 				"nodeType"=>"monoql-tree-databasenode",
