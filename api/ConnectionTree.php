@@ -44,11 +44,11 @@ class ConnectionTree extends Object {
 	
 	public static function getConnectionGroupChildNodes($args) {
 		$children = array();
-		foreach (val(Connection::get(), "records") as $conn) {
+		foreach (ConnectionRecord::getAll() as $connection) {
 			$children[] = array(
-				"text"=>$conn["name"],
+				"text"=>$connection->getName(),
 				"nodeType"=>"monoql-tree-connectionnode",
-				"connectionId"=>$conn["id"]
+				"connectionId"=>$connection->getId()
 			);
 		}
 		return $children;
@@ -56,7 +56,7 @@ class ConnectionTree extends Object {
 	
 	public static function getConnectionChildNodes($args) {
 		$children = array();
-		foreach ($args["connection"]->databases as $database) {
+		foreach ($args["connection"]->getDatabases() as $database) {
 			$children[] = array(
 				"text"=>$database->name,
 				"nodeType"=>"monoql-tree-databasenode",

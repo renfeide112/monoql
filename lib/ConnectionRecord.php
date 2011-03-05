@@ -1,7 +1,7 @@
 <?php
 class ConnectionRecord extends Object {
 
-	private $connection;
+	private static $connection;
 	private $data = array();
 	
 	///////////////////////////////////////////////////////////////
@@ -9,8 +9,6 @@ class ConnectionRecord extends Object {
 	///////////////////////////////////////////////////////////////
 	
 	public function __construct($args=null) {
-		global $config;
-		$this->connection = ConnectionFactory::createConnection("sqlite", $config["monoql_db_path"]);
 		if (is_array($args)) {
 			if (isset($args["id"])) {
 				$this->constructFromId($args["id"]);
@@ -21,6 +19,22 @@ class ConnectionRecord extends Object {
 		} else if (isset($args)) {
 			$this->constructFromId($args);
 		}
+	}
+	
+	private static function getConnection() {
+		global $config;
+		if (!isset(self::$connection)) {
+			self::$connection = ConnectionFactory::createConnection("sqlite", $config["monoql_db_path"]);
+		}
+		return self::$connection;
+	}
+	
+	public static function getAll() {
+		$records = array();
+		foreach (self::getAllRecordsFromDatabase() as $record) {
+			$records[] = self::get($record);
+		}
+		return $records;
 	}
 	
 	public static function get($args) {
@@ -43,12 +57,17 @@ class ConnectionRecord extends Object {
 	
 	public function delete() {
 		try {
-			$this->connection->query("DELETE FROM connection WHERE id='{$this->properties["id"]}';");
+			self::getConnection()->query("DELETE FROM connection WHERE id='{$this->properties["id"]}';");
 			return true;
 		} catch (Exception $e) {
 			logException($e);
 			return false;
 		}
+	}
+	
+	public function set(array $values=array()) {
+		$this->data = array_merge($this->data, $values);
+		return $this;
 	}
 	
 	public function getData() {return $this->data;}
@@ -85,24 +104,24 @@ class ConnectionRecord extends Object {
 		try {
 			$now = date("Y-m-d H:i:s");
 			$p = array(
-				"name"=>$this->connection->quote(alt(val($this->data,"name"), "New this->dataection [{$now}]")),
-				"type"=>$this->connection->quote(val($this->data,"type")),
-				"host"=>$this->connection->quote(val($this->data,"host")),
-				"username"=>$this->connection->quote(val($this->data,"username")),
-				"password"=>$this->connection->quote(val($this->data,"password")),
-				"port"=>$this->connection->quote(val($this->data,"port")),
-				"default_database"=>$this->connection->quote(val($this->data,"defaultDatabase")),
-				"mdate"=>$this->connection->quote($now),
-				"cdate"=>$this->connection->quote($now),
-				"deleted"=>$this->connection->quote(0)
+				"name"=>self::getConnection()->quote(alt(val($this->data,"name"), "New this->dataection [{$now}]")),
+				"type"=>self::getConnection()->quote(val($this->data,"type")),
+				"host"=>self::getConnection()->quote(val($this->data,"host")),
+				"username"=>self::getConnection()->quote(val($this->data,"username")),
+				"password"=>self::getConnection()->quote(val($this->data,"password")),
+				"port"=>self::getConnection()->quote(val($this->data,"port")),
+				"default_database"=>self::getConnection()->quote(val($this->data,"defaultDatabase")),
+				"mdate"=>self::getConnection()->quote($now),
+				"cdate"=>self::getConnection()->quote($now),
+				"deleted"=>self::getConnection()->quote(0)
 			);
-			$result = $this->connection->query(implode(NL, array(
+			$result = self::getConnection()->query(implode(NL, array(
 				"INSERT INTO connection",
 				"(name, type, host, username, password, port, default_database, mdate, cdate, deleted)",
 				"VALUES",
 				"({$p["name"]}, {$p["type"]}, {$p["host"]}, {$p["username"]}, {$p["password"]}, {$p["port"]}, {$p["defaultDatabase"]}, {$p["mdate"]}, {$p["cdate"]}, {$p["deleted"]});"
 			)));
-			$this->data["id"] = $this->connection->getInsertedId();
+			$this->data["id"] = self::getConnection()->getInsertedId();
 			return true;
 		} catch (Exception $e) {
 			logException($e);
@@ -114,18 +133,18 @@ class ConnectionRecord extends Object {
 		try {
 			$now = date("Y-m-d H:i:s");
 			$p = array(
-				"name"=>$this->connection->quote(alt(val($this->data,"name"), "New this->dataection [{$now}]")),
-				"type"=>$this->connection->quote(val($this->data,"type")),
-				"host"=>$this->connection->quote(val($this->data,"host")),
-				"username"=>$this->connection->quote(val($this->data,"username")),
-				"password"=>$this->connection->quote(val($this->data,"password")),
-				"port"=>$this->connection->quote(val($this->data,"port")),
-				"default_database"=>$this->connection->quote(val($this->data,"defaultDatabase")),
-				"mdate"=>$this->connection->quote($now),
-				"cdate"=>$this->connection->quote($now),
-				"deleted"=>$this->connection->quote(0)
+				"name"=>self::getConnection()->quote(alt(val($this->data,"name"), "New this->dataection [{$now}]")),
+				"type"=>self::getConnection()->quote(val($this->data,"type")),
+				"host"=>self::getConnection()->quote(val($this->data,"host")),
+				"username"=>self::getConnection()->quote(val($this->data,"username")),
+				"password"=>self::getConnection()->quote(val($this->data,"password")),
+				"port"=>self::getConnection()->quote(val($this->data,"port")),
+				"default_database"=>self::getConnection()->quote(val($this->data,"defaultDatabase")),
+				"mdate"=>self::getConnection()->quote($now),
+				"cdate"=>self::getConnection()->quote($now),
+				"deleted"=>self::getConnection()->quote(0)
 			);
-			$result = $this->connection->query(implode(NL, array(
+			$result = self::getConnection()->query(implode(NL, array(
 				"UPDATE connection SET",
 					"name = {$p["name"]},",
 					"type = {$p["type"]},",
@@ -159,10 +178,10 @@ class ConnectionRecord extends Object {
 	
 	private static function getAllRecordsFromDatabase() {
 		try {
-			$this->connection->query("SELECT * FROM connection;");
+			self::getConnection()->query("SELECT * FROM connection;");
 			$records = array();
-			while ($this->connection->getRecord()) {
-				$records[] = $this->connection->record;
+			while (self::getConnection()->getRecord()) {
+				$records[] = self::getConnection()->record;
 			}
 			return $records;
 		} catch (Exception $e) {
@@ -171,10 +190,10 @@ class ConnectionRecord extends Object {
 		}
 	}
 	
-	private function getRecordFromDatabase($id) {
+	private static function getRecordFromDatabase($id) {
 		try {
-			$this->connection->query("SELECT * FROM connection WHERE id='{$id}';");
-			return $this->connection->getRecord();
+			self::getConnection()->query("SELECT * FROM connection WHERE id='{$id}';");
+			return self::getConnection()->getRecord();
 		} catch (Exception $e) {
 			logException($e);
 			return false;
