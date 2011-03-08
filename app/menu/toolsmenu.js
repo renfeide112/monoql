@@ -3,9 +3,7 @@ monoql.menu.toolsmenu = function() {
 	var cls = 'monoql-menu-toolsmenu';
 	var Class = Ext.extend(monoql.menu.menu, {
 		initComponent:function() {
-			this.items = [{
-				text:'Some Item'
-			}];
+			this.items = [];
 			Class.superclass.initComponent.call(this);
 			this.addClass(cls);
 		}
