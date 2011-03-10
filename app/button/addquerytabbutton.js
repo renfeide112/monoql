@@ -34,7 +34,8 @@ monoql.button.addquerytabbutton = function() {
 			Ext.each(records, function(item, i, items) {
 				this.add(new monoql.menu.item({
 					connection:item,
-					text:item.get('name')
+					text:item.get('name'),
+					iconCls:cls + '-menu-connectionitem-icon'
 				}));
 			}, this);
 		},
