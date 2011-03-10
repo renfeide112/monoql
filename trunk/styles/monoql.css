@@ -55,7 +55,8 @@ button.monoql-button-resultstofilebutton-icon
 .monoql-menu-item-dropdatabase-icon
 {background-image:url('../images/database_delete.png')}
 
-.x-tree-node-el .monoql-tree-connectionnode-icon
+.x-tree-node-el .monoql-tree-connectionnode-icon,
+.monoql-button-addquerytabbutton-menu-connectionitem-icon
 {background-image:url('../images/server_connect.png')}
 
 .x-tree-node-el .monoql-tree-databasenode-icon
