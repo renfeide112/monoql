@@ -74,11 +74,10 @@ class Connection extends Object {
 	
 	public static function delete(array $connections) {
 		$success = null;
-		$records = array();
 		
 		try {
 			foreach ($connections["records"] as $conn) {
-				$records[] = ConnectionRecord::get($conn["id"])->delete();
+				ConnectionRecord::get($conn["id"])->delete();
 			}
 			$success = true;
 		} catch (Exception $e) {
@@ -87,8 +86,7 @@ class Connection extends Object {
 		}
 		
 		$result = array(
-			"success"=>$success,
-			"records"=>$records
+			"success"=>$success
 		);
 		
 		return $result;
