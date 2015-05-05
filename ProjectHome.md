@@ -1,0 +1,1 @@
+MonoQL is an AJAX web application to manage MySQL databases. MonoQL will provide all major features of phpMyAdmin for MySQL, including database & table design, data browsing & editing, advanced querying & more. MySQL 4+, MySQL 5+ and MySQL 6+ supported.  You can try the demo at http://demo.monoql.com
